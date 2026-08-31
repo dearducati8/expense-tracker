@@ -1,0 +1,1544 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MoneyMate</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    font-family:Arial,"Noto Sans Thai",sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f5f7fb;
+    color:#1f2937;
+}
+
+.container{
+    width:100%;
+    max-width:520px;
+    margin:auto;
+    padding:18px 15px 100px;
+}
+
+/* HEADER */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:16px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.logo span{
+    color:#5965f2;
+}
+
+.today{
+    color:#777;
+    font-size:12px;
+}
+
+
+/* MONTH SELECT */
+
+.month-box{
+    background:white;
+    border-radius:18px;
+    padding:12px 14px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.month-box label{
+    display:block;
+    color:#888;
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.month-select{
+    width:100%;
+    border:0;
+    outline:0;
+    background:white;
+    font-size:16px;
+    font-weight:bold;
+    color:#1f2937;
+}
+
+
+/* BALANCE */
+
+.balance-card{
+    background:linear-gradient(135deg,#5965f2,#7b83f7);
+    color:white;
+    padding:24px;
+    border-radius:24px;
+    box-shadow:0 12px 30px rgba(91,103,241,.25);
+}
+
+.balance-title{
+    font-size:13px;
+    opacity:.8;
+}
+
+.balance{
+    font-size:34px;
+    font-weight:bold;
+    margin:6px 0 20px;
+}
+
+.summary{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.summary-box{
+    background:rgba(255,255,255,.15);
+    padding:13px;
+    border-radius:15px;
+}
+
+.summary-box small{
+    display:block;
+    opacity:.75;
+    margin-bottom:4px;
+}
+
+.summary-box strong{
+    font-size:17px;
+}
+
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:15px;
+}
+
+.stat-card{
+    background:white;
+    padding:17px;
+    border-radius:19px;
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.stat-icon{
+    font-size:24px;
+}
+
+.stat-title{
+    color:#777;
+    font-size:12px;
+    margin-top:7px;
+}
+
+.stat-number{
+    font-size:20px;
+    font-weight:bold;
+    margin-top:3px;
+}
+
+
+/* SECTION */
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:25px 2px 12px;
+}
+
+.section-title h2{
+    font-size:18px;
+    margin:0;
+}
+
+.section-title span{
+    color:#888;
+    font-size:12px;
+}
+
+
+/* LIST */
+
+.list{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.item{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+.item:last-child{
+    border-bottom:none;
+}
+
+.category-icon{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    background:#f0f2ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    flex-shrink:0;
+}
+
+.info{
+    flex:1;
+    min-width:0;
+}
+
+.info strong{
+    display:block;
+    font-size:14px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.info small{
+    color:#888;
+    font-size:11px;
+}
+
+.amount-area{
+    text-align:right;
+    min-width:100px;
+}
+
+.amount{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.income{
+    color:#15a46d;
+}
+
+.expense{
+    color:#e65362;
+}
+
+
+/* ACTION */
+
+.actions{
+    margin-top:7px;
+    display:flex;
+    gap:5px;
+    justify-content:flex-end;
+}
+
+.action-btn{
+    border:0;
+    background:#f3f4f6;
+    border-radius:8px;
+    padding:5px 8px;
+    cursor:pointer;
+}
+
+.action-btn:hover{
+    background:#e5e7eb;
+}
+
+
+/* EMPTY */
+
+.empty{
+    padding:40px 15px;
+    text-align:center;
+    color:#999;
+}
+
+
+/* ADD BUTTON */
+
+.add-button{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 30px);
+    max-width:490px;
+    border:0;
+    background:#172033;
+    color:white;
+    padding:16px;
+    border-radius:17px;
+    font-size:16px;
+    font-weight:bold;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    cursor:pointer;
+}
+
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    align-items:flex-end;
+    justify-content:center;
+    z-index:100;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:520px;
+    border-radius:25px 25px 0 0;
+    padding:22px;
+    max-height:90vh;
+    overflow:auto;
+}
+
+.modal-box h2{
+    margin-top:0;
+}
+
+.type-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.type-btn{
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    background:white;
+    font-weight:bold;
+}
+
+.type-btn.active-income{
+    background:#e9faf3;
+    border-color:#20b27b;
+    color:#159565;
+}
+
+.type-btn.active-expense{
+    background:#fff0f2;
+    border-color:#ed6370;
+    color:#df4e5b;
+}
+
+label{
+    display:block;
+    margin-top:12px;
+    margin-bottom:6px;
+    font-size:13px;
+    color:#666;
+}
+
+input,
+select{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:15px;
+}
+
+.save-btn{
+    width:100%;
+    margin-top:17px;
+    padding:14px;
+    border:0;
+    border-radius:13px;
+    background:#5965f2;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.cancel-btn{
+    width:100%;
+    margin-top:8px;
+    padding:13px;
+    border:0;
+    border-radius:13px;
+    background:#f1f2f5;
+    color:#555;
+    font-weight:bold;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="logo">
+            <span>รายรับรายจ่าย</span>
+        </div>
+
+        <div class="today" id="today"></div>
+
+    </div>
+
+
+    <!-- MONTH -->
+
+    <div class="month-box">
+
+        <label>
+            ดูข้อมูล
+        </label>
+
+        <select
+            class="month-select"
+            id="monthSelect"
+            onchange="changeMonth()">
+
+        </select>
+
+    </div>
+
+
+    <!-- BALANCE -->
+
+    <div class="balance-card">
+
+        <div class="balance-title">
+            ยอดคงเหลือ
+        </div>
+
+        <div
+            class="balance"
+            id="balance">
+
+            ฿0.00
+
+        </div>
+
+
+        <div class="summary">
+
+            <div class="summary-box">
+
+                <small>
+                    รายรับ
+                </small>
+
+                <strong
+                    id="income">
+
+                    ฿0.00
+
+                </strong>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <small>
+                    รายจ่าย
+                </small>
+
+                <strong
+                    id="expense">
+
+                    ฿0.00
+
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                💰
+            </div>
+
+            <div class="stat-title">
+                จำนวนรายการรับ
+            </div>
+
+            <div
+                class="stat-number"
+                id="incomeCount">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                💸
+            </div>
+
+            <div class="stat-title">
+                จำนวนรายการจ่าย
+            </div>
+
+            <div
+                class="stat-number"
+                id="expenseCount">
+
+                0
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LIST -->
+
+    <div class="section-title">
+
+        <h2>
+            รายการ
+        </h2>
+
+        <span id="listTitle">
+            รวมทุกเดือน
+        </span>
+
+    </div>
+
+
+    <div
+        class="list"
+        id="list">
+
+    </div>
+
+
+</div>
+
+
+<!-- ADD BUTTON -->
+
+<button
+    class="add-button"
+    onclick="openModal()">
+
+    ＋ เพิ่มรายการ
+
+</button>
+
+
+
+<!-- MODAL -->
+
+<div
+    class="modal"
+    id="modal">
+
+    <div class="modal-box">
+
+        <h2 id="modalTitle">
+            เพิ่มรายการ
+        </h2>
+
+
+        <!-- TYPE -->
+
+        <div class="type-buttons">
+
+            <button
+                class="type-btn active-income"
+                id="incomeBtn"
+                onclick="setType('income')">
+
+                ＋ รายรับ
+
+            </button>
+
+
+            <button
+                class="type-btn"
+                id="expenseBtn"
+                onclick="setType('expense')">
+
+                − รายจ่าย
+
+            </button>
+
+        </div>
+
+
+        <!-- AMOUNT -->
+
+        <label>
+            จำนวนเงิน
+        </label>
+
+        <input
+            type="number"
+            id="amount"
+            placeholder="0.00"
+            inputmode="decimal"
+        >
+
+
+        <!-- CATEGORY -->
+
+        <label>
+            หมวดหมู่
+        </label>
+
+        <select id="category">
+
+            <option value="เงินเดือน">
+                💰 เงินเดือน
+            </option>
+
+            <option value="อาหาร">
+                🍜 อาหาร
+            </option>
+
+            <option value="เดินทาง">
+                🚗 เดินทาง
+            </option>
+
+            <option value="ช้อปปิ้ง">
+                🛍️ ช้อปปิ้ง
+            </option>
+
+            <option value="บิล">
+                🧾 บิล / ค่าใช้จ่าย
+            </option>
+
+            <option value="สุขภาพ">
+                ❤️ สุขภาพ
+            </option>
+
+            <option value="อื่นๆ">
+                📦 อื่นๆ
+            </option>
+
+        </select>
+
+
+        <!-- NOTE -->
+
+        <label>
+            รายละเอียด
+        </label>
+
+        <input
+            type="text"
+            id="note"
+            placeholder="เช่น ค่าอาหารกลางวัน"
+        >
+
+
+        <!-- DATE -->
+
+        <label>
+            วันที่
+        </label>
+
+        <input
+            type="date"
+            id="date"
+        >
+
+
+        <button
+            class="save-btn"
+            onclick="saveItem()">
+
+            บันทึก
+
+        </button>
+
+
+        <button
+            class="cancel-btn"
+            onclick="closeModal()">
+
+            ยกเลิก
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* DATABASE */
+
+let items =
+    JSON.parse(
+        localStorage.getItem(
+            "moneymate_items"
+        ) || "[]"
+    );
+
+
+/* CURRENT TYPE */
+
+let currentType = "income";
+
+
+/* EDIT ID */
+
+let editId = null;
+
+
+/* CURRENT MONTH */
+
+let selectedMonth = "all";
+
+
+/* MONEY */
+
+function money(number){
+
+    return "฿" +
+        Number(number)
+        .toLocaleString(
+            "th-TH",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+/* TODAY */
+
+document.getElementById("today")
+.innerText =
+    new Date()
+    .toLocaleDateString(
+        "th-TH",
+        {
+            weekday:"short",
+            day:"numeric",
+            month:"short"
+        }
+    );
+
+
+/* MONTH NAME */
+
+function monthName(month){
+
+    if(month === "all")
+        return "รวมทุกเดือน";
+
+
+    const date =
+        new Date(
+            month + "-01T00:00:00"
+        );
+
+
+    return date.toLocaleDateString(
+        "th-TH",
+        {
+            month:"long",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* CREATE MONTH LIST */
+
+function createMonthList(){
+
+    const select =
+        document.getElementById(
+            "monthSelect"
+        );
+
+
+    const months = new Set();
+
+
+    /* CURRENT MONTH */
+
+    const now =
+        new Date()
+        .toISOString()
+        .slice(0,7);
+
+    months.add(now);
+
+
+    /* MONTHS FROM DATA */
+
+    items.forEach(item => {
+
+        if(item.date){
+
+            months.add(
+                item.date.slice(0,7)
+            );
+
+        }
+
+    });
+
+
+    const sortedMonths =
+        [...months].sort().reverse();
+
+
+    select.innerHTML =
+        `<option value="all">
+            รวมทุกเดือน
+        </option>`;
+
+
+    sortedMonths.forEach(month => {
+
+        select.innerHTML +=
+            `
+            <option value="${month}">
+                ${monthName(month)}
+            </option>
+            `;
+
+    });
+
+
+    select.value =
+        selectedMonth;
+
+}
+
+
+/* CHANGE MONTH */
+
+function changeMonth(){
+
+    selectedMonth =
+        document.getElementById(
+            "monthSelect"
+        ).value;
+
+
+    render();
+
+}
+
+
+/* TYPE */
+
+function setType(type){
+
+    currentType = type;
+
+
+    const incomeBtn =
+        document.getElementById(
+            "incomeBtn"
+        );
+
+
+    const expenseBtn =
+        document.getElementById(
+            "expenseBtn"
+        );
+
+
+    incomeBtn.className =
+        "type-btn";
+
+
+    expenseBtn.className =
+        "type-btn";
+
+
+    if(type === "income"){
+
+        incomeBtn.className =
+            "type-btn active-income";
+
+    }else{
+
+        expenseBtn.className =
+            "type-btn active-expense";
+
+    }
+
+}
+
+
+/* OPEN MODAL */
+
+function openModal(id = null){
+
+    editId = id;
+
+
+    document
+        .getElementById("modal")
+        .classList.add("show");
+
+
+    if(id !== null){
+
+        const item =
+            items.find(
+                x => x.id === id
+            );
+
+
+        if(!item) return;
+
+
+        document.getElementById(
+            "modalTitle"
+        ).innerText =
+            "แก้ไขรายการ";
+
+
+        setType(item.type);
+
+
+        document.getElementById(
+            "amount"
+        ).value =
+            item.amount;
+
+
+        document.getElementById(
+            "category"
+        ).value =
+            item.category;
+
+
+        document.getElementById(
+            "note"
+        ).value =
+            item.note;
+
+
+        document.getElementById(
+            "date"
+        ).value =
+            item.date;
+
+
+    }else{
+
+
+        document.getElementById(
+            "modalTitle"
+        ).innerText =
+            "เพิ่มรายการ";
+
+
+        document.getElementById(
+            "amount"
+        ).value = "";
+
+
+        document.getElementById(
+            "note"
+        ).value = "";
+
+
+        document.getElementById(
+            "date"
+        ).value =
+            new Date()
+            .toISOString()
+            .slice(0,10);
+
+
+        setType("income");
+
+    }
+
+}
+
+
+/* CLOSE */
+
+function closeModal(){
+
+    document
+        .getElementById("modal")
+        .classList.remove("show");
+
+}
+
+
+/* SAVE */
+
+function saveItem(){
+
+    const amount =
+        Number(
+            document.getElementById(
+                "amount"
+            ).value
+        );
+
+
+    const category =
+        document.getElementById(
+            "category"
+        ).value;
+
+
+    const note =
+        document.getElementById(
+            "note"
+        ).value;
+
+
+    const date =
+        document.getElementById(
+            "date"
+        ).value;
+
+
+    if(!amount || amount <= 0){
+
+        alert(
+            "กรุณากรอกจำนวนเงิน"
+        );
+
+        return;
+
+    }
+
+
+    if(!date){
+
+        alert(
+            "กรุณาเลือกวันที่"
+        );
+
+        return;
+
+    }
+
+
+    /* EDIT */
+
+    if(editId !== null){
+
+        const index =
+            items.findIndex(
+                x => x.id === editId
+            );
+
+
+        if(index !== -1){
+
+            items[index] = {
+
+                ...items[index],
+
+                type:currentType,
+
+                amount:amount,
+
+                category:category,
+
+                note:note,
+
+                date:date
+
+            };
+
+        }
+
+
+    }
+
+    /* ADD */
+
+    else{
+
+        items.push({
+
+            id:Date.now(),
+
+            type:currentType,
+
+            amount:amount,
+
+            category:category,
+
+            note:note,
+
+            date:date
+
+        });
+
+    }
+
+
+    localStorage.setItem(
+        "moneymate_items",
+        JSON.stringify(items)
+    );
+
+
+    editId = null;
+
+
+    createMonthList();
+
+
+    closeModal();
+
+
+    render();
+
+}
+
+
+/* DELETE */
+
+function deleteItem(id){
+
+    const item =
+        items.find(
+            x => x.id === id
+        );
+
+
+    if(!item) return;
+
+
+    const confirmDelete =
+        confirm(
+            "ต้องการลบรายการนี้หรือไม่?\n\n" +
+
+            (item.note ||
+             item.category) +
+
+            "\n" +
+
+            money(item.amount)
+        );
+
+
+    if(!confirmDelete)
+        return;
+
+
+    items =
+        items.filter(
+            x => x.id !== id
+        );
+
+
+    localStorage.setItem(
+        "moneymate_items",
+        JSON.stringify(items)
+    );
+
+
+    createMonthList();
+
+
+    render();
+
+}
+
+
+/* ICON */
+
+function getIcon(category){
+
+    const icons = {
+
+        "เงินเดือน":"💰",
+
+        "อาหาร":"🍜",
+
+        "เดินทาง":"🚗",
+
+        "ช้อปปิ้ง":"🛍️",
+
+        "บิล":"🧾",
+
+        "สุขภาพ":"❤️",
+
+        "อื่นๆ":"📦"
+
+    };
+
+
+    return icons[category] || "📦";
+
+}
+
+
+/* RENDER */
+
+function render(){
+
+    let data = items;
+
+
+    /* FILTER MONTH */
+
+    if(selectedMonth !== "all"){
+
+        data =
+            items.filter(
+                item =>
+                    item.date &&
+                    item.date.slice(0,7)
+                    === selectedMonth
+            );
+
+    }
+
+
+    /* TOTAL INCOME */
+
+    const income =
+        data
+        .filter(
+            x => x.type === "income"
+        )
+        .reduce(
+            (sum,x) =>
+                sum + Number(x.amount),
+            0
+        );
+
+
+    /* TOTAL EXPENSE */
+
+    const expense =
+        data
+        .filter(
+            x => x.type === "expense"
+        )
+        .reduce(
+            (sum,x) =>
+                sum + Number(x.amount),
+            0
+        );
+
+
+    /* DISPLAY */
+
+    document.getElementById(
+        "income"
+    ).innerText =
+        money(income);
+
+
+    document.getElementById(
+        "expense"
+    ).innerText =
+        money(expense);
+
+
+    document.getElementById(
+        "balance"
+    ).innerText =
+        money(
+            income - expense
+        );
+
+
+    document.getElementById(
+        "incomeCount"
+    ).innerText =
+        data.filter(
+            x => x.type === "income"
+        ).length;
+
+
+    document.getElementById(
+        "expenseCount"
+    ).innerText =
+        data.filter(
+            x => x.type === "expense"
+        ).length;
+
+
+    document.getElementById(
+        "listTitle"
+    ).innerText =
+        monthName(selectedMonth);
+
+
+    /* SORT */
+
+    data =
+        [...data].sort(
+            (a,b) =>
+                new Date(b.date) -
+                new Date(a.date)
+        );
+
+
+    const list =
+        document.getElementById(
+            "list"
+        );
+
+
+    /* EMPTY */
+
+    if(data.length === 0){
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                ยังไม่มีรายการ
+
+                <br><br>
+
+                กด “＋ เพิ่มรายการ”
+                เพื่อเริ่มบันทึก
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* LIST */
+
+    list.innerHTML =
+
+        data.map(item => `
+
+            <div class="item">
+
+                <div class="category-icon">
+
+                    ${getIcon(
+                        item.category
+                    )}
+
+                </div>
+
+
+                <div class="info">
+
+                    <strong>
+
+                        ${escapeHTML(
+                            item.note ||
+                            item.category
+                        )}
+
+                    </strong>
+
+
+                    <small>
+
+                        ${item.category}
+
+                        ·
+
+                        ${formatDate(
+                            item.date
+                        )}
+
+                    </small>
+
+
+                    <div class="actions">
+
+                        <button
+                            class="action-btn"
+                            onclick="openModal(${item.id})">
+
+                            ✏️
+
+                        </button>
+
+
+                        <button
+                            class="action-btn"
+                            onclick="deleteItem(${item.id})">
+
+                            🗑️
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="amount-area">
+
+                    <div
+                        class="amount
+                        ${
+                            item.type === "income"
+                            ? "income"
+                            : "expense"
+                        }">
+
+                        ${
+                            item.type === "income"
+                            ? "+"
+                            : "−"
+                        }
+
+                        ${money(
+                            item.amount
+                        )}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* DATE */
+
+function formatDate(date){
+
+    return new Date(
+        date + "T00:00:00"
+    )
+    .toLocaleDateString(
+        "th-TH",
+        {
+            day:"numeric",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(text){
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* CLICK OUTSIDE */
+
+document
+.getElementById("modal")
+.addEventListener(
+    "click",
+    function(e){
+
+        if(e.target === this){
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* START */
+
+createMonthList();
+
+render();
+
+</script>
+
+</body>
+</html>
+```
