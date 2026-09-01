@@ -980,20 +980,29 @@ render();
 
 function changeMonth(amount){
 
-const date =
-new Date(
-currentMonth+"-01T00:00:00"
-);
+const parts = currentMonth.split("-");
 
+let year = Number(parts[0]);
+let month = Number(parts[1]);
 
-date.setMonth(
-date.getMonth()+amount
-);
+month += amount;
 
+if(month < 1){
+
+month = 12;
+year--;
+
+}
+
+if(month > 12){
+
+month = 1;
+year++;
+
+}
 
 currentMonth =
-date.toISOString().slice(0,7);
-
+year + "-" + String(month).padStart(2,"0");
 
 updateMonthLabel();
 
