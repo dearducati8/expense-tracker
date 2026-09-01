@@ -24,6 +24,7 @@ body{
 margin:0;
 background:#f5f7fb;
 color:#1f2937;
+padding-bottom:90px;
 }
 
 .container{
@@ -114,7 +115,7 @@ display:none!important;
 }
 
 
-/* MONTH */
+/* ================= MONTH ================= */
 
 .month-card{
 background:white;
@@ -157,7 +158,7 @@ margin-top:4px;
 }
 
 
-/* BALANCE */
+/* ================= BALANCE ================= */
 
 .balance-card{
 background:linear-gradient(135deg,#5965f2,#7b83f7);
@@ -202,7 +203,7 @@ margin-bottom:4px;
 }
 
 
-/* STATS */
+/* ================= STATS ================= */
 
 .stats{
 display:grid;
@@ -230,7 +231,7 @@ margin-top:5px;
 }
 
 
-/* LIST */
+/* ================= LIST ================= */
 
 .section-title{
 display:flex;
@@ -321,11 +322,11 @@ color:#999;
 }
 
 
-/* ADD */
+/* ================= ADD ================= */
 
 .add{
 position:fixed;
-bottom:20px;
+bottom:85px;
 left:50%;
 transform:translateX(-50%);
 width:calc(100% - 30px);
@@ -337,10 +338,11 @@ background:#172033;
 color:white;
 font-size:16px;
 font-weight:bold;
+z-index:20;
 }
 
 
-/* MODAL */
+/* ================= MODAL ================= */
 
 .modal{
 display:none;
@@ -392,6 +394,162 @@ border-color:#ed6370;
 color:#df4e5b;
 }
 
+
+/* ================= PAGES ================= */
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
+}
+
+
+/* ================= SALARY ================= */
+
+.salary-net{
+background:linear-gradient(135deg,#5965f2,#7b83f7);
+color:white;
+padding:24px;
+border-radius:24px;
+margin-bottom:15px;
+}
+
+.salary-net-title{
+font-size:13px;
+opacity:.8;
+}
+
+.salary-net-number{
+font-size:34px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.salary-section{
+margin-top:15px;
+}
+
+.salary-section h3{
+margin:0 0 12px;
+font-size:17px;
+}
+
+.salary-row{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid #eee;
+font-size:14px;
+}
+
+.salary-row:last-child{
+border-bottom:0;
+}
+
+.salary-total{
+font-size:17px;
+font-weight:bold;
+padding-top:15px;
+}
+
+.salary-income{
+color:#15a46d;
+}
+
+.salary-deduction{
+color:#e65362;
+}
+
+.salary-form{
+background:white;
+border-radius:20px;
+padding:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.05);
+margin-bottom:15px;
+}
+
+
+/* ================= YEAR SUMMARY ================= */
+
+.year-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.year-card{
+background:white;
+border-radius:18px;
+padding:18px;
+box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.year-card small{
+color:#777;
+font-size:12px;
+}
+
+.year-card strong{
+display:block;
+font-size:21px;
+margin-top:6px;
+}
+
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:72px;
+background:white;
+border-top:1px solid #e5e7eb;
+display:flex;
+justify-content:space-around;
+align-items:center;
+z-index:90;
+box-shadow:0 -3px 15px rgba(0,0,0,.05);
+}
+
+.nav-item{
+flex:1;
+text-align:center;
+color:#888;
+font-size:11px;
+cursor:pointer;
+padding:7px 0;
+}
+
+.nav-icon{
+font-size:22px;
+display:block;
+margin-bottom:3px;
+}
+
+.nav-item.active{
+color:#5965f2;
+font-weight:bold;
+}
+
+
+/* ================= SETTINGS ================= */
+
+.setting-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 0;
+border-bottom:1px solid #eee;
+}
+
+.setting-row:last-child{
+border-bottom:0;
+}
+
 </style>
 
 </head>
@@ -400,7 +558,7 @@ color:#df4e5b;
 <body>
 
 
-<!-- LOGIN -->
+<!-- ================= LOGIN ================= -->
 
 <div id="loginPage" class="container">
 
@@ -443,7 +601,7 @@ class="error">
 
 
 
-<!-- APP -->
+<!-- ================= APP ================= -->
 
 <div id="app" class="container hidden">
 
@@ -466,7 +624,12 @@ onclick="logout()">
 
 
 
-<!-- MONTH -->
+<!-- ================= HOME PAGE ================= -->
+
+<section
+id="homePage"
+class="page active">
+
 
 <div class="month-card">
 
@@ -509,8 +672,6 @@ onclick="changeMonth(1)">
 </div>
 
 
-
-<!-- BALANCE -->
 
 <div class="balance-card">
 
@@ -562,8 +723,6 @@ id="carry">
 
 
 
-<!-- STATS -->
-
 <div class="stats">
 
 <div class="stat-card">
@@ -606,8 +765,6 @@ id="expenseCount">
 
 
 
-<!-- LIST -->
-
 <div class="section-title">
 
 <h2>รายการเดือนนี้</h2>
@@ -626,11 +783,599 @@ class="list">
 </div>
 
 
+</section>
+
+
+
+<!-- ================= SALARY PAGE ================= -->
+
+<section
+id="salaryPage"
+class="page">
+
+
+<div class="month-card">
+
+<div class="month-navigation">
+
+<button
+class="month-button"
+onclick="changeSalaryMonth(-1)">
+
+‹
+
+</button>
+
+<div class="month-center">
+
+<div
+id="salaryMonthLabel"
+class="month-label">
+
+กันยายน 2026
+
+</div>
+
+<div class="month-sub">
+คำนวณเงินเดือนประจำเดือน
+</div>
+
+</div>
+
+<button
+class="month-button"
+onclick="changeSalaryMonth(1)">
+
+›
+
+</button>
+
+</div>
+
 </div>
 
 
 
-<!-- ADD BUTTON -->
+<div class="salary-net">
+
+<div class="salary-net-title">
+เงินเดือนสุทธิ
+</div>
+
+<div
+id="salaryNet"
+class="salary-net-number">
+
+฿0.00
+
+</div>
+
+</div>
+
+
+
+<div class="salary-form">
+
+<div class="salary-section">
+
+<h3>💰 รายรับ</h3>
+
+
+<label>
+เงินเดือนพื้นฐาน
+</label>
+
+<input
+id="salaryBase"
+type="number"
+inputmode="decimal"
+placeholder="25000"
+oninput="calculateSalary()">
+
+
+<label>
+OT
+</label>
+
+<input
+id="salaryOT"
+type="number"
+inputmode="decimal"
+placeholder="0"
+oninput="calculateSalary()">
+
+
+<label>
+เบี้ยขยัน
+</label>
+
+<input
+id="salaryAttendance"
+type="number"
+inputmode="decimal"
+placeholder="0"
+oninput="calculateSalary()">
+
+
+<label>
+ค่าเดินทาง
+</label>
+
+<input
+id="salaryTravel"
+type="number"
+inputmode="decimal"
+placeholder="0"
+oninput="calculateSalary()">
+
+
+<label>
+โบนัส
+</label>
+
+<input
+id="salaryBonus"
+type="number"
+inputmode="decimal"
+placeholder="0"
+oninput="calculateSalary()">
+
+
+<label>
+รายได้อื่น ๆ
+</label>
+
+<input
+id="salaryOtherIncome"
+type="number"
+inputmode="decimal"
+placeholder="0"
+oninput="calculateSalary()">
+
+</div>
+
+</div>
+
+
+
+<div class="card salary-section">
+
+<h3>📥 สรุปรายรับ</h3>
+
+<div class="salary-row">
+
+<span>เงินเดือนพื้นฐาน</span>
+
+<strong
+id="showBase"
+class="salary-income">
+
+฿0.00
+
+</strong>
+
+</div>
+
+<div class="salary-row">
+
+<span>OT</span>
+
+<strong
+id="showOT"
+class="salary-income">
+
+฿0.00
+
+</strong>
+
+</div>
+
+<div class="salary-row">
+
+<span>เบี้ยขยัน</span>
+
+<strong
+id="showAttendance"
+class="salary-income">
+
+฿0.00
+
+</strong>
+
+</div>
+
+<div class="salary-row">
+
+<span>ค่าเดินทาง</span>
+
+<strong
+id="showTravel"
+class="salary-income">
+
+฿0.00
+
+</strong>
+
+</div>
+
+<div class="salary-row">
+
+<span>โบนัส</span>
+
+<strong
+id="showBonus"
+class="salary-income">
+
+฿0.00
+
+</strong>
+
+</div>
+
+<div class="salary-row">
+
+<span>รายได้อื่น ๆ</span>
+
+<strong
+id="showOtherIncome"
+class="salary-income">
+
+฿0.00
+
+</strong>
+
+</div>
+
+<div class="salary-row salary-total">
+
+<span>รายรับรวม</span>
+
+<strong
+id="showTotalIncome"
+class="salary-income">
+
+฿0.00
+
+</strong>
+
+</div>
+
+</div>
+
+
+
+<div class="salary-form">
+
+<div class="salary-section">
+
+<h3>📤 รายการหัก</h3>
+
+
+<label>
+ประกันสังคม
+</label>
+
+<input
+id="salarySocial"
+type="number"
+inputmode="decimal"
+placeholder="750"
+oninput="calculateSalary()">
+
+
+<label>
+ภาษี
+</label>
+
+<input
+id="salaryTax"
+type="number"
+inputmode="decimal"
+placeholder="0"
+oninput="calculateSalary()">
+
+
+<label>
+หักอื่น ๆ
+</label>
+
+<input
+id="salaryOtherDeduction"
+type="number"
+inputmode="decimal"
+placeholder="0"
+oninput="calculateSalary()">
+
+</div>
+
+</div>
+
+
+
+<div class="card salary-section">
+
+<h3>📤 สรุปรายการหัก</h3>
+
+<div class="salary-row">
+
+<span>ประกันสังคม</span>
+
+<strong
+id="showSocial"
+class="salary-deduction">
+
+฿0.00
+
+</strong>
+
+</div>
+
+<div class="salary-row">
+
+<span>ภาษี</span>
+
+<strong
+id="showTax"
+class="salary-deduction">
+
+฿0.00
+
+</strong>
+
+</div>
+
+<div class="salary-row">
+
+<span>หักอื่น ๆ</span>
+
+<strong
+id="showOtherDeduction"
+class="salary-deduction">
+
+฿0.00
+
+</strong>
+
+</div>
+
+<div class="salary-row salary-total">
+
+<span>หักรวม</span>
+
+<strong
+id="showTotalDeduction"
+class="salary-deduction">
+
+฿0.00
+
+</strong>
+
+</div>
+
+</div>
+
+
+
+<button
+class="primary"
+onclick="saveSalary()">
+
+💾 บันทึกเงินเดือนเดือนนี้
+
+</button>
+
+
+</section>
+
+
+
+<!-- ================= SUMMARY PAGE ================= -->
+
+<section
+id="summaryPage"
+class="page">
+
+
+<div class="month-card">
+
+<div class="month-center">
+
+<div class="month-label">
+📊 สรุปเงินเดือน
+</div>
+
+<div class="month-sub">
+ข้อมูลรายได้ของปีนี้
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="year-grid">
+
+<div class="year-card">
+
+<small>รายรับรวมทั้งปี</small>
+
+<strong
+id="yearTotalIncome">
+
+฿0.00
+
+</strong>
+
+</div>
+
+
+<div class="year-card">
+
+<small>เงินเดือนเฉลี่ย</small>
+
+<strong
+id="yearAverage">
+
+฿0.00
+
+</strong>
+
+</div>
+
+
+<div class="year-card">
+
+<small>OT รวม</small>
+
+<strong
+id="yearOT">
+
+฿0.00
+
+</strong>
+
+</div>
+
+
+<div class="year-card">
+
+<small>โบนัสรวม</small>
+
+<strong
+id="yearBonus">
+
+฿0.00
+
+</strong>
+
+</div>
+
+
+<div class="year-card">
+
+<small>ประกันสังคมรวม</small>
+
+<strong
+id="yearSocial">
+
+฿0.00
+
+</strong>
+
+</div>
+
+
+<div class="year-card">
+
+<small>ภาษีรวม</small>
+
+<strong
+id="yearTax">
+
+฿0.00
+
+</strong>
+
+</div>
+
+</div>
+
+
+
+<div class="section-title">
+
+<h2>เงินเดือนแต่ละเดือน</h2>
+
+</div>
+
+
+<div
+id="yearSalaryList"
+class="list">
+
+</div>
+
+
+</section>
+
+
+
+<!-- ================= SETTINGS PAGE ================= -->
+
+<section
+id="settingsPage"
+class="page">
+
+
+<div class="card">
+
+<h2>⚙️ ตั้งค่า</h2>
+
+
+<div class="setting-row">
+
+<span>
+👤 บัญชีผู้ใช้
+</span>
+
+<span>
+›
+</span>
+
+</div>
+
+
+<div class="setting-row">
+
+<span>
+💰 ตั้งค่าเงินเดือน
+</span>
+
+<span>
+›
+</span>
+
+</div>
+
+
+<div class="setting-row">
+
+<span>
+🧾 ตั้งค่ารายการหัก
+</span>
+
+<span>
+›
+</span>
+
+</div>
+
+
+<div class="setting-row">
+
+<span>
+🔐 บัญชี Supabase
+</span>
+
+<span>
+เชื่อมต่อแล้ว
+</span>
+
+</div>
+
+</div>
+
+
+</section>
+
+
+
+</div>
+
+
+
+<!-- ================= ADD TRANSACTION BUTTON ================= -->
 
 <button
 id="addButton"
@@ -643,7 +1388,70 @@ onclick="openModal()">
 
 
 
-<!-- MODAL -->
+<!-- ================= BOTTOM NAV ================= -->
+
+<nav
+id="bottomNav"
+class="bottom-nav hidden">
+
+
+<div
+class="nav-item active"
+onclick="showPage('home',this)">
+
+<span class="nav-icon">
+🏠
+</span>
+
+หน้าหลัก
+
+</div>
+
+
+<div
+class="nav-item"
+onclick="showPage('salary',this)">
+
+<span class="nav-icon">
+💰
+</span>
+
+เงินเดือน
+
+</div>
+
+
+<div
+class="nav-item"
+onclick="showPage('summary',this)">
+
+<span class="nav-icon">
+📊
+</span>
+
+สรุป
+
+</div>
+
+
+<div
+class="nav-item"
+onclick="showPage('settings',this)">
+
+<span class="nav-icon">
+⚙️
+</span>
+
+ตั้งค่า
+
+</div>
+
+
+</nav>
+
+
+
+<!-- ================= TRANSACTION MODAL ================= -->
 
 <div
 id="modal"
@@ -746,6 +1554,7 @@ onclick="saveItem()">
 
 </button>
 
+
 <button
 style="width:100%;margin-top:8px;padding:13px;border:0;border-radius:13px"
 onclick="closeModal()">
@@ -775,8 +1584,8 @@ const SUPABASE_KEY =
 
 const supabaseClient =
 supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
 
@@ -786,17 +1595,18 @@ supabase.createClient(
 
 let items = [];
 
+let salaries = [];
+
 let currentType = "income";
 
 let editId = null;
 
-
-/*
-เก็บเดือนที่กำลังดู
-รูปแบบ YYYY-MM
-*/
+let currentPage = "home";
 
 let currentMonth =
+new Date().toISOString().slice(0,7);
+
+let currentSalaryMonth =
 new Date().toISOString().slice(0,7);
 
 
@@ -807,19 +1617,13 @@ new Date().toISOString().slice(0,7);
 async function login(){
 
 const email =
-document.getElementById(
-"email"
-).value.trim();
+document.getElementById("email").value.trim();
 
 const password =
-document.getElementById(
-"password"
-).value;
+document.getElementById("password").value;
 
 const error =
-document.getElementById(
-"loginError"
-);
+document.getElementById("loginError");
 
 error.innerText = "";
 
@@ -908,6 +1712,10 @@ document
 .getElementById("addButton")
 .classList.add("hidden");
 
+document
+.getElementById("bottomNav")
+.classList.add("hidden");
+
 }
 
 
@@ -929,15 +1737,95 @@ document
 .getElementById("addButton")
 .classList.remove("hidden");
 
+document
+.getElementById("bottomNav")
+.classList.remove("hidden");
+
+
 updateMonthLabel();
 
+updateSalaryMonthLabel();
+
 await loadData();
+
+await loadSalaries();
+
+showPage("home",
+document.querySelector(".nav-item"));
 
 }
 
 
 /* =================================
-   LOAD DATA
+   NAVIGATION
+================================= */
+
+function showPage(page,element){
+
+currentPage = page;
+
+
+document
+.querySelectorAll(".page")
+.forEach(x=>{
+x.classList.remove("active");
+});
+
+
+document
+.getElementById(page+"Page")
+.classList.add("active");
+
+
+document
+.querySelectorAll(".nav-item")
+.forEach(x=>{
+x.classList.remove("active");
+});
+
+
+if(element){
+
+element.classList.add("active");
+
+}
+
+
+/*
+ปุ่มเพิ่มรายการ
+แสดงเฉพาะหน้ารายรับรายจ่าย
+*/
+
+if(page === "home"){
+
+document
+.getElementById("addButton")
+.classList.remove("hidden");
+
+}else{
+
+document
+.getElementById("addButton")
+.classList.add("hidden");
+
+}
+
+
+/*
+โหลดสรุปเมื่อเปิดหน้า
+*/
+
+if(page === "summary"){
+
+renderYearSummary();
+
+}
+
+}
+
+
+/* =================================
+   TRANSACTION LOAD
 ================================= */
 
 async function loadData(){
@@ -980,12 +1868,17 @@ render();
 
 function changeMonth(amount){
 
-const parts = currentMonth.split("-");
+const parts =
+currentMonth.split("-");
 
-let year = Number(parts[0]);
-let month = Number(parts[1]);
+let year =
+Number(parts[0]);
+
+let month =
+Number(parts[1]);
 
 month += amount;
+
 
 if(month < 1){
 
@@ -994,6 +1887,7 @@ year--;
 
 }
 
+
 if(month > 12){
 
 month = 1;
@@ -1001,8 +1895,12 @@ year++;
 
 }
 
+
 currentMonth =
-year + "-" + String(month).padStart(2,"0");
+year +
+"-" +
+String(month).padStart(2,"0");
+
 
 updateMonthLabel();
 
@@ -1012,7 +1910,7 @@ render();
 
 
 /* =================================
-   UPDATE MONTH LABEL
+   UPDATE MONTH
 ================================= */
 
 function updateMonthLabel(){
@@ -1064,12 +1962,13 @@ item.date.slice(0,7) === month;
 
 
 /* =================================
-   GET PREVIOUS BALANCE
+   PREVIOUS BALANCE
 ================================= */
 
 function getPreviousBalance(){
 
 let total = 0;
+
 
 items.forEach(item=>{
 
@@ -1077,19 +1976,20 @@ if(!item.date)
 return;
 
 
-/*
-เฉพาะรายการก่อนเดือนปัจจุบัน
-*/
-
-if(item.date.slice(0,7) < currentMonth){
+if(
+item.date.slice(0,7) <
+currentMonth
+){
 
 if(item.type === "income"){
 
-total += Number(item.amount);
+total +=
+Number(item.amount);
 
 }else{
 
-total -= Number(item.amount);
+total -=
+Number(item.amount);
 
 }
 
@@ -1097,13 +1997,14 @@ total -= Number(item.amount);
 
 });
 
+
 return total;
 
 }
 
 
 /* =================================
-   RENDER
+   RENDER TRANSACTIONS
 ================================= */
 
 function render(){
@@ -1114,9 +2015,7 @@ getMonthData(currentMonth);
 
 const income =
 data
-.filter(
-x=>x.type==="income"
-)
+.filter(x=>x.type==="income")
 .reduce(
 (sum,x)=>
 sum+Number(x.amount),
@@ -1126,9 +2025,7 @@ sum+Number(x.amount),
 
 const expense =
 data
-.filter(
-x=>x.type==="expense"
-)
+.filter(x=>x.type==="expense")
 .reduce(
 (sum,x)=>
 sum+Number(x.amount),
@@ -1136,23 +2033,13 @@ sum+Number(x.amount),
 );
 
 
-/*
-ยอดก่อนเข้าเดือนนี้
-*/
-
 const carry =
 getPreviousBalance();
 
 
-/*
-ยอดคงเหลือทั้งหมด
-*/
-
 const balance =
 carry + income - expense;
 
-
-/* BALANCE */
 
 document.getElementById(
 "balance"
@@ -1160,15 +2047,11 @@ document.getElementById(
 money(balance);
 
 
-/* CARRY */
-
 document.getElementById(
 "carry"
 ).innerText =
 "ยอดยกมา " + money(carry);
 
-
-/* INCOME */
 
 document.getElementById(
 "income"
@@ -1176,15 +2059,11 @@ document.getElementById(
 money(income);
 
 
-/* EXPENSE */
-
 document.getElementById(
 "expense"
 ).innerText =
 money(expense);
 
-
-/* COUNT */
 
 document.getElementById(
 "incomeCount"
@@ -1202,12 +2081,8 @@ x=>x.type==="expense"
 ).length;
 
 
-/* LIST */
-
 const list =
-document.getElementById(
-"list"
-);
+document.getElementById("list");
 
 
 if(data.length===0){
@@ -1308,7 +2183,7 @@ ${money(item.amount)}
 
 
 /* =================================
-   OPEN MODAL
+   TRANSACTION MODAL
 ================================= */
 
 function openModal(id=null){
@@ -1388,11 +2263,6 @@ document.getElementById(
 ).value="";
 
 
-/*
-ถ้าเพิ่มรายการจากเดือนที่เลือก
-ให้วันที่เริ่มต้นเป็นเดือนนั้น
-*/
-
 document.getElementById(
 "itemDate"
 ).value =
@@ -1428,11 +2298,6 @@ return today
 
 }
 
-
-/*
-ถ้าเปิดเดือนเก่า/เดือนถัดไป
-ใช้วันที่ 1 ของเดือนนั้น
-*/
 
 return currentMonth + "-01";
 
@@ -1493,42 +2358,32 @@ document.getElementById(
 
 
 /* =================================
-   SAVE
+   SAVE TRANSACTION
 ================================= */
 
 async function saveItem(){
 
 const amount =
 Number(
-document.getElementById(
-"amount"
-).value
+document.getElementById("amount").value
 );
 
 
 const category =
-document.getElementById(
-"category"
-).value;
+document.getElementById("category").value;
 
 
 const note =
-document.getElementById(
-"note"
-).value.trim();
+document.getElementById("note").value.trim();
 
 
 const date =
-document.getElementById(
-"itemDate"
-).value;
+document.getElementById("itemDate").value;
 
 
 if(!amount || amount<=0){
 
-alert(
-"กรุณากรอกจำนวนเงิน"
-);
+alert("กรุณากรอกจำนวนเงิน");
 
 return;
 
@@ -1537,18 +2392,12 @@ return;
 
 if(!date){
 
-alert(
-"กรุณาเลือกวันที่"
-);
+alert("กรุณาเลือกวันที่");
 
 return;
 
 }
 
-
-/*
-EDIT
-*/
 
 if(editId){
 
@@ -1560,27 +2409,66 @@ await supabaseClient
 .update({
 
 type:currentType,
-
 amount:amount,
-
 category:category,
-
 note:note,
-
 date:date
 
 })
-.eq(
-"id",
-editId
-);
+.eq("id",editId);
 
 
 if(error){
 
-alert(
-"แก้ไขไม่สำเร็จ"
-);
+alert("แก้ไขไม่สำเร็จ");
+
+console.error(error);
+
+return;
+
+}
+
+}else{
+
+const {
+data:userData
+} =
+await supabaseClient.auth.getUser();
+
+
+const user =
+userData.user;
+
+
+if(!user){
+
+alert("กรุณาเข้าสู่ระบบ");
+
+return;
+
+}
+
+
+const {
+error
+} =
+await supabaseClient
+.from("transactions")
+.insert({
+
+user_id:user.id,
+type:currentType,
+amount:amount,
+category:category,
+note:note,
+date:date
+
+});
+
+
+if(error){
+
+alert("บันทึกไม่สำเร็จ");
 
 console.error(error);
 
@@ -1591,11 +2479,468 @@ return;
 }
 
 
-/*
-NEW
-*/
+editId=null;
 
-else{
+closeModal();
+
+await loadData();
+
+}
+
+
+/* =================================
+   DELETE TRANSACTION
+================================= */
+
+async function deleteItem(id){
+
+if(
+!confirm(
+"ต้องการลบรายการนี้หรือไม่?"
+)
+)
+return;
+
+
+const {
+error
+} =
+await supabaseClient
+.from("transactions")
+.delete()
+.eq("id",id);
+
+
+if(error){
+
+alert("ลบไม่สำเร็จ");
+
+console.error(error);
+
+return;
+
+}
+
+
+await loadData();
+
+}
+
+
+/* =================================
+   ================================
+   SALARY SYSTEM
+   ================================
+================================= */
+
+
+/* =================================
+   LOAD SALARIES
+================================= */
+
+async function loadSalaries(){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("salaries")
+.select("*")
+.order("month",{ascending:true});
+
+
+if(error){
+
+console.error(error);
+
+alert(
+"โหลดข้อมูลเงินเดือนไม่สำเร็จ"
+);
+
+return;
+
+}
+
+
+salaries =
+data || [];
+
+
+loadSalaryMonth();
+
+renderYearSummary();
+
+}
+
+
+/* =================================
+   CHANGE SALARY MONTH
+================================= */
+
+function changeSalaryMonth(amount){
+
+const parts =
+currentSalaryMonth.split("-");
+
+let year =
+Number(parts[0]);
+
+let month =
+Number(parts[1]);
+
+
+month += amount;
+
+
+if(month < 1){
+
+month = 12;
+year--;
+
+}
+
+
+if(month > 12){
+
+month = 1;
+year++;
+
+}
+
+
+currentSalaryMonth =
+year +
+"-" +
+String(month).padStart(2,"0");
+
+
+updateSalaryMonthLabel();
+
+loadSalaryMonth();
+
+}
+
+
+/* =================================
+   UPDATE SALARY MONTH
+================================= */
+
+function updateSalaryMonthLabel(){
+
+const date =
+new Date(
+currentSalaryMonth+"-01T00:00:00"
+);
+
+
+const label =
+date.toLocaleDateString(
+"th-TH",
+{
+month:"long",
+year:"numeric"
+}
+);
+
+
+document.getElementById(
+"salaryMonthLabel"
+).innerText =
+label;
+
+}
+
+
+/* =================================
+   LOAD SELECTED SALARY
+================================= */
+
+function loadSalaryMonth(){
+
+updateSalaryMonthLabel();
+
+
+const salary =
+salaries.find(
+x=>x.month === currentSalaryMonth
+);
+
+
+if(salary){
+
+document.getElementById(
+"salaryBase"
+).value =
+salary.base_salary || 0;
+
+
+document.getElementById(
+"salaryOT"
+).value =
+salary.ot || 0;
+
+
+document.getElementById(
+"salaryAttendance"
+).value =
+salary.attendance || 0;
+
+
+document.getElementById(
+"salaryTravel"
+).value =
+salary.travel || 0;
+
+
+document.getElementById(
+"salaryBonus"
+).value =
+salary.bonus || 0;
+
+
+document.getElementById(
+"salaryOtherIncome"
+).value =
+salary.other_income || 0;
+
+
+document.getElementById(
+"salarySocial"
+).value =
+salary.social_security || 0;
+
+
+document.getElementById(
+"salaryTax"
+).value =
+salary.tax || 0;
+
+
+document.getElementById(
+"salaryOtherDeduction"
+).value =
+salary.other_deduction || 0;
+
+}else{
+
+clearSalaryForm();
+
+}
+
+
+calculateSalary();
+
+}
+
+
+/* =================================
+   CLEAR SALARY
+================================= */
+
+function clearSalaryForm(){
+
+document.getElementById(
+"salaryBase"
+).value = "";
+
+
+document.getElementById(
+"salaryOT"
+).value = "";
+
+
+document.getElementById(
+"salaryAttendance"
+).value = "";
+
+
+document.getElementById(
+"salaryTravel"
+).value = "";
+
+
+document.getElementById(
+"salaryBonus"
+).value = "";
+
+
+document.getElementById(
+"salaryOtherIncome"
+).value = "";
+
+
+document.getElementById(
+"salarySocial"
+).value = "";
+
+
+document.getElementById(
+"salaryTax"
+).value = "";
+
+
+document.getElementById(
+"salaryOtherDeduction"
+).value = "";
+
+}
+
+
+/* =================================
+   NUMBER INPUT
+================================= */
+
+function salaryNumber(id){
+
+return Number(
+document.getElementById(id).value
+) || 0;
+
+}
+
+
+/* =================================
+   CALCULATE SALARY
+================================= */
+
+function calculateSalary(){
+
+const base =
+salaryNumber("salaryBase");
+
+
+const ot =
+salaryNumber("salaryOT");
+
+
+const attendance =
+salaryNumber("salaryAttendance");
+
+
+const travel =
+salaryNumber("salaryTravel");
+
+
+const bonus =
+salaryNumber("salaryBonus");
+
+
+const otherIncome =
+salaryNumber("salaryOtherIncome");
+
+
+const social =
+salaryNumber("salarySocial");
+
+
+const tax =
+salaryNumber("salaryTax");
+
+
+const otherDeduction =
+salaryNumber("salaryOtherDeduction");
+
+
+const totalIncome =
+base +
+ot +
+attendance +
+travel +
+bonus +
+otherIncome;
+
+
+const totalDeduction =
+social +
+tax +
+otherDeduction;
+
+
+const net =
+totalIncome -
+totalDeduction;
+
+
+document.getElementById(
+"salaryNet"
+).innerText =
+money(net);
+
+
+document.getElementById(
+"showBase"
+).innerText =
+money(base);
+
+
+document.getElementById(
+"showOT"
+).innerText =
+money(ot);
+
+
+document.getElementById(
+"showAttendance"
+).innerText =
+money(attendance);
+
+
+document.getElementById(
+"showTravel"
+).innerText =
+money(travel);
+
+
+document.getElementById(
+"showBonus"
+).innerText =
+money(bonus);
+
+
+document.getElementById(
+"showOtherIncome"
+).innerText =
+money(otherIncome);
+
+
+document.getElementById(
+"showTotalIncome"
+).innerText =
+money(totalIncome);
+
+
+document.getElementById(
+"showSocial"
+).innerText =
+money(social);
+
+
+document.getElementById(
+"showTax"
+).innerText =
+money(tax);
+
+
+document.getElementById(
+"showOtherDeduction"
+).innerText =
+money(otherDeduction);
+
+
+document.getElementById(
+"showTotalDeduction"
+).innerText =
+money(totalDeduction);
+
+}
+
+
+/* =================================
+   SAVE SALARY
+================================= */
+
+async function saveSalary(){
 
 const {
 data:userData
@@ -1618,92 +2963,298 @@ return;
 }
 
 
-const {
-error
-} =
-await supabaseClient
-.from("transactions")
-.insert({
+const salaryData = {
 
 user_id:user.id,
 
-type:currentType,
+month:currentSalaryMonth,
 
-amount:amount,
+base_salary:salaryNumber("salaryBase"),
 
-category:category,
+ot:salaryNumber("salaryOT"),
 
-note:note,
+attendance:salaryNumber("salaryAttendance"),
 
-date:date
+travel:salaryNumber("salaryTravel"),
 
-});
+bonus:salaryNumber("salaryBonus"),
+
+other_income:salaryNumber("salaryOtherIncome"),
+
+social_security:salaryNumber("salarySocial"),
+
+tax:salaryNumber("salaryTax"),
+
+other_deduction:salaryNumber("salaryOtherDeduction")
+
+};
 
 
-if(error){
+/*
+ถ้ามีเดือนนี้อยู่แล้ว
+ให้แก้ไข
+*/
 
-alert(
-"บันทึกไม่สำเร็จ"
+const existing =
+salaries.find(
+x=>x.month === currentSalaryMonth
 );
 
-console.error(error);
+
+let result;
+
+
+if(existing){
+
+result =
+await supabaseClient
+.from("salaries")
+.update(salaryData)
+.eq("id",existing.id);
+
+}else{
+
+result =
+await supabaseClient
+.from("salaries")
+.insert(salaryData);
+
+}
+
+
+if(result.error){
+
+console.error(result.error);
+
+alert(
+"บันทึกเงินเดือนไม่สำเร็จ\n"+
+result.error.message
+);
 
 return;
 
 }
 
-}
+
+alert(
+"บันทึกเงินเดือนเรียบร้อยแล้ว"
+);
 
 
-editId=null;
-
-closeModal();
-
-await loadData();
+await loadSalaries();
 
 }
 
 
 /* =================================
-   DELETE
+   YEAR SUMMARY
 ================================= */
 
-async function deleteItem(id){
+function renderYearSummary(){
 
-if(
-!confirm(
-"ต้องการลบรายการนี้หรือไม่?"
-)
-)
-return;
+const year =
+currentSalaryMonth.slice(0,4);
 
 
-const {
-error
-} =
-await supabaseClient
-.from("transactions")
-.delete()
-.eq(
-"id",
-id
+const yearData =
+salaries.filter(
+x=>x.month &&
+x.month.startsWith(year)
 );
 
 
-if(error){
-
-alert(
-"ลบไม่สำเร็จ"
+const totalIncome =
+yearData.reduce(
+(sum,x)=>
+sum +
+Number(x.base_salary||0) +
+Number(x.ot||0) +
+Number(x.attendance||0) +
+Number(x.travel||0) +
+Number(x.bonus||0) +
+Number(x.other_income||0),
+0
 );
 
-console.error(error);
+
+const totalOT =
+yearData.reduce(
+(sum,x)=>
+sum + Number(x.ot||0),
+0
+);
+
+
+const totalBonus =
+yearData.reduce(
+(sum,x)=>
+sum + Number(x.bonus||0),
+0
+);
+
+
+const totalSocial =
+yearData.reduce(
+(sum,x)=>
+sum + Number(x.social_security||0),
+0
+);
+
+
+const totalTax =
+yearData.reduce(
+(sum,x)=>
+sum + Number(x.tax||0),
+0
+);
+
+
+const average =
+yearData.length
+? totalIncome / yearData.length
+: 0;
+
+
+document.getElementById(
+"yearTotalIncome"
+).innerText =
+money(totalIncome);
+
+
+document.getElementById(
+"yearAverage"
+).innerText =
+money(average);
+
+
+document.getElementById(
+"yearOT"
+).innerText =
+money(totalOT);
+
+
+document.getElementById(
+"yearBonus"
+).innerText =
+money(totalBonus);
+
+
+document.getElementById(
+"yearSocial"
+).innerText =
+money(totalSocial);
+
+
+document.getElementById(
+"yearTax"
+).innerText =
+money(totalTax);
+
+
+/*
+รายการแต่ละเดือน
+*/
+
+const list =
+document.getElementById(
+"yearSalaryList"
+);
+
+
+if(!yearData.length){
+
+list.innerHTML =
+`
+<div class="empty">
+
+ยังไม่มีข้อมูลเงินเดือนปี ${Number(year)+543}
+
+</div>
+`;
 
 return;
 
 }
 
 
-await loadData();
+const sorted =
+[...yearData]
+.sort(
+(a,b)=>
+a.month.localeCompare(b.month)
+);
+
+
+list.innerHTML =
+sorted.map(x=>{
+
+const income =
+Number(x.base_salary||0) +
+Number(x.ot||0) +
+Number(x.attendance||0) +
+Number(x.travel||0) +
+Number(x.bonus||0) +
+Number(x.other_income||0);
+
+
+const deduction =
+Number(x.social_security||0) +
+Number(x.tax||0) +
+Number(x.other_deduction||0);
+
+
+const net =
+income - deduction;
+
+
+const date =
+new Date(
+x.month+"-01T00:00:00"
+);
+
+
+const label =
+date.toLocaleDateString(
+"th-TH",
+{
+month:"long"
+}
+);
+
+
+return `
+
+<div class="item">
+
+<div class="icon">
+💰
+</div>
+
+<div class="info">
+
+<strong>
+${label} ${Number(year)+543}
+</strong>
+
+<small>
+รายรับ ${money(income)}
+</small>
+
+</div>
+
+<div class="amount-area">
+
+<div class="amount income">
+${money(net)}
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
 
 }
 
@@ -1785,30 +3336,15 @@ function escapeHTML(text){
 
 return String(text)
 
-.replace(
-/&/g,
-"&amp;"
-)
+.replace(/&/g,"&amp;")
 
-.replace(
-/</g,
-"&lt;"
-)
+.replace(/</g,"&lt;")
 
-.replace(
-/>/g,
-"&gt;"
-)
+.replace(/>/g,"&gt;")
 
-.replace(
-/"/g,
-"&quot;"
-)
+.replace(/"/g,"&quot;")
 
-.replace(
-/'/g,
-"&#039;"
-);
+.replace(/'/g,"&#039;");
 
 }
 
@@ -1824,4 +3360,4 @@ checkSession();
 </body>
 
 </html>
-```
+
