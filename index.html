@@ -714,17 +714,15 @@ onclick="closeModal()">
 */
 
 const SUPABASE_URL =
-"https://dhzvgerfkvmpxxkpcqcv.supabase.co/rest/v1/";
-
+"https://dhzvgerfkvmpxxkpcqcv.supabase.co";
 
 const SUPABASE_KEY =
 "sb_publishable_serLGfs1z-YYNPAAbP6aOA_HuGxEQQ3";
 
-
 const supabaseClient =
 supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 
