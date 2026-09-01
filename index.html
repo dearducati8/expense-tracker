@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="th">
 
@@ -113,19 +113,51 @@ margin-top:10px;
 display:none!important;
 }
 
-.filter{
+
+/* MONTH */
+
+.month-card{
 background:white;
-padding:14px;
-border-radius:18px;
+border-radius:20px;
+padding:15px;
 margin-bottom:15px;
 box-shadow:0 5px 20px rgba(0,0,0,.05);
 }
 
-.filter-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
+.month-navigation{
+display:flex;
+align-items:center;
+justify-content:space-between;
 gap:10px;
 }
+
+.month-button{
+width:45px;
+height:45px;
+border:0;
+border-radius:13px;
+background:#f1f2f6;
+font-size:20px;
+}
+
+.month-center{
+flex:1;
+text-align:center;
+}
+
+.month-label{
+font-size:20px;
+font-weight:bold;
+}
+
+.month-sub{
+font-size:11px;
+color:#888;
+margin-top:4px;
+}
+
+
+/* BALANCE */
 
 .balance-card{
 background:linear-gradient(135deg,#5965f2,#7b83f7);
@@ -145,6 +177,12 @@ font-weight:bold;
 margin:7px 0 20px;
 }
 
+.carry{
+font-size:13px;
+opacity:.85;
+margin-bottom:15px;
+}
+
 .summary{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -162,6 +200,9 @@ display:block;
 opacity:.75;
 margin-bottom:4px;
 }
+
+
+/* STATS */
 
 .stats{
 display:grid;
@@ -187,6 +228,9 @@ font-size:20px;
 font-weight:bold;
 margin-top:5px;
 }
+
+
+/* LIST */
 
 .section-title{
 display:flex;
@@ -276,6 +320,9 @@ text-align:center;
 color:#999;
 }
 
+
+/* ADD */
+
 .add{
 position:fixed;
 bottom:20px;
@@ -291,6 +338,9 @@ color:white;
 font-size:16px;
 font-weight:bold;
 }
+
+
+/* MODAL */
 
 .modal{
 display:none;
@@ -352,9 +402,7 @@ color:#df4e5b;
 
 <!-- LOGIN -->
 
-<div
-id="loginPage"
-class="container">
+<div id="loginPage" class="container">
 
 <div class="login-card">
 
@@ -397,9 +445,7 @@ class="error">
 
 <!-- APP -->
 
-<div
-id="app"
-class="container hidden">
+<div id="app" class="container hidden">
 
 
 <div class="header">
@@ -420,42 +466,45 @@ onclick="logout()">
 
 
 
-<!-- FILTER -->
+<!-- MONTH -->
 
-<div class="filter">
+<div class="month-card">
 
-<div style="font-size:12px;color:#888;margin-bottom:8px">
+<div class="month-navigation">
 
-🔎 เลือกช่วงเวลา
+<button
+class="month-button"
+onclick="changeMonth(-1)">
+
+‹
+
+</button>
+
+<div class="month-center">
+
+<div
+id="monthLabel"
+class="month-label">
+
+กันยายน 2026
 
 </div>
 
-<div class="filter-grid">
-
-<select
-id="monthFilter"
-onchange="loadData()">
-
-<option value="all">
-รวมทุกเดือน
-</option>
-
-</select>
-
-<input
-id="dateFilter"
-type="date"
-onchange="loadData()">
+<div class="month-sub">
+สรุปรายรับรายจ่ายประจำเดือน
+</div>
 
 </div>
 
 <button
-style="width:100%;margin-top:9px;padding:10px;border:0;border-radius:11px"
-onclick="resetFilter()">
+class="month-button"
+onclick="changeMonth(1)">
 
-🔄 ดูทั้งหมด
+›
 
 </button>
+
+</div>
 
 </div>
 
@@ -477,11 +526,19 @@ id="balance">
 
 </div>
 
+<div
+class="carry"
+id="carry">
+
+ยอดยกมา ฿0.00
+
+</div>
+
 <div class="summary">
 
 <div class="summary-box">
 
-<small>รายรับ</small>
+<small>รายรับเดือนนี้</small>
 
 <strong id="income">
 ฿0.00
@@ -491,7 +548,7 @@ id="balance">
 
 <div class="summary-box">
 
-<small>รายจ่าย</small>
+<small>รายจ่ายเดือนนี้</small>
 
 <strong id="expense">
 ฿0.00
@@ -549,12 +606,14 @@ id="expenseCount">
 
 
 
+<!-- LIST -->
+
 <div class="section-title">
 
-<h2>รายการ</h2>
+<h2>รายการเดือนนี้</h2>
 
 <span id="listTitle">
-รวมทุกเดือน
+กันยายน 2026
 </span>
 
 </div>
@@ -708,11 +767,6 @@ onclick="closeModal()">
    SUPABASE CONFIG
 ================================= */
 
-
-/*
-ใส่ข้อมูลของคุณตรงนี้
-*/
-
 const SUPABASE_URL =
 "https://dhzvgerfkvmpxxkpcqcv.supabase.co";
 
@@ -736,10 +790,14 @@ let currentType = "income";
 
 let editId = null;
 
-let selectedMonth = "all";
 
-let selectedDate = "";
+/*
+เก็บเดือนที่กำลังดู
+รูปแบบ YYYY-MM
+*/
 
+let currentMonth =
+new Date().toISOString().slice(0,7);
 
 
 /* =================================
@@ -753,18 +811,15 @@ document.getElementById(
 "email"
 ).value.trim();
 
-
 const password =
 document.getElementById(
 "password"
 ).value;
 
-
 const error =
 document.getElementById(
 "loginError"
 );
-
 
 error.innerText = "";
 
@@ -797,7 +852,6 @@ showApp();
 }
 
 
-
 /* =================================
    LOGOUT
 ================================= */
@@ -809,7 +863,6 @@ await supabaseClient.auth.signOut();
 showLogin();
 
 }
-
 
 
 /* =================================
@@ -837,7 +890,6 @@ showLogin();
 }
 
 
-
 /* =================================
    SHOW LOGIN
 ================================= */
@@ -859,7 +911,6 @@ document
 }
 
 
-
 /* =================================
    SHOW APP
 ================================= */
@@ -878,10 +929,11 @@ document
 .getElementById("addButton")
 .classList.remove("hidden");
 
+updateMonthLabel();
+
 await loadData();
 
 }
-
 
 
 /* =================================
@@ -917,63 +969,52 @@ items =
 data || [];
 
 
-createMonthList();
+render();
+
+}
+
+
+/* =================================
+   CHANGE MONTH
+================================= */
+
+function changeMonth(amount){
+
+const date =
+new Date(
+currentMonth+"-01T00:00:00"
+);
+
+
+date.setMonth(
+date.getMonth()+amount
+);
+
+
+currentMonth =
+date.toISOString().slice(0,7);
+
+
+updateMonthLabel();
 
 render();
 
 }
 
 
-
 /* =================================
-   MONTH LIST
+   UPDATE MONTH LABEL
 ================================= */
 
-function createMonthList(){
-
-const select =
-document.getElementById(
-"monthFilter"
-);
-
-
-const months =
-new Set();
-
-
-items.forEach(item=>{
-
-if(item.date){
-
-months.add(
-item.date.slice(0,7)
-);
-
-}
-
-});
-
-
-select.innerHTML =
-`
-<option value="all">
-รวมทุกเดือน
-</option>
-`;
-
-
-[...months]
-.sort()
-.reverse()
-.forEach(month=>{
+function updateMonthLabel(){
 
 const date =
 new Date(
-month+"-01T00:00:00"
+currentMonth+"-01T00:00:00"
 );
 
 
-const name =
+const label =
 date.toLocaleDateString(
 "th-TH",
 {
@@ -983,45 +1024,73 @@ year:"numeric"
 );
 
 
-select.innerHTML +=
-`
-<option value="${month}">
-${name}
-</option>
-`;
-
-});
+document.getElementById(
+"monthLabel"
+).innerText =
+label;
 
 
-select.value =
-selectedMonth;
+document.getElementById(
+"listTitle"
+).innerText =
+label;
 
 }
-
 
 
 /* =================================
-   FILTER
+   GET MONTH DATA
 ================================= */
 
-function resetFilter(){
+function getMonthData(month){
 
-selectedMonth="all";
+return items.filter(item=>{
 
-selectedDate="";
+return item.date &&
+item.date.slice(0,7) === month;
 
-document.getElementById(
-"monthFilter"
-).value="all";
-
-document.getElementById(
-"dateFilter"
-).value="";
-
-render();
+});
 
 }
 
+
+/* =================================
+   GET PREVIOUS BALANCE
+================================= */
+
+function getPreviousBalance(){
+
+let total = 0;
+
+items.forEach(item=>{
+
+if(!item.date)
+return;
+
+
+/*
+เฉพาะรายการก่อนเดือนปัจจุบัน
+*/
+
+if(item.date.slice(0,7) < currentMonth){
+
+if(item.type === "income"){
+
+total += Number(item.amount);
+
+}else{
+
+total -= Number(item.amount);
+
+}
+
+}
+
+});
+
+return total;
+
+}
 
 
 /* =================================
@@ -1030,39 +1099,8 @@ render();
 
 function render(){
 
-let data =
-[...items];
-
-
-if(selectedMonth !== "all"){
-
-data =
-data.filter(
-item =>
-item.date &&
-item.date.slice(0,7)
-===
-selectedMonth
-);
-
-}
-
-
-selectedDate =
-document.getElementById(
-"dateFilter"
-).value;
-
-
-if(selectedDate){
-
-data =
-data.filter(
-item =>
-item.date === selectedDate
-);
-
-}
+const data =
+getMonthData(currentMonth);
 
 
 const income =
@@ -1089,11 +1127,47 @@ sum+Number(x.amount),
 );
 
 
+/*
+ยอดก่อนเข้าเดือนนี้
+*/
+
+const carry =
+getPreviousBalance();
+
+
+/*
+ยอดคงเหลือทั้งหมด
+*/
+
+const balance =
+carry + income - expense;
+
+
+/* BALANCE */
+
+document.getElementById(
+"balance"
+).innerText =
+money(balance);
+
+
+/* CARRY */
+
+document.getElementById(
+"carry"
+).innerText =
+"ยอดยกมา " + money(carry);
+
+
+/* INCOME */
+
 document.getElementById(
 "income"
 ).innerText =
 money(income);
 
+
+/* EXPENSE */
 
 document.getElementById(
 "expense"
@@ -1101,13 +1175,7 @@ document.getElementById(
 money(expense);
 
 
-document.getElementById(
-"balance"
-).innerText =
-money(
-income-expense
-);
-
+/* COUNT */
 
 document.getElementById(
 "incomeCount"
@@ -1125,13 +1193,7 @@ x=>x.type==="expense"
 ).length;
 
 
-document.getElementById(
-"listTitle"
-).innerText =
-selectedDate
-? formatDate(selectedDate)
-: monthName(selectedMonth);
-
+/* LIST */
 
 const list =
 document.getElementById(
@@ -1144,9 +1206,13 @@ if(data.length===0){
 list.innerHTML =
 `
 <div class="empty">
-ยังไม่มีรายการ
+
+ยังไม่มีรายการในเดือนนี้
+
 <br><br>
+
 กด ＋ เพิ่มรายการ
+
 </div>
 `;
 
@@ -1174,9 +1240,13 @@ item.category
 </strong>
 
 <small>
+
 ${item.category}
+
 ·
+
 ${formatDate(item.date)}
+
 </small>
 
 <div class="actions">
@@ -1228,143 +1298,8 @@ ${money(item.amount)}
 }
 
 
-
 /* =================================
-   MONTH NAME
-================================= */
-
-function monthName(month){
-
-if(month==="all")
-return "รวมทุกเดือน";
-
-
-const date =
-new Date(
-month+"-01T00:00:00"
-);
-
-
-return date.toLocaleDateString(
-"th-TH",
-{
-month:"long",
-year:"numeric"
-}
-);
-
-}
-
-
-
-/* =================================
-   FORMAT DATE
-================================= */
-
-function formatDate(date){
-
-return new Date(
-date+"T00:00:00"
-)
-.toLocaleDateString(
-"th-TH",
-{
-day:"numeric",
-month:"short",
-year:"numeric"
-}
-);
-
-}
-
-
-
-/* =================================
-   MONEY
-================================= */
-
-function money(number){
-
-return "฿"+
-Number(number)
-.toLocaleString(
-"th-TH",
-{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-}
-);
-
-}
-
-
-
-/* =================================
-   ICON
-================================= */
-
-function getIcon(category){
-
-const icons={
-
-"เงินเดือน":"💰",
-"อาหาร":"🍜",
-"เดินทาง":"🚗",
-"ช้อปปิ้ง":"🛍️",
-"บิล":"🧾",
-"สุขภาพ":"❤️",
-"อื่นๆ":"📦"
-
-};
-
-return icons[category] || "📦";
-
-}
-
-
-
-/* =================================
-   TYPE
-================================= */
-
-function setType(type){
-
-currentType=type;
-
-document.getElementById(
-"incomeBtn"
-).className =
-"type-btn";
-
-
-document.getElementById(
-"expenseBtn"
-).className =
-"type-btn";
-
-
-if(type==="income"){
-
-document.getElementById(
-"incomeBtn"
-).className =
-"type-btn active-income";
-
-}else{
-
-document.getElementById(
-"expenseBtn"
-).className =
-"type-btn active-expense";
-
-}
-
-}
-
-
-
-/* =================================
-   MODAL
+   OPEN MODAL
 ================================= */
 
 function openModal(id=null){
@@ -1384,8 +1319,13 @@ x=>String(x.id)===String(id)
 );
 
 
-if(!item)
+if(!item){
+
+closeModal();
+
 return;
+
+}
 
 
 document.getElementById(
@@ -1439,12 +1379,15 @@ document.getElementById(
 ).value="";
 
 
+/*
+ถ้าเพิ่มรายการจากเดือนที่เลือก
+ให้วันที่เริ่มต้นเป็นเดือนนั้น
+*/
+
 document.getElementById(
 "itemDate"
 ).value =
-new Date()
-.toISOString()
-.slice(0,10);
+getDefaultDate();
 
 
 setType("income");
@@ -1453,6 +1396,38 @@ setType("income");
 
 }
 
+
+/* =================================
+   DEFAULT DATE
+================================= */
+
+function getDefaultDate(){
+
+const today =
+new Date();
+
+
+const todayMonth =
+today.toISOString().slice(0,7);
+
+
+if(todayMonth === currentMonth){
+
+return today
+.toISOString()
+.slice(0,10);
+
+}
+
+
+/*
+ถ้าเปิดเดือนเก่า/เดือนถัดไป
+ใช้วันที่ 1 ของเดือนนั้น
+*/
+
+return currentMonth + "-01";
+
+}
 
 
 /* =================================
@@ -1467,6 +1442,45 @@ document
 
 }
 
+
+/* =================================
+   TYPE
+================================= */
+
+function setType(type){
+
+currentType=type;
+
+
+document.getElementById(
+"incomeBtn"
+).className =
+"type-btn";
+
+
+document.getElementById(
+"expenseBtn"
+).className =
+"type-btn";
+
+
+if(type==="income"){
+
+document.getElementById(
+"incomeBtn"
+).className =
+"type-btn active-income";
+
+}else{
+
+document.getElementById(
+"expenseBtn"
+).className =
+"type-btn active-expense";
+
+}
+
+}
 
 
 /* =================================
@@ -1492,7 +1506,7 @@ document.getElementById(
 const note =
 document.getElementById(
 "note"
-).value;
+).value.trim();
 
 
 const date =
@@ -1523,7 +1537,9 @@ return;
 }
 
 
-/* EDIT */
+/*
+EDIT
+*/
 
 if(editId){
 
@@ -1566,7 +1582,9 @@ return;
 }
 
 
-/* NEW */
+/*
+NEW
+*/
 
 else{
 
@@ -1637,7 +1655,6 @@ await loadData();
 }
 
 
-
 /* =================================
    DELETE
 ================================= */
@@ -1682,9 +1699,77 @@ await loadData();
 }
 
 
+/* =================================
+   MONEY
+================================= */
+
+function money(number){
+
+return "฿" +
+Number(number)
+.toLocaleString(
+"th-TH",
+{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+}
+);
+
+}
+
 
 /* =================================
-   ESCAPE
+   FORMAT DATE
+================================= */
+
+function formatDate(date){
+
+return new Date(
+date+"T00:00:00"
+)
+.toLocaleDateString(
+"th-TH",
+{
+day:"numeric",
+month:"short",
+year:"numeric"
+}
+);
+
+}
+
+
+/* =================================
+   ICON
+================================= */
+
+function getIcon(category){
+
+const icons={
+
+"เงินเดือน":"💰",
+
+"อาหาร":"🍜",
+
+"เดินทาง":"🚗",
+
+"ช้อปปิ้ง":"🛍️",
+
+"บิล":"🧾",
+
+"สุขภาพ":"❤️",
+
+"อื่นๆ":"📦"
+
+};
+
+return icons[category] || "📦";
+
+}
+
+
+/* =================================
+   ESCAPE HTML
 ================================= */
 
 function escapeHTML(text){
@@ -1719,7 +1804,6 @@ return String(text)
 }
 
 
-
 /* =================================
    START
 ================================= */
@@ -1729,5 +1813,6 @@ checkSession();
 </script>
 
 </body>
+
 </html>
 ```
