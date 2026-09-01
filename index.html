@@ -21,7 +21,6 @@ body{
 }
 
 .container{
-    width:100%;
     max-width:520px;
     margin:auto;
     padding:18px 15px 100px;
@@ -33,7 +32,7 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:16px;
+    margin-bottom:15px;
 }
 
 .logo{
@@ -46,47 +45,79 @@ body{
 }
 
 .today{
-    color:#777;
     font-size:12px;
+    color:#777;
 }
 
 
-/* MONTH SELECT */
+/* FILTER */
 
-.month-box{
+.filter{
     background:white;
     border-radius:18px;
-    padding:12px 14px;
+    padding:14px;
     margin-bottom:15px;
     box-shadow:0 5px 20px rgba(0,0,0,.05);
 }
 
-.month-box label{
-    display:block;
+.filter-title{
+    font-size:12px;
     color:#888;
-    font-size:11px;
-    margin-bottom:5px;
+    margin-bottom:8px;
 }
 
-.month-select{
+.filter-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+select,
+input{
     width:100%;
-    border:0;
-    outline:0;
+    padding:12px;
+    border:1px solid #e1e4eb;
+    border-radius:12px;
     background:white;
-    font-size:16px;
+    font-size:14px;
+    outline:none;
+}
+
+select:focus,
+input:focus{
+    border-color:#5965f2;
+}
+
+.reset{
+    width:100%;
+    margin-top:9px;
+    padding:10px;
+    border:0;
+    border-radius:11px;
+    background:#f1f2f6;
+    color:#555;
     font-weight:bold;
-    color:#1f2937;
 }
 
 
 /* BALANCE */
 
 .balance-card{
-    background:linear-gradient(135deg,#5965f2,#7b83f7);
+    background:linear-gradient(
+        135deg,
+        #5965f2,
+        #7b83f7
+    );
+
     color:white;
+
     padding:24px;
+
     border-radius:24px;
-    box-shadow:0 12px 30px rgba(91,103,241,.25);
+
+    box-shadow:
+        0 12px 30px
+        rgba(91,103,241,.25);
 }
 
 .balance-title{
@@ -136,7 +167,9 @@ body{
     background:white;
     padding:17px;
     border-radius:19px;
-    box-shadow:0 5px 20px rgba(0,0,0,.05);
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,.05);
 }
 
 .stat-icon{
@@ -182,7 +215,9 @@ body{
     background:white;
     border-radius:20px;
     overflow:hidden;
-    box-shadow:0 5px 20px rgba(0,0,0,.05);
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,.05);
 }
 
 .item{
@@ -229,7 +264,7 @@ body{
 
 .amount-area{
     text-align:right;
-    min-width:100px;
+    min-width:105px;
 }
 
 .amount{
@@ -249,9 +284,9 @@ body{
 /* ACTION */
 
 .actions{
-    margin-top:7px;
     display:flex;
     gap:5px;
+    margin-top:7px;
     justify-content:flex-end;
 }
 
@@ -260,11 +295,6 @@ body{
     background:#f3f4f6;
     border-radius:8px;
     padding:5px 8px;
-    cursor:pointer;
-}
-
-.action-btn:hover{
-    background:#e5e7eb;
 }
 
 
@@ -277,24 +307,32 @@ body{
 }
 
 
-/* ADD BUTTON */
+/* ADD */
 
 .add-button{
     position:fixed;
     bottom:20px;
     left:50%;
     transform:translateX(-50%);
+
     width:calc(100% - 30px);
     max-width:490px;
+
     border:0;
+
     background:#172033;
     color:white;
+
     padding:16px;
+
     border-radius:17px;
+
     font-size:16px;
     font-weight:bold;
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
-    cursor:pointer;
+
+    box-shadow:
+        0 10px 25px
+        rgba(0,0,0,.2);
 }
 
 
@@ -302,11 +340,15 @@ body{
 
 .modal{
     display:none;
+
     position:fixed;
     inset:0;
+
     background:rgba(0,0,0,.45);
+
     align-items:flex-end;
     justify-content:center;
+
     z-index:100;
 }
 
@@ -315,11 +357,16 @@ body{
 }
 
 .modal-box{
-    background:white;
     width:100%;
     max-width:520px;
-    border-radius:25px 25px 0 0;
+
+    background:white;
+
+    border-radius:
+        25px 25px 0 0;
+
     padding:22px;
+
     max-height:90vh;
     overflow:auto;
 }
@@ -362,23 +409,17 @@ label{
     color:#666;
 }
 
-input,
-select{
-    width:100%;
-    padding:13px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    font-size:15px;
-}
-
 .save-btn{
     width:100%;
     margin-top:17px;
     padding:14px;
+
     border:0;
     border-radius:13px;
+
     background:#5965f2;
     color:white;
+
     font-size:15px;
     font-weight:bold;
 }
@@ -387,10 +428,13 @@ select{
     width:100%;
     margin-top:8px;
     padding:13px;
+
     border:0;
     border-radius:13px;
+
     background:#f1f2f5;
     color:#555;
+
     font-weight:bold;
 }
 
@@ -400,169 +444,201 @@ select{
 
 <body>
 
+
 <div class="container">
 
 
-    <!-- HEADER -->
+<!-- HEADER -->
 
-    <div class="header">
+<div class="header">
 
-        <div class="logo">
-            <span>รายรับรายจ่าย</span>
-        </div>
+    <div class="logo">
+        <span>รายรับรายจ่าย</span>
+    </div>
 
-        <div class="today" id="today"></div>
+    <div
+        class="today"
+        id="today">
+    </div>
 
+</div>
+
+
+
+<!-- FILTER -->
+
+<div class="filter">
+
+    <div class="filter-title">
+        🔎 เลือกช่วงเวลาที่ต้องการดู
     </div>
 
 
-    <!-- MONTH -->
+    <div class="filter-grid">
 
-    <div class="month-box">
-
-        <label>
-            ดูข้อมูล
-        </label>
+        <!-- MONTH -->
 
         <select
-            class="month-select"
             id="monthSelect"
-            onchange="changeMonth()">
+            onchange="changeFilter()">
 
         </select>
 
+
+        <!-- DATE -->
+
+        <input
+            type="date"
+            id="dateFilter"
+            onchange="changeFilter()">
+
     </div>
 
 
-    <!-- BALANCE -->
+    <button
+        class="reset"
+        onclick="resetFilter()">
 
-    <div class="balance-card">
+        🔄 ดูทั้งหมด
 
-        <div class="balance-title">
-            ยอดคงเหลือ
+    </button>
+
+</div>
+
+
+
+<!-- BALANCE -->
+
+<div class="balance-card">
+
+    <div class="balance-title">
+        ยอดคงเหลือ
+    </div>
+
+    <div
+        class="balance"
+        id="balance">
+
+        ฿0.00
+
+    </div>
+
+
+    <div class="summary">
+
+        <div class="summary-box">
+
+            <small>
+                รายรับ
+            </small>
+
+            <strong
+                id="income">
+
+                ฿0.00
+
+            </strong>
+
+        </div>
+
+
+        <div class="summary-box">
+
+            <small>
+                รายจ่าย
+            </small>
+
+            <strong
+                id="expense">
+
+                ฿0.00
+
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- STATS -->
+
+<div class="stats">
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            💰
+        </div>
+
+        <div class="stat-title">
+            รายการรับ
         </div>
 
         <div
-            class="balance"
-            id="balance">
+            class="stat-number"
+            id="incomeCount">
 
-            ฿0.00
-
-        </div>
-
-
-        <div class="summary">
-
-            <div class="summary-box">
-
-                <small>
-                    รายรับ
-                </small>
-
-                <strong
-                    id="income">
-
-                    ฿0.00
-
-                </strong>
-
-            </div>
-
-
-            <div class="summary-box">
-
-                <small>
-                    รายจ่าย
-                </small>
-
-                <strong
-                    id="expense">
-
-                    ฿0.00
-
-                </strong>
-
-            </div>
+            0
 
         </div>
 
     </div>
 
 
-    <!-- STATS -->
+    <div class="stat-card">
 
-    <div class="stats">
-
-        <div class="stat-card">
-
-            <div class="stat-icon">
-                💰
-            </div>
-
-            <div class="stat-title">
-                จำนวนรายการรับ
-            </div>
-
-            <div
-                class="stat-number"
-                id="incomeCount">
-
-                0
-
-            </div>
-
+        <div class="stat-icon">
+            💸
         </div>
 
+        <div class="stat-title">
+            รายการจ่าย
+        </div>
 
-        <div class="stat-card">
+        <div
+            class="stat-number"
+            id="expenseCount">
 
-            <div class="stat-icon">
-                💸
-            </div>
-
-            <div class="stat-title">
-                จำนวนรายการจ่าย
-            </div>
-
-            <div
-                class="stat-number"
-                id="expenseCount">
-
-                0
-
-            </div>
+            0
 
         </div>
 
     </div>
 
-
-    <!-- LIST -->
-
-    <div class="section-title">
-
-        <h2>
-            รายการ
-        </h2>
-
-        <span id="listTitle">
-            รวมทุกเดือน
-        </span>
-
-    </div>
+</div>
 
 
-    <div
-        class="list"
-        id="list">
 
-    </div>
+<!-- LIST -->
+
+<div class="section-title">
+
+    <h2>
+        รายการ
+    </h2>
+
+    <span
+        id="listTitle">
+    </span>
+
+</div>
+
+
+<div
+    class="list"
+    id="list">
+
+</div>
 
 
 </div>
 
 
-<!-- ADD BUTTON -->
+
+<!-- ADD -->
 
 <button
     class="add-button"
@@ -580,7 +656,9 @@ select{
     class="modal"
     id="modal">
 
+
     <div class="modal-box">
+
 
         <h2 id="modalTitle">
             เพิ่มรายการ
@@ -613,6 +691,7 @@ select{
         </div>
 
 
+
         <!-- AMOUNT -->
 
         <label>
@@ -627,13 +706,15 @@ select{
         >
 
 
+
         <!-- CATEGORY -->
 
         <label>
             หมวดหมู่
         </label>
 
-        <select id="category">
+        <select
+            id="category">
 
             <option value="เงินเดือน">
                 💰 เงินเดือน
@@ -666,6 +747,7 @@ select{
         </select>
 
 
+
         <!-- NOTE -->
 
         <label>
@@ -679,6 +761,7 @@ select{
         >
 
 
+
         <!-- DATE -->
 
         <label>
@@ -689,6 +772,7 @@ select{
             type="date"
             id="date"
         >
+
 
 
         <button
@@ -707,6 +791,7 @@ select{
             ยกเลิก
 
         </button>
+
 
     </div>
 
@@ -727,19 +812,25 @@ let items =
     );
 
 
-/* CURRENT TYPE */
+/* TYPE */
 
-let currentType = "income";
-
-
-/* EDIT ID */
-
-let editId = null;
+let currentType =
+    "income";
 
 
-/* CURRENT MONTH */
+/* EDIT */
 
-let selectedMonth = "all";
+let editId =
+    null;
+
+
+/* FILTER */
+
+let selectedMonth =
+    "all";
+
+let selectedDate =
+    "";
 
 
 /* MONEY */
@@ -761,7 +852,8 @@ function money(number){
 
 /* TODAY */
 
-document.getElementById("today")
+document
+.getElementById("today")
 .innerText =
     new Date()
     .toLocaleDateString(
@@ -774,6 +866,7 @@ document.getElementById("today")
     );
 
 
+
 /* MONTH NAME */
 
 function monthName(month){
@@ -784,7 +877,8 @@ function monthName(month){
 
     const date =
         new Date(
-            month + "-01T00:00:00"
+            month +
+            "-01T00:00:00"
         );
 
 
@@ -799,7 +893,30 @@ function monthName(month){
 }
 
 
-/* CREATE MONTH LIST */
+/* DATE NAME */
+
+function dateName(date){
+
+    if(!date)
+        return "";
+
+
+    return new Date(
+        date + "T00:00:00"
+    )
+    .toLocaleDateString(
+        "th-TH",
+        {
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* CREATE MONTHS */
 
 function createMonthList(){
 
@@ -809,20 +926,20 @@ function createMonthList(){
         );
 
 
-    const months = new Set();
+    const months =
+        new Set();
 
 
     /* CURRENT MONTH */
 
-    const now =
+    months.add(
         new Date()
         .toISOString()
-        .slice(0,7);
+        .slice(0,7)
+    );
 
-    months.add(now);
 
-
-    /* MONTHS FROM DATA */
+    /* FROM DATA */
 
     items.forEach(item => {
 
@@ -837,8 +954,10 @@ function createMonthList(){
     });
 
 
-    const sortedMonths =
-        [...months].sort().reverse();
+    const sorted =
+        [...months]
+        .sort()
+        .reverse();
 
 
     select.innerHTML =
@@ -847,7 +966,7 @@ function createMonthList(){
         </option>`;
 
 
-    sortedMonths.forEach(month => {
+    sorted.forEach(month => {
 
         select.innerHTML +=
             `
@@ -865,13 +984,20 @@ function createMonthList(){
 }
 
 
-/* CHANGE MONTH */
 
-function changeMonth(){
+/* FILTER CHANGE */
+
+function changeFilter(){
 
     selectedMonth =
         document.getElementById(
             "monthSelect"
+        ).value;
+
+
+    selectedDate =
+        document.getElementById(
+            "dateFilter"
         ).value;
 
 
@@ -880,11 +1006,42 @@ function changeMonth(){
 }
 
 
-/* TYPE */
+
+/* RESET */
+
+function resetFilter(){
+
+    selectedMonth =
+        "all";
+
+    selectedDate =
+        "";
+
+
+    document.getElementById(
+        "monthSelect"
+    ).value =
+        "all";
+
+
+    document.getElementById(
+        "dateFilter"
+    ).value =
+        "";
+
+
+    render();
+
+}
+
+
+
+/* SET TYPE */
 
 function setType(type){
 
-    currentType = type;
+    currentType =
+        type;
 
 
     const incomeBtn =
@@ -922,16 +1079,18 @@ function setType(type){
 }
 
 
-/* OPEN MODAL */
+
+/* OPEN */
 
 function openModal(id = null){
 
-    editId = id;
+    editId =
+        id;
 
 
     document
-        .getElementById("modal")
-        .classList.add("show");
+    .getElementById("modal")
+    .classList.add("show");
 
 
     if(id !== null){
@@ -942,7 +1101,8 @@ function openModal(id = null){
             );
 
 
-        if(!item) return;
+        if(!item)
+            return;
 
 
         document.getElementById(
@@ -951,7 +1111,9 @@ function openModal(id = null){
             "แก้ไขรายการ";
 
 
-        setType(item.type);
+        setType(
+            item.type
+        );
 
 
         document.getElementById(
@@ -989,12 +1151,14 @@ function openModal(id = null){
 
         document.getElementById(
             "amount"
-        ).value = "";
+        ).value =
+            "";
 
 
         document.getElementById(
             "note"
-        ).value = "";
+        ).value =
+            "";
 
 
         document.getElementById(
@@ -1005,11 +1169,14 @@ function openModal(id = null){
             .slice(0,10);
 
 
-        setType("income");
+        setType(
+            "income"
+        );
 
     }
 
 }
+
 
 
 /* CLOSE */
@@ -1017,10 +1184,11 @@ function openModal(id = null){
 function closeModal(){
 
     document
-        .getElementById("modal")
-        .classList.remove("show");
+    .getElementById("modal")
+    .classList.remove("show");
 
 }
+
 
 
 /* SAVE */
@@ -1053,7 +1221,10 @@ function saveItem(){
         ).value;
 
 
-    if(!amount || amount <= 0){
+    if(
+        !amount ||
+        amount <= 0
+    ){
 
         alert(
             "กรุณากรอกจำนวนเงิน"
@@ -1091,40 +1262,51 @@ function saveItem(){
 
                 ...items[index],
 
-                type:currentType,
+                type:
+                    currentType,
 
-                amount:amount,
+                amount:
+                    amount,
 
-                category:category,
+                category:
+                    category,
 
-                note:note,
+                note:
+                    note,
 
-                date:date
+                date:
+                    date
 
             };
 
         }
 
-
     }
 
-    /* ADD */
+
+    /* NEW */
 
     else{
 
         items.push({
 
-            id:Date.now(),
+            id:
+                Date.now(),
 
-            type:currentType,
+            type:
+                currentType,
 
-            amount:amount,
+            amount:
+                amount,
 
-            category:category,
+            category:
+                category,
 
-            note:note,
+            note:
+                note,
 
-            date:date
+            date:
+                date
 
         });
 
@@ -1137,7 +1319,8 @@ function saveItem(){
     );
 
 
-    editId = null;
+    editId =
+        null;
 
 
     createMonthList();
@@ -1151,6 +1334,7 @@ function saveItem(){
 }
 
 
+
 /* DELETE */
 
 function deleteItem(id){
@@ -1161,23 +1345,30 @@ function deleteItem(id){
         );
 
 
-    if(!item) return;
+    if(!item)
+        return;
 
 
-    const confirmDelete =
+    const ok =
         confirm(
+
             "ต้องการลบรายการนี้หรือไม่?\n\n" +
 
-            (item.note ||
-             item.category) +
+            (
+                item.note ||
+                item.category
+            ) +
 
             "\n" +
 
-            money(item.amount)
+            money(
+                item.amount
+            )
+
         );
 
 
-    if(!confirmDelete)
+    if(!ok)
         return;
 
 
@@ -1201,80 +1392,117 @@ function deleteItem(id){
 }
 
 
+
 /* ICON */
 
 function getIcon(category){
 
     const icons = {
 
-        "เงินเดือน":"💰",
+        "เงินเดือน":
+            "💰",
 
-        "อาหาร":"🍜",
+        "อาหาร":
+            "🍜",
 
-        "เดินทาง":"🚗",
+        "เดินทาง":
+            "🚗",
 
-        "ช้อปปิ้ง":"🛍️",
+        "ช้อปปิ้ง":
+            "🛍️",
 
-        "บิล":"🧾",
+        "บิล":
+            "🧾",
 
-        "สุขภาพ":"❤️",
+        "สุขภาพ":
+            "❤️",
 
-        "อื่นๆ":"📦"
+        "อื่นๆ":
+            "📦"
 
     };
 
 
-    return icons[category] || "📦";
+    return (
+        icons[category] ||
+        "📦"
+    );
 
 }
+
 
 
 /* RENDER */
 
 function render(){
 
-    let data = items;
+    let data =
+        [...items];
 
 
-    /* FILTER MONTH */
+    /* MONTH FILTER */
 
-    if(selectedMonth !== "all"){
+    if(
+        selectedMonth !==
+        "all"
+    ){
 
         data =
-            items.filter(
+            data.filter(
                 item =>
                     item.date &&
-                    item.date.slice(0,7)
+                    item.date
+                    .slice(0,7)
                     === selectedMonth
             );
 
     }
 
 
-    /* TOTAL INCOME */
+    /* DATE FILTER */
+
+    if(selectedDate){
+
+        data =
+            data.filter(
+                item =>
+                    item.date
+                    === selectedDate
+            );
+
+    }
+
+
+    /* INCOME */
 
     const income =
         data
         .filter(
-            x => x.type === "income"
+            x =>
+                x.type ===
+                "income"
         )
         .reduce(
             (sum,x) =>
-                sum + Number(x.amount),
+                sum +
+                Number(x.amount),
             0
         );
 
 
-    /* TOTAL EXPENSE */
+    /* EXPENSE */
 
     const expense =
         data
         .filter(
-            x => x.type === "expense"
+            x =>
+                x.type ===
+                "expense"
         )
         .reduce(
             (sum,x) =>
-                sum + Number(x.amount),
+                sum +
+                Number(x.amount),
             0
         );
 
@@ -1297,7 +1525,8 @@ function render(){
         "balance"
     ).innerText =
         money(
-            income - expense
+            income -
+            expense
         );
 
 
@@ -1305,7 +1534,9 @@ function render(){
         "incomeCount"
     ).innerText =
         data.filter(
-            x => x.type === "income"
+            x =>
+                x.type ===
+                "income"
         ).length;
 
 
@@ -1313,24 +1544,45 @@ function render(){
         "expenseCount"
     ).innerText =
         data.filter(
-            x => x.type === "expense"
+            x =>
+                x.type ===
+                "expense"
         ).length;
+
+
+
+    /* TITLE */
+
+    let title =
+        monthName(
+            selectedMonth
+        );
+
+
+    if(selectedDate){
+
+        title =
+            dateName(
+                selectedDate
+            );
+
+    }
 
 
     document.getElementById(
         "listTitle"
     ).innerText =
-        monthName(selectedMonth);
+        title;
+
 
 
     /* SORT */
 
-    data =
-        [...data].sort(
-            (a,b) =>
-                new Date(b.date) -
-                new Date(a.date)
-        );
+    data.sort(
+        (a,b) =>
+            new Date(b.date) -
+            new Date(a.date)
+    );
 
 
     const list =
@@ -1351,8 +1603,7 @@ function render(){
 
                 <br><br>
 
-                กด “＋ เพิ่มรายการ”
-                เพื่อเริ่มบันทึก
+                ลองเลือกวันหรือเดือนอื่น
 
             </div>
 
@@ -1361,6 +1612,7 @@ function render(){
         return;
 
     }
+
 
 
     /* LIST */
@@ -1434,13 +1686,15 @@ function render(){
                     <div
                         class="amount
                         ${
-                            item.type === "income"
+                            item.type ===
+                            "income"
                             ? "income"
                             : "expense"
                         }">
 
                         ${
-                            item.type === "income"
+                            item.type ===
+                            "income"
                             ? "+"
                             : "−"
                         }
@@ -1460,12 +1714,14 @@ function render(){
 }
 
 
-/* DATE */
+
+/* FORMAT DATE */
 
 function formatDate(date){
 
     return new Date(
-        date + "T00:00:00"
+        date +
+        "T00:00:00"
     )
     .toLocaleDateString(
         "th-TH",
@@ -1477,6 +1733,7 @@ function formatDate(date){
     );
 
 }
+
 
 
 /* SECURITY */
@@ -1513,6 +1770,7 @@ function escapeHTML(text){
 }
 
 
+
 /* CLICK OUTSIDE */
 
 document
@@ -1521,7 +1779,10 @@ document
     "click",
     function(e){
 
-        if(e.target === this){
+        if(
+            e.target ===
+            this
+        ){
 
             closeModal();
 
@@ -1529,6 +1790,7 @@ document
 
     }
 );
+
 
 
 /* START */
