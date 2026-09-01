@@ -3267,11 +3267,15 @@ await supabaseClient
 .from("salary_items")
 .insert({
 
-user_id:user.id,
+user_id: user.id,
 
-name:name,
+name: name,
 
-type:salaryItemType
+type: salaryItemType,
+
+month: currentSalaryMonth,
+
+amount: 0
 
 });
 
