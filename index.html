@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 
 <html lang="th">
@@ -671,12 +672,7 @@ button{
 
 <body>
 
-<!-- =========================================================
-     LOGIN
-========================================================= -->
-
 <div id="loginPage" class="container">
-
 
 <div class="login-card">
 
@@ -708,15 +704,10 @@ button{
 
 </div>
 
-
 </div>
 
-<!-- =========================================================
-     APP
-========================================================= -->
 
 <div id="app" class="container hidden">
-
 
 <div class="header">
 
@@ -732,10 +723,6 @@ button{
 
 </div>
 
-
-<!-- =====================================================
-     HOME
-===================================================== -->
 
 <section id="homePage" class="page active">
 
@@ -873,10 +860,6 @@ button{
 </section>
 
 
-<!-- =====================================================
-     SALARY
-===================================================== -->
-
 <section id="salaryPage" class="page">
 
     <div class="month-card">
@@ -929,8 +912,6 @@ button{
     </div>
 
 
-    <!-- BASIC INCOME -->
-
     <div class="salary-form">
 
         <div class="salary-section">
@@ -947,6 +928,38 @@ button{
                 placeholder="0"
                 oninput="calculateSalary()">
 
+
+            <!-- OT 1 -->
+
+            <label>OT 1 เท่า (ชั่วโมง)</label>
+
+            <input
+                id="salaryOT1Hours"
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.5"
+                placeholder="จำนวนชั่วโมง OT 1"
+                oninput="calculateSalary()">
+
+            <div class="ot-info">
+
+                สูตร:
+                <strong>
+                    เงินเดือน ÷ 30 ÷ 8 × 1 × ชั่วโมง
+                </strong>
+
+                <br>
+
+                ค่า OT 1:
+                <strong id="salaryOT1Display">
+                    ฿0.00
+                </strong>
+
+            </div>
+
+
+            <!-- OT 1.5 -->
 
             <label>OT 1.5 เท่า (ชั่วโมง)</label>
 
@@ -975,6 +988,8 @@ button{
 
             </div>
 
+
+            <!-- OT 3 -->
 
             <label>OT 3 เท่า (ชั่วโมง)</label>
 
@@ -1048,8 +1063,6 @@ button{
     </div>
 
 
-    <!-- CUSTOM INCOME -->
-
     <div class="card salary-section">
 
         <div
@@ -1065,8 +1078,6 @@ button{
     </div>
 
 
-    <!-- INCOME SUMMARY -->
-
     <div class="card salary-section">
 
         <h3>📥 สรุปรายรับ</h3>
@@ -1078,6 +1089,21 @@ button{
 
             <strong
                 id="showBase"
+                class="salary-income">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <!-- OT 1 SUMMARY -->
+
+        <div class="salary-row">
+
+            <span>OT 1 เท่า</span>
+
+            <strong
+                id="showOT1"
                 class="salary-income">
                 ฿0.00
             </strong>
@@ -1194,8 +1220,6 @@ button{
     </div>
 
 
-    <!-- DEDUCTION -->
-
     <div class="salary-form">
 
         <div class="salary-section">
@@ -1237,8 +1261,6 @@ button{
     </div>
 
 
-    <!-- CUSTOM DEDUCTION -->
-
     <div class="card salary-section">
 
         <div
@@ -1253,8 +1275,6 @@ button{
 
     </div>
 
-
-    <!-- DEDUCTION SUMMARY -->
 
     <div class="card salary-section">
 
@@ -1326,10 +1346,6 @@ button{
 
 </section>
 
-
-<!-- =====================================================
-     SUMMARY
-===================================================== -->
 
 <section id="summaryPage" class="page">
 
@@ -1435,10 +1451,6 @@ button{
 </section>
 
 
-<!-- =====================================================
-     SETTINGS
-===================================================== -->
-
 <section id="settingsPage" class="page">
 
     <div class="card">
@@ -1491,10 +1503,6 @@ button{
 
 </div>
 
-<!-- =========================================================
-     ADD TRANSACTION BUTTON
-     แสดงเฉพาะหน้าหลัก
-========================================================= -->
 
 <button
  id="addButton"
@@ -1502,9 +1510,6 @@ button{
  onclick="openModal()">
 ＋ เพิ่มรายการ </button>
 
-<!-- =========================================================
-     NAV
-========================================================= -->
 
 <nav
     id="bottomNav"
@@ -1557,9 +1562,6 @@ button{
 
 </nav>
 
-<!-- =========================================================
-     TRANSACTION MODAL
-========================================================= -->
 
 <div
     id="modal"
@@ -1670,9 +1672,6 @@ button{
 
 </div>
 
-<!-- =========================================================
-     SALARY ITEM MODAL
-========================================================= -->
 
 <div
     id="salaryItemModal"
@@ -1714,7 +1713,6 @@ button{
 
 </div>
 
-<!-- TOAST -->
 
 <div
     id="toast"
@@ -1722,9 +1720,6 @@ button{
     บันทึกเรียบร้อย
 </div>
 
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
 
 <script>
 
@@ -1905,6 +1900,19 @@ function escapeHtml(value){
 /* =========================================================
    OT
 ========================================================= */
+
+function calculateOT1Amount(base,hours){
+
+    return (
+        (Number(base) || 0)
+        / 30
+        / 8
+        * 1
+        * (Number(hours) || 0)
+    );
+
+}
+
 
 function calculateOT15Amount(base,hours){
 
@@ -2101,6 +2109,7 @@ function getSavedCustomDeduction(salary){
 function buildSalaryBreakdown({
 
     base = 0,
+    ot1 = 0,
     ot15 = 0,
     ot3 = 0,
     attendance = 0,
@@ -2116,6 +2125,7 @@ function buildSalaryBreakdown({
 } = {}){
 
     const totalOT =
+        (Number(ot1) || 0) +
         (Number(ot15) || 0) +
         (Number(ot3) || 0);
 
@@ -2141,6 +2151,8 @@ function buildSalaryBreakdown({
     return {
 
         base:Number(base) || 0,
+
+        ot1:Number(ot1) || 0,
 
         ot15:Number(ot15) || 0,
 
@@ -2194,6 +2206,36 @@ function getSalaryBreakdown(salary){
             salary.base_salary
         ) || 0;
 
+
+    /* OT 1 */
+
+    let ot1 = 0;
+
+    if(
+        salary.ot_1_hours !== null &&
+        salary.ot_1_hours !== undefined
+    ){
+
+        ot1 =
+            calculateOT1Amount(
+                base,
+                Number(
+                    salary.ot_1_hours
+                ) || 0
+            );
+
+    }else{
+
+        ot1 =
+            Number(
+                salary.ot_1
+            ) || 0;
+
+    }
+
+
+    /* OT 1.5 */
+
     let ot15 = 0;
 
     if(
@@ -2218,6 +2260,8 @@ function getSalaryBreakdown(salary){
 
     }
 
+
+    /* OT 3 */
 
     let ot3 = 0;
 
@@ -2247,6 +2291,8 @@ function getSalaryBreakdown(salary){
     return buildSalaryBreakdown({
 
         base,
+
+        ot1,
 
         ot15,
 
@@ -2293,11 +2339,22 @@ function calculateSalary(){
     const base =
         salaryNumber("salaryBase");
 
+
+    const ot1Hours =
+        salaryNumber("salaryOT1Hours");
+
     const ot15Hours =
         salaryNumber("salaryOT15Hours");
 
     const ot3Hours =
         salaryNumber("salaryOT3Hours");
+
+
+    const ot1 =
+        calculateOT1Amount(
+            base,
+            ot1Hours
+        );
 
     const ot15 =
         calculateOT15Amount(
@@ -2311,10 +2368,13 @@ function calculateSalary(){
             ot3Hours
         );
 
+
     const breakdown =
         buildSalaryBreakdown({
 
             base,
+
+            ot1,
 
             ot15,
 
@@ -2351,6 +2411,11 @@ function calculateSalary(){
 
 
     setMoney(
+        "salaryOT1Display",
+        breakdown.ot1
+    );
+
+    setMoney(
         "salaryOT15Display",
         breakdown.ot15
     );
@@ -2370,6 +2435,11 @@ function calculateSalary(){
     setMoney(
         "showBase",
         breakdown.base
+    );
+
+    setMoney(
+        "showOT1",
+        breakdown.ot1
     );
 
     setMoney(
@@ -2710,15 +2780,24 @@ function loadSalaryMonth(){
         salary.base_salary
     );
 
+
+    setInputValue(
+        "salaryOT1Hours",
+        salary.ot_1_hours ?? 0
+    );
+
+
     setInputValue(
         "salaryOT15Hours",
         salary.ot_15_hours ?? 0
     );
 
+
     setInputValue(
         "salaryOT3Hours",
         salary.ot_3_hours ?? 0
     );
+
 
     setInputValue(
         "salaryAttendance",
@@ -2774,14 +2853,25 @@ function clearSalaryForm(){
     const fields = [
 
         "salaryBase",
+
+        "salaryOT1Hours",
+
         "salaryOT15Hours",
+
         "salaryOT3Hours",
+
         "salaryAttendance",
+
         "salaryTravel",
+
         "salaryBonus",
+
         "salaryOtherIncome",
+
         "salarySocial",
+
         "salaryTax",
+
         "salaryOtherDeduction"
 
     ];
@@ -2874,11 +2964,22 @@ async function saveSalary(){
         const base =
             salaryNumber("salaryBase");
 
+
+        const ot1Hours =
+            salaryNumber("salaryOT1Hours");
+
         const ot15Hours =
             salaryNumber("salaryOT15Hours");
 
         const ot3Hours =
             salaryNumber("salaryOT3Hours");
+
+
+        const ot1 =
+            calculateOT1Amount(
+                base,
+                ot1Hours
+            );
 
         const ot15 =
             calculateOT15Amount(
@@ -2924,17 +3025,33 @@ async function saveSalary(){
             base_salary:
                 base,
 
+
+            /* OT 1 */
+
+            ot_1_hours:
+                ot1Hours,
+
+            ot_1:
+                ot1,
+
+
+            /* OT 1.5 */
+
             ot_15_hours:
                 ot15Hours,
-
-            ot_3_hours:
-                ot3Hours,
 
             ot_15:
                 ot15,
 
+
+            /* OT 3 */
+
+            ot_3_hours:
+                ot3Hours,
+
             ot_3:
                 ot3,
+
 
             attendance:
                 salaryNumber(
@@ -3355,6 +3472,7 @@ async function loadSalaryItems(){
     renderCustomSalaryInputs();
 
     renderSettingsSalaryItems();
+
 
 }
 
@@ -3865,11 +3983,6 @@ function renderTransactions(){
     }
 
 
-    /*
-       คำนวณยอดยกมา
-       จากรายการก่อนเดือนปัจจุบัน
-    */
-
     let carry = 0;
 
 
@@ -4359,7 +4472,9 @@ async function saveItem(){
     const wasEditing =
         Boolean(editingTransactionId);
 
+
     closeModal();
+
 
     showToast(
         wasEditing
@@ -4472,7 +4587,6 @@ function showToast(message){
 
 /* =========================================================
    PAGE NAVIGATION
-   ปุ่มเพิ่มรายการแสดงเฉพาะ HOME
 ========================================================= */
 
 function showPage(
@@ -4536,11 +4650,6 @@ function showPage(
 
     }
 
-
-    /* =====================================================
-       ปุ่ม ＋ เพิ่มรายการ
-       แสดงเฉพาะหน้าหลัก
-    ===================================================== */
 
     const addButton =
         document.getElementById(
@@ -4806,7 +4915,6 @@ async function showApp(){
 
     if(addButton){
 
-        /* เริ่มต้นอยู่หน้าหลัก */
         addButton.classList.remove(
             "hidden"
         );
@@ -4849,7 +4957,6 @@ async function showApp(){
     await loadSalaries();
 
 
-    /* ยืนยันว่าเปิดหน้า HOME และแสดงปุ่มเพิ่มรายการ */
     showPage(
         "home",
         document.querySelector(
@@ -4913,3 +5020,4 @@ document.addEventListener(
 </body>
 
 </html>
+```
