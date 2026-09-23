@@ -1,5 +1,5 @@
-
 <!DOCTYPE html>
+
 <html lang="th">
 
 <head>
@@ -487,6 +487,23 @@ color:#e65362;
 }
 
 
+/* OT */
+
+.ot-info{
+margin-top:8px;
+padding:10px 12px;
+background:#f5f6fa;
+border-radius:10px;
+font-size:13px;
+color:#666;
+line-height:1.7;
+}
+
+.ot-info strong{
+color:#5965f2;
+}
+
+
 /* CUSTOM SALARY ITEM */
 
 .custom-item{
@@ -635,9 +652,7 @@ display:block;
 
 </head>
 
-
 <body>
-
 
 <!-- LOGIN -->
 
@@ -680,12 +695,9 @@ class="error">
 
 </div>
 
-
-
 <!-- APP -->
 
 <div id="app" class="container hidden">
-
 
 <div class="header">
 
@@ -703,13 +715,11 @@ onclick="logout()">
 
 </div>
 
-
 <!-- HOME -->
 
 <section
 id="homePage"
 class="page active">
-
 
 <div class="month-card">
 
@@ -718,8 +728,7 @@ class="page active">
 <button
 class="month-button"
 onclick="changeMonth(-1)">
-‹
-</button>
+‹ </button>
 
 <div class="month-center">
 
@@ -738,13 +747,11 @@ class="month-label">
 <button
 class="month-button"
 onclick="changeMonth(1)">
-›
-</button>
+› </button>
 
 </div>
 
 </div>
-
 
 <div class="balance-card">
 
@@ -790,7 +797,6 @@ id="carry">
 
 </div>
 
-
 <div class="stats">
 
 <div class="stat-card">
@@ -827,7 +833,6 @@ id="expenseCount">
 
 </div>
 
-
 <div class="section-title">
 
 <h2>รายการเดือนนี้</h2>
@@ -838,23 +843,18 @@ id="expenseCount">
 
 </div>
 
-
 <div
 id="list"
 class="list">
 </div>
 
-
 </section>
-
-
 
 <!-- SALARY -->
 
 <section
 id="salaryPage"
 class="page">
-
 
 <div class="month-card">
 
@@ -863,8 +863,7 @@ class="page">
 <button
 class="month-button"
 onclick="changeSalaryMonth(-1)">
-‹
-</button>
+‹ </button>
 
 <div class="month-center">
 
@@ -883,13 +882,11 @@ class="month-label">
 <button
 class="month-button"
 onclick="changeSalaryMonth(1)">
-›
-</button>
+› </button>
 
 </div>
 
 </div>
-
 
 <div class="salary-net">
 
@@ -904,7 +901,6 @@ class="salary-net-number">
 </div>
 
 </div>
-
 
 <!-- BASIC INCOME -->
 
@@ -923,16 +919,26 @@ inputmode="decimal"
 placeholder="0"
 oninput="calculateSalary()">
 
-
-<label>OT</label>
+<label>OT 1.5 เท่า</label>
 
 <input
-id="salaryOT"
+id="salaryOTDays"
 type="number"
-inputmode="decimal"
-placeholder="0"
+inputmode="numeric"
+min="0"
+step="1"
+placeholder="จำนวนวัน"
 oninput="calculateSalary()">
 
+<div class="ot-info">
+
+1 วัน = <strong>3 ชั่วโมง</strong>
+
+<br>
+
+ค่า OT ที่คำนวณได้: <strong id="salaryOTDisplay">฿0.00</strong>
+
+</div>
 
 <label>เบี้ยขยัน</label>
 
@@ -943,7 +949,6 @@ inputmode="decimal"
 placeholder="0"
 oninput="calculateSalary()">
 
-
 <label>ค่าเดินทาง</label>
 
 <input
@@ -953,7 +958,6 @@ inputmode="decimal"
 placeholder="0"
 oninput="calculateSalary()">
 
-
 <label>โบนัส</label>
 
 <input
@@ -962,7 +966,6 @@ type="number"
 inputmode="decimal"
 placeholder="0"
 oninput="calculateSalary()">
-
 
 <label>รายได้อื่น ๆ</label>
 
@@ -976,8 +979,6 @@ oninput="calculateSalary()">
 </div>
 
 </div>
-
-
 
 <!-- CUSTOM INCOME -->
 
@@ -1002,8 +1003,6 @@ onclick="openSalaryItemModal('income')">
 
 </div>
 
-
-
 <!-- INCOME SUMMARY -->
 
 <div class="card salary-section">
@@ -1017,20 +1016,18 @@ onclick="openSalaryItemModal('income')">
 <strong
 id="showBase"
 class="salary-income">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
 <div class="salary-row">
 
-<span>OT</span>
+<span>OT 1.5 เท่า</span>
 
 <strong
 id="showOT"
 class="salary-income">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
@@ -1041,8 +1038,7 @@ class="salary-income">
 <strong
 id="showAttendance"
 class="salary-income">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
@@ -1053,8 +1049,7 @@ class="salary-income">
 <strong
 id="showTravel"
 class="salary-income">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
@@ -1065,8 +1060,7 @@ class="salary-income">
 <strong
 id="showBonus"
 class="salary-income">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
@@ -1077,8 +1071,7 @@ class="salary-income">
 <strong
 id="showOtherIncome"
 class="salary-income">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
@@ -1092,14 +1085,11 @@ class="salary-income">
 <strong
 id="showTotalIncome"
 class="salary-income">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
 </div>
-
-
 
 <!-- DEDUCTION -->
 
@@ -1118,7 +1108,6 @@ inputmode="decimal"
 placeholder="0"
 oninput="calculateSalary()">
 
-
 <label>ภาษี</label>
 
 <input
@@ -1127,7 +1116,6 @@ type="number"
 inputmode="decimal"
 placeholder="0"
 oninput="calculateSalary()">
-
 
 <label>หักอื่น ๆ</label>
 
@@ -1141,8 +1129,6 @@ oninput="calculateSalary()">
 </div>
 
 </div>
-
-
 
 <!-- CUSTOM DEDUCTION -->
 
@@ -1167,8 +1153,6 @@ onclick="openSalaryItemModal('deduction')">
 
 </div>
 
-
-
 <!-- DEDUCTION SUMMARY -->
 
 <div class="card salary-section">
@@ -1182,8 +1166,7 @@ onclick="openSalaryItemModal('deduction')">
 <strong
 id="showSocial"
 class="salary-deduction">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
@@ -1194,8 +1177,7 @@ class="salary-deduction">
 <strong
 id="showTax"
 class="salary-deduction">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
@@ -1206,8 +1188,7 @@ class="salary-deduction">
 <strong
 id="showOtherDeduction"
 class="salary-deduction">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
@@ -1221,14 +1202,11 @@ class="salary-deduction">
 <strong
 id="showTotalDeduction"
 class="salary-deduction">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
 </div>
-
-
 
 <button
 class="primary"
@@ -1238,17 +1216,13 @@ onclick="saveSalary()">
 
 </button>
 
-
 </section>
-
-
 
 <!-- SUMMARY -->
 
 <section
 id="summaryPage"
 class="page">
-
 
 <div class="month-card">
 
@@ -1266,7 +1240,6 @@ class="page">
 
 </div>
 
-
 <div class="year-grid">
 
 <div class="year-card">
@@ -1275,11 +1248,9 @@ class="page">
 
 <strong
 id="yearTotalIncome">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
-
 
 <div class="year-card">
 
@@ -1287,11 +1258,9 @@ id="yearTotalIncome">
 
 <strong
 id="yearAverage">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
-
 
 <div class="year-card">
 
@@ -1299,11 +1268,9 @@ id="yearAverage">
 
 <strong
 id="yearOT">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
-
 
 <div class="year-card">
 
@@ -1311,11 +1278,9 @@ id="yearOT">
 
 <strong
 id="yearBonus">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
-
 
 <div class="year-card">
 
@@ -1323,11 +1288,9 @@ id="yearBonus">
 
 <strong
 id="yearSocial">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
-
 
 <div class="year-card">
 
@@ -1335,13 +1298,11 @@ id="yearSocial">
 
 <strong
 id="yearTax">
-฿0.00
-</strong>
+฿0.00 </strong>
 
 </div>
 
 </div>
-
 
 <div class="section-title">
 
@@ -1349,16 +1310,12 @@ id="yearTax">
 
 </div>
 
-
 <div
 id="yearSalaryList"
 class="list">
 </div>
 
-
 </section>
-
-
 
 <!-- SETTINGS -->
 
@@ -1366,11 +1323,9 @@ class="list">
 id="settingsPage"
 class="page">
 
-
 <div class="card">
 
 <h2>⚙️ ตั้งค่า</h2>
-
 
 <div class="setting-row">
 
@@ -1382,7 +1337,6 @@ class="page">
 
 </div>
 
-
 <div class="setting-row">
 
 <span>🔐 Supabase</span>
@@ -1393,18 +1347,15 @@ class="page">
 
 </div>
 
-
 <h3 style="margin-top:25px">
 💰 รายการเงินเดือนที่สร้างเอง
 </h3>
-
 
 <p style="font-size:12px;color:#888">
 
 รายการเหล่านี้จะนำไปใช้ในหน้าเงินเดือนได้ทุกเดือน
 
 </p>
-
 
 <button
 class="setting-button"
@@ -1414,7 +1365,6 @@ onclick="openSalaryItemModal('income')">
 
 </button>
 
-
 <button
 class="setting-button"
 onclick="openSalaryItemModal('deduction')">
@@ -1423,22 +1373,16 @@ onclick="openSalaryItemModal('deduction')">
 
 </button>
 
-
 <div
 id="settingsSalaryItems"
 style="margin-top:15px">
 </div>
 
-
 </div>
-
 
 </section>
 
-
 </div>
-
-
 
 <!-- ADD TRANSACTION -->
 
@@ -1451,14 +1395,11 @@ onclick="openModal()">
 
 </button>
 
-
-
 <!-- NAV -->
 
 <nav
 id="bottomNav"
 class="bottom-nav hidden">
-
 
 <div
 class="nav-item active"
@@ -1470,7 +1411,6 @@ onclick="showPage('home',this)">
 
 </div>
 
-
 <div
 class="nav-item"
 onclick="showPage('salary',this)">
@@ -1480,7 +1420,6 @@ onclick="showPage('salary',this)">
 เงินเดือน
 
 </div>
-
 
 <div
 class="nav-item"
@@ -1492,7 +1431,6 @@ onclick="showPage('summary',this)">
 
 </div>
 
-
 <div
 class="nav-item"
 onclick="showPage('settings',this)">
@@ -1503,10 +1441,7 @@ onclick="showPage('settings',this)">
 
 </div>
 
-
 </nav>
-
-
 
 <!-- TRANSACTION MODAL -->
 
@@ -1520,7 +1455,6 @@ class="modal">
 เพิ่มรายการ
 </h2>
 
-
 <div class="type-buttons">
 
 <button
@@ -1531,7 +1465,6 @@ onclick="setType('income')">
 ＋ รายรับ
 
 </button>
-
 
 <button
 id="expenseBtn"
@@ -1544,7 +1477,6 @@ onclick="setType('expense')">
 
 </div>
 
-
 <label>จำนวนเงิน</label>
 
 <input
@@ -1552,7 +1484,6 @@ id="amount"
 type="number"
 inputmode="decimal"
 placeholder="0.00">
-
 
 <label>หมวดหมู่</label>
 
@@ -1574,7 +1505,6 @@ placeholder="0.00">
 
 </select>
 
-
 <label>รายละเอียด</label>
 
 <input
@@ -1582,13 +1512,11 @@ id="note"
 type="text"
 placeholder="เช่น ค่าอาหารกลางวัน">
 
-
 <label>วันที่</label>
 
 <input
 id="itemDate"
 type="date">
-
 
 <button
 class="primary"
@@ -1598,7 +1526,6 @@ onclick="saveItem()">
 
 </button>
 
-
 <button
 class="secondary"
 onclick="closeModal()">
@@ -1607,12 +1534,9 @@ onclick="closeModal()">
 
 </button>
 
-
 </div>
 
 </div>
-
-
 
 <!-- SALARY ITEM MODAL -->
 
@@ -1626,7 +1550,6 @@ class="modal">
 เพิ่มรายการเงินเดือน
 </h2>
 
-
 <label>
 ชื่อรายการ
 </label>
@@ -1636,7 +1559,6 @@ id="salaryItemName"
 type="text"
 placeholder="เช่น ค่าตำแหน่ง">
 
-
 <button
 class="primary"
 onclick="saveSalaryItem()">
@@ -1644,7 +1566,6 @@ onclick="saveSalaryItem()">
 บันทึกรายการ
 
 </button>
-
 
 <button
 class="secondary"
@@ -1654,20 +1575,15 @@ onclick="closeSalaryItemModal()">
 
 </button>
 
-
 </div>
 
 </div>
-
-
 
 <div
 id="toast"
 class="toast">
 บันทึกเรียบร้อย
 </div>
-
-
 
 <script>
 
@@ -1851,11 +1767,19 @@ updateMonthLabel();
 
 updateSalaryMonthLabel();
 
+
+/*
+โหลดรายการเงินเดือนเพิ่มเติมก่อน
+เพื่อให้ calculateSalary()
+รู้จัก salaryItems ก่อน
+*/
+
+await loadSalaryItems();
+
 await loadData();
 
 await loadSalaries();
 
-await loadSalaryItems();
 
 showPage(
 "home",
@@ -2727,31 +2651,61 @@ x=>x.month === currentSalaryMonth
 
 if(salary){
 
-document.getElementById("salaryBase").value =
+document.getElementById(
+"salaryBase"
+).value =
 salary.base_salary || 0;
 
-document.getElementById("salaryOT").value =
-salary.ot || 0;
 
-document.getElementById("salaryAttendance").value =
+/*
+โหลดจำนวนวัน OT
+*/
+
+document.getElementById(
+"salaryOTDays"
+).value =
+salary.ot_days || 0;
+
+
+document.getElementById(
+"salaryAttendance"
+).value =
 salary.attendance || 0;
 
-document.getElementById("salaryTravel").value =
+
+document.getElementById(
+"salaryTravel"
+).value =
 salary.travel || 0;
 
-document.getElementById("salaryBonus").value =
+
+document.getElementById(
+"salaryBonus"
+).value =
 salary.bonus || 0;
 
-document.getElementById("salaryOtherIncome").value =
+
+document.getElementById(
+"salaryOtherIncome"
+).value =
 salary.other_income || 0;
 
-document.getElementById("salarySocial").value =
+
+document.getElementById(
+"salarySocial"
+).value =
 salary.social_security || 0;
 
-document.getElementById("salaryTax").value =
+
+document.getElementById(
+"salaryTax"
+).value =
 salary.tax || 0;
 
-document.getElementById("salaryOtherDeduction").value =
+
+document.getElementById(
+"salaryOtherDeduction"
+).value =
 salary.other_deduction || 0;
 
 }else{
@@ -2760,6 +2714,11 @@ clearSalaryForm();
 
 }
 
+
+/*
+สร้างช่องรายการเพิ่มเติม
+และโหลดค่าที่เคยบันทึก
+*/
 
 renderCustomSalaryInputs();
 
@@ -2772,15 +2731,41 @@ calculateSalary();
 
 function clearSalaryForm(){
 
-document.getElementById("salaryBase").value="";
-document.getElementById("salaryOT").value="";
-document.getElementById("salaryAttendance").value="";
-document.getElementById("salaryTravel").value="";
-document.getElementById("salaryBonus").value="";
-document.getElementById("salaryOtherIncome").value="";
-document.getElementById("salarySocial").value="";
-document.getElementById("salaryTax").value="";
-document.getElementById("salaryOtherDeduction").value="";
+document.getElementById(
+"salaryBase"
+).value="";
+
+document.getElementById(
+"salaryOTDays"
+).value="";
+
+document.getElementById(
+"salaryAttendance"
+).value="";
+
+document.getElementById(
+"salaryTravel"
+).value="";
+
+document.getElementById(
+"salaryBonus"
+).value="";
+
+document.getElementById(
+"salaryOtherIncome"
+).value="";
+
+document.getElementById(
+"salarySocial"
+).value="";
+
+document.getElementById(
+"salaryTax"
+).value="";
+
+document.getElementById(
+"salaryOtherDeduction"
+).value="";
 
 }
 
@@ -2789,8 +2774,19 @@ document.getElementById("salaryOtherDeduction").value="";
 
 function salaryNumber(id){
 
+const element =
+document.getElementById(id);
+
+
+if(!element){
+
+return 0;
+
+}
+
+
 return Number(
-document.getElementById(id).value
+element.value
 ) || 0;
 
 }
@@ -2886,7 +2882,7 @@ style="padding:15px">
 
 
 /*
-โหลดค่าที่เคยบันทึก
+โหลดค่าที่เคยบันทึกของเดือนนี้
 */
 
 const salary =
@@ -2949,8 +2945,59 @@ function calculateSalary(){
 const base =
 salaryNumber("salaryBase");
 
+
+/*
+=====================================
+OT 1.5 เท่า
+=====================================
+
+1 วัน = 3 ชั่วโมง
+
+เงินเดือน / 26
+= ค่าแรงต่อวัน
+
+/ 8
+= ค่าแรงต่อชั่วโมง
+
+x 1.5
+= OT 1.5 เท่า
+
+x 3 ชั่วโมง
+= OT ต่อ 1 วัน
+
+x จำนวนวัน
+= OT ทั้งหมด
+=====================================
+*/
+
+const otDays =
+salaryNumber("salaryOTDays");
+
+
 const ot =
-salaryNumber("salaryOT");
+(base / 26 / 8)
+* 1.5
+* 3
+* otDays;
+
+
+/*
+แสดงเงิน OT
+*/
+
+const otDisplay =
+document.getElementById(
+"salaryOTDisplay"
+);
+
+
+if(otDisplay){
+
+otDisplay.innerText =
+money(ot);
+
+}
+
 
 const attendance =
 salaryNumber("salaryAttendance");
@@ -3051,7 +3098,9 @@ ${money(value)}
 });
 
 
-/* TOTAL */
+/*
+TOTAL INCOME
+*/
 
 const totalIncome =
 base +
@@ -3063,6 +3112,10 @@ otherIncome +
 customIncome;
 
 
+/*
+TOTAL DEDUCTION
+*/
+
 const totalDeduction =
 social +
 tax +
@@ -3070,12 +3123,18 @@ otherDeduction +
 customDeduction;
 
 
+/*
+NET
+*/
+
 const net =
 totalIncome -
 totalDeduction;
 
 
-/* NET */
+/*
+NET
+*/
 
 document.getElementById(
 "salaryNet"
@@ -3083,7 +3142,9 @@ document.getElementById(
 money(net);
 
 
-/* INCOME */
+/*
+INCOME
+*/
 
 document.getElementById(
 "showBase"
@@ -3128,7 +3189,9 @@ document.getElementById(
 money(totalIncome);
 
 
-/* DEDUCTION */
+/*
+DEDUCTION
+*/
 
 document.getElementById(
 "showSocial"
@@ -3184,6 +3247,30 @@ return;
 
 
 /*
+=====================================
+คำนวณ OT
+=====================================
+1 วัน = 3 ชั่วโมง
+OT 1.5 เท่า
+=====================================
+*/
+
+const base =
+salaryNumber("salaryBase");
+
+
+const otDays =
+salaryNumber("salaryOTDays");
+
+
+const ot =
+(base / 26 / 8)
+* 1.5
+* 3
+* otDays;
+
+
+/*
 เก็บรายการเพิ่มเติม
 */
 
@@ -3216,11 +3303,19 @@ user_id:user.id,
 
 month:currentSalaryMonth,
 
-base_salary:
-salaryNumber("salaryBase"),
+base_salary:base,
 
-ot:
-salaryNumber("salaryOT"),
+/*
+จำนวนวัน OT
+*/
+
+ot_days:otDays,
+
+/*
+จำนวนเงิน OT
+*/
+
+ot:ot,
 
 attendance:
 salaryNumber("salaryAttendance"),
@@ -3480,6 +3575,10 @@ closeSalaryItemModal();
 
 await loadSalaryItems();
 
+
+/*
+โหลดเดือนปัจจุบันใหม่
+*/
 
 loadSalaryMonth();
 
@@ -4030,4 +4129,3 @@ checkSession();
 </body>
 
 </html>
-```
