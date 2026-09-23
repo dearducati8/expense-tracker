@@ -296,10 +296,8 @@ font-size:14px;
 }
 
 .info small{
-display:block;
 color:#888;
 font-size:11px;
-margin-top:3px;
 }
 
 .amount-area{
@@ -467,7 +465,6 @@ justify-content:space-between;
 padding:12px 0;
 border-bottom:1px solid #eee;
 font-size:14px;
-gap:15px;
 }
 
 .salary-row:last-child{
@@ -937,7 +934,7 @@ oninput="calculateSalary()">
 สูตร OT:
 
 <strong>
-เงินเดือน ÷ 30 ÷ 8 × 1.5 × 3 × จำนวนวัน OT
+เงินเดือน ÷ 30 ÷ 8 × 1.5 × 3
 </strong>
 
 <br>
@@ -1005,7 +1002,10 @@ oninput="calculateSalary()">
 <button
 class="small-btn"
 onclick="openSalaryItemModal('income')">
-＋ เพิ่ม </button>
+
+＋ เพิ่ม
+
+</button>
 
 </div>
 
@@ -1152,7 +1152,10 @@ oninput="calculateSalary()">
 <button
 class="small-btn"
 onclick="openSalaryItemModal('deduction')">
-＋ เพิ่ม </button>
+
+＋ เพิ่ม
+
+</button>
 
 </div>
 
@@ -1497,33 +1500,19 @@ placeholder="0.00">
 
 <select id="category">
 
-<option value="เงินเดือน">
-💰 เงินเดือน
-</option>
+<option value="เงินเดือน">💰 เงินเดือน</option>
 
-<option value="อาหาร">
-🍜 อาหาร
-</option>
+<option value="อาหาร">🍜 อาหาร</option>
 
-<option value="เดินทาง">
-🚗 เดินทาง
-</option>
+<option value="เดินทาง">🚗 เดินทาง</option>
 
-<option value="ช้อปปิ้ง">
-🛍️ ช้อปปิ้ง
-</option>
+<option value="ช้อปปิ้ง">🛍️ ช้อปปิ้ง</option>
 
-<option value="บิล">
-🧾 บิล / ค่าใช้จ่าย
-</option>
+<option value="บิล">🧾 บิล / ค่าใช้จ่าย</option>
 
-<option value="สุขภาพ">
-❤️ สุขภาพ
-</option>
+<option value="สุขภาพ">❤️ สุขภาพ</option>
 
-<option value="อื่นๆ">
-📦 อื่นๆ
-</option>
+<option value="อื่นๆ">📦 อื่นๆ</option>
 
 </select>
 
@@ -1606,9 +1595,8 @@ id="toast"
 class="toast">
 บันทึกเรียบร้อย
 </div>
-
+```html
 <script>
-
 
 /* =====================================
    SUPABASE
@@ -1693,7 +1681,7 @@ return;
 }
 
 
-await showApp();
+showApp();
 
 }
 
@@ -1705,12 +1693,6 @@ await showApp();
 async function logout(){
 
 await supabaseClient.auth.signOut();
-
-items = [];
-
-salaries = [];
-
-salaryItems = [];
 
 showLogin();
 
@@ -1731,7 +1713,7 @@ await supabaseClient.auth.getSession();
 
 if(data.session){
 
-await showApp();
+showApp();
 
 }else{
 
@@ -1811,7 +1793,9 @@ updateSalaryMonthLabel();
 
 
 /*
-โหลด salary items ก่อน
+โหลด salary items ก่อน salaries
+เพื่อให้ระบบรู้ว่า custom item
+เป็น income หรือ deduction
 */
 
 await loadSalaryItems();
@@ -1896,27 +1880,10 @@ renderSettingsSalaryItems();
 
 
 /* =====================================
-   LOAD TRANSACTIONS
+   TRANSACTIONS
 ===================================== */
 
 async function loadData(){
-
-const {
-data:userData
-} =
-await supabaseClient.auth.getUser();
-
-
-const user =
-userData.user;
-
-
-if(!user){
-
-return;
-
-}
-
 
 const {
 data,
@@ -1925,7 +1892,6 @@ error
 await supabaseClient
 .from("transactions")
 .select("*")
-.eq("user_id",user.id)
 .order("date",{ascending:false});
 
 
@@ -1950,7 +1916,7 @@ render();
 
 
 /* =====================================
-   CHANGE MONTH
+   CHANGE HOME MONTH
 ===================================== */
 
 function changeMonth(amount){
@@ -1999,7 +1965,7 @@ render();
 
 
 /* =====================================
-   UPDATE MONTH
+   UPDATE HOME MONTH
 ===================================== */
 
 function updateMonthLabel(){
@@ -2070,23 +2036,6 @@ item.date.slice(0,7) <
 currentMonth
 ){
 
-/*
-ไม่รวม transaction
-หมวดเงินเดือน
-เพราะเงินเดือนมาจาก salaries
-*/
-
-if(
-item.category === "เงินเดือน"
-&&
-item.type === "income"
-){
-
-return;
-
-}
-
-
 if(item.type === "income"){
 
 total += Number(item.amount);
@@ -2102,182 +2051,7 @@ total -= Number(item.amount);
 });
 
 
-/*
-เพิ่มเงินเดือนของเดือนก่อนหน้า
-*/
-
-salaries.forEach(salary=>{
-
-if(
-salary.month &&
-salary.month < currentMonth
-){
-
-total +=
-getSavedSalaryIncome(salary);
-
-total -=
-getSavedSalaryDeduction(salary);
-
-}
-
-});
-
-
 return total;
-
-}
-
-
-/* =====================================
-   HOME SALARY
-===================================== */
-
-function getCurrentMonthSalaryIncome(){
-
-const salary =
-salaries.find(
-x =>
-x.month === currentMonth
-);
-
-
-if(!salary){
-
-return 0;
-
-}
-
-
-return getSavedSalaryIncome(
-salary
-);
-
-
-}
-
-
-/* =====================================
-   HOME DATA
-===================================== */
-
-function getHomeMonthIncome(month){
-
-const salaryIncome =
-salaries
-.filter(x => x.month === month)
-.reduce(
-(sum,salary)=>
-sum +
-getSavedSalaryIncome(salary),
-0
-);
-
-
-const transactionIncome =
-items
-.filter(item =>
-item.date &&
-item.date.slice(0,7) === month &&
-item.type === "income" &&
-item.category !== "เงินเดือน"
-)
-.reduce(
-(sum,item)=>
-sum + Number(item.amount || 0),
-0
-);
-
-
-return salaryIncome +
-transactionIncome;
-
-}
-
-
-/* =====================================
-   HOME EXPENSE
-===================================== */
-
-function getHomeMonthExpense(month){
-
-return items
-.filter(item =>
-item.date &&
-item.date.slice(0,7) === month &&
-item.type === "expense"
-)
-.reduce(
-(sum,item)=>
-sum + Number(item.amount || 0),
-0
-);
-
-
-/*
-หมายเหตุ:
-
-รายการหักเงินเดือน
-เช่น ประกันสังคม / ภาษี
-จะถูกหักออกจากยอดเงินเดือนสุทธิ
-*/
-
-const salary =
-salaries.find(
-x => x.month === month
-);
-
-
-if(salary){
-
-return getSavedSalaryDeduction(
-salary
-);
-
-}
-
-return 0;
-
-}
-
-
-/* =====================================
-   HOME TRANSACTION LIST
-===================================== */
-
-function getDisplayMonthData(month){
-
-return items.filter(item=>{
-
-if(
-!item.date ||
-item.date.slice(0,7) !== month
-){
-
-return false;
-
-}
-
-
-/*
-ไม่แสดงรายการเงินเดือน
-ที่เป็น transaction เก่า
-เพราะระบบคำนวณเงินเดือนจาก salaries
-*/
-
-if(
-item.type === "income" &&
-item.category === "เงินเดือน"
-){
-
-return false;
-
-}
-
-
-return true;
-
-});
 
 }
 
@@ -2289,20 +2063,26 @@ return true;
 function render(){
 
 const data =
-getDisplayMonthData(
-currentMonth
-);
+getMonthData(currentMonth);
 
 
 const income =
-getHomeMonthIncome(
-currentMonth
+data
+.filter(x=>x.type==="income")
+.reduce(
+(sum,x)=>
+sum+Number(x.amount),
+0
 );
 
 
 const expense =
-getHomeMonthExpense(
-currentMonth
+data
+.filter(x=>x.type==="expense")
+.reduce(
+(sum,x)=>
+sum+Number(x.amount),
+0
 );
 
 
@@ -2311,9 +2091,7 @@ getPreviousBalance();
 
 
 const balance =
-carry +
-income -
-expense;
+carry + income - expense;
 
 
 document.getElementById(
@@ -2340,126 +2118,30 @@ document.getElementById(
 money(expense);
 
 
-const salary =
-salaries.find(
-x=>x.month === currentMonth
-);
-
-
-const salaryIncome =
-salary
-? getSavedSalaryIncome(salary)
-: 0;
-
-
-const transactionIncome =
-data
-.filter(x=>x.type==="income")
-.reduce(
-(sum,x)=>
-sum+Number(x.amount),
-0
-);
-
-
-const incomeCount =
-(salaryIncome > 0 ? 1 : 0) +
+document.getElementById(
+"incomeCount"
+).innerText =
 data.filter(
 x=>x.type==="income"
 ).length;
 
 
-const expenseCount =
-data.filter(
-x=>x.type==="expense"
-).length +
-(salary ? 1 : 0);
-
-
-document.getElementById(
-"incomeCount"
-).innerText =
-incomeCount;
-
-
 document.getElementById(
 "expenseCount"
 ).innerText =
-expenseCount;
+data.filter(
+x=>x.type==="expense"
+).length;
 
 
 const list =
 document.getElementById("list");
 
 
-/*
-สร้างรายการเงินเดือน
-*/
+if(data.length===0){
 
-let salaryHTML = "";
-
-
-if(salary){
-
-const salaryNet =
-getSavedSalaryIncome(salary) -
-getSavedSalaryDeduction(salary);
-
-
-salaryHTML = `
-
-<div class="item">
-
-<div class="icon">
-💰
-</div>
-
-<div class="info">
-
-<strong>
-เงินเดือน
-</strong>
-
-<small>
-รายรับ ${money(
-getSavedSalaryIncome(salary)
-)}
-</small>
-
-<small>
-หัก ${money(
-getSavedSalaryDeduction(salary)
-)}
-</small>
-
-</div>
-
-<div class="amount-area">
-
-<div class="amount income">
-
-+${money(
-getSavedSalaryIncome(salary)
-)}
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-if(
-!salary &&
-data.length===0
-){
-
-list.innerHTML = `
-
+list.innerHTML =
+`
 <div class="empty">
 
 ยังไม่มีรายการในเดือนนี้
@@ -2469,7 +2151,6 @@ list.innerHTML = `
 กด ＋ เพิ่มรายการ
 
 </div>
-
 `;
 
 return;
@@ -2478,7 +2159,6 @@ return;
 
 
 list.innerHTML =
-salaryHTML +
 data.map(item=>`
 
 <div class="item">
@@ -2669,7 +2349,7 @@ return currentMonth + "-01";
 
 
 /* =====================================
-   CLOSE TRANSACTION
+   CLOSE TRANSACTION MODAL
 ===================================== */
 
 function closeModal(){
@@ -2763,6 +2443,37 @@ return;
 }
 
 
+if(editId){
+
+const {
+error
+} =
+await supabaseClient
+.from("transactions")
+.update({
+
+type:currentType,
+amount:amount,
+category:category,
+note:note,
+date:date
+
+})
+.eq("id",editId);
+
+
+if(error){
+
+alert("แก้ไขไม่สำเร็จ");
+
+console.error(error);
+
+return;
+
+}
+
+}else{
+
 const {
 data:userData
 } =
@@ -2781,38 +2492,6 @@ return;
 
 }
 
-
-if(editId){
-
-const {
-error
-} =
-await supabaseClient
-.from("transactions")
-.update({
-
-type:currentType,
-amount:amount,
-category:category,
-note:note,
-date:date
-
-})
-.eq("id",editId)
-.eq("user_id",user.id);
-
-
-if(error){
-
-alert("แก้ไขไม่สำเร็จ");
-
-console.error(error);
-
-return;
-
-}
-
-}else{
 
 const {
 error
@@ -2868,30 +2547,12 @@ return;
 
 
 const {
-data:userData
-} =
-await supabaseClient.auth.getUser();
-
-
-const user =
-userData.user;
-
-
-if(!user){
-
-return;
-
-}
-
-
-const {
 error
 } =
 await supabaseClient
 .from("transactions")
 .delete()
-.eq("id",id)
-.eq("user_id",user.id);
+.eq("id",id);
 
 
 if(error){
@@ -2922,30 +2583,12 @@ await loadData();
 async function loadSalaries(){
 
 const {
-data:userData
-} =
-await supabaseClient.auth.getUser();
-
-
-const user =
-userData.user;
-
-
-if(!user){
-
-return;
-
-}
-
-
-const {
 data,
 error
 } =
 await supabaseClient
 .from("salaries")
 .select("*")
-.eq("user_id",user.id)
 .order("month",{ascending:true});
 
 
@@ -2964,11 +2607,18 @@ salaries =
 data || [];
 
 
+/*
+โหลดข้อมูลเดือนปัจจุบัน
+*/
+
 loadSalaryMonth();
 
-renderYearSummary();
 
-render();
+/*
+อัปเดตสรุปปี
+*/
+
+renderYearSummary();
 
 }
 
@@ -3072,55 +2722,55 @@ if(salary){
 document.getElementById(
 "salaryBase"
 ).value =
-salary.base_salary || 0;
+salary.base_salary ?? 0;
 
 
 document.getElementById(
 "salaryOTDays"
 ).value =
-salary.ot_days || 0;
+salary.ot_days ?? 0;
 
 
 document.getElementById(
 "salaryAttendance"
 ).value =
-salary.attendance || 0;
+salary.attendance ?? 0;
 
 
 document.getElementById(
 "salaryTravel"
 ).value =
-salary.travel || 0;
+salary.travel ?? 0;
 
 
 document.getElementById(
 "salaryBonus"
 ).value =
-salary.bonus || 0;
+salary.bonus ?? 0;
 
 
 document.getElementById(
 "salaryOtherIncome"
 ).value =
-salary.other_income || 0;
+salary.other_income ?? 0;
 
 
 document.getElementById(
 "salarySocial"
 ).value =
-salary.social_security || 0;
+salary.social_security ?? 0;
 
 
 document.getElementById(
 "salaryTax"
 ).value =
-salary.tax || 0;
+salary.tax ?? 0;
 
 
 document.getElementById(
 "salaryOtherDeduction"
 ).value =
-salary.other_deduction || 0;
+salary.other_deduction ?? 0;
 
 }else{
 
@@ -3128,6 +2778,12 @@ clearSalaryForm();
 
 }
 
+
+/*
+สำคัญ:
+สร้าง input custom ก่อน
+แล้วโหลดค่าของเดือนนั้น
+*/
 
 renderCustomSalaryInputs();
 
@@ -3146,41 +2802,33 @@ document.getElementById(
 "salaryBase"
 ).value="";
 
-
 document.getElementById(
 "salaryOTDays"
 ).value="";
-
 
 document.getElementById(
 "salaryAttendance"
 ).value="";
 
-
 document.getElementById(
 "salaryTravel"
 ).value="";
-
 
 document.getElementById(
 "salaryBonus"
 ).value="";
 
-
 document.getElementById(
 "salaryOtherIncome"
 ).value="";
-
 
 document.getElementById(
 "salarySocial"
 ).value="";
 
-
 document.getElementById(
 "salaryTax"
 ).value="";
-
 
 document.getElementById(
 "salaryOtherDeduction"
@@ -3191,7 +2839,6 @@ const otDisplay =
 document.getElementById(
 "salaryOTDisplay"
 );
-
 
 if(otDisplay){
 
@@ -3233,21 +2880,293 @@ element.value
 
 function calculateOTAmount(base,otDays){
 
+/*
+เงินเดือน ÷ 30 ÷ 8 × 1.5 × 3 × จำนวนวัน OT
+*/
+
 return (
-(Number(base || 0) / 30 / 8)
-*
-1.5
-*
-3
-*
-Number(otDays || 0)
+(base / 30 / 8)
+* 1.5
+* 3
+* otDays
 );
 
 }
 
 
 /* =====================================
-   RENDER CUSTOM INPUTS
+   PARSE CUSTOM ITEMS
+===================================== */
+
+function parseCustomItems(salary){
+
+if(!salary || !salary.custom_items){
+
+return {};
+
+}
+
+
+if(typeof salary.custom_items === "string"){
+
+try{
+
+return JSON.parse(
+salary.custom_items
+) || {};
+
+}catch(e){
+
+console.error(
+"custom_items JSON error:",
+e
+);
+
+return {};
+
+}
+
+}
+
+
+return salary.custom_items || {};
+
+}
+
+
+/* =====================================
+   GET SAVED CUSTOM INCOME
+===================================== */
+
+function getSavedCustomIncome(salary){
+
+const custom =
+parseCustomItems(salary);
+
+
+let total = 0;
+
+
+Object.keys(custom).forEach(id=>{
+
+const item =
+salaryItems.find(
+x=>String(x.id)===String(id)
+);
+
+
+if(
+item &&
+item.type==="income"
+){
+
+total +=
+Number(custom[id]) || 0;
+
+}
+
+});
+
+
+return total;
+
+}
+
+
+/* =====================================
+   GET SAVED CUSTOM DEDUCTION
+===================================== */
+
+function getSavedCustomDeduction(salary){
+
+const custom =
+parseCustomItems(salary);
+
+
+let total = 0;
+
+
+Object.keys(custom).forEach(id=>{
+
+const item =
+salaryItems.find(
+x=>String(x.id)===String(id)
+);
+
+
+if(
+item &&
+item.type==="deduction"
+){
+
+total +=
+Number(custom[id]) || 0;
+
+}
+
+});
+
+
+return total;
+
+}
+
+
+/* =====================================
+   ⭐ SHARED SALARY CALCULATION
+=====================================
+
+นี่คือจุดสำคัญที่สุด
+
+ทั้งหน้า "เงินเดือน"
+และหน้า "สรุปเงินเดือน"
+
+จะใช้โครงสร้างข้อมูลเดียวกัน
+
+===================================== */
+
+function getSalaryBreakdown(salary){
+
+if(!salary){
+
+return {
+
+base:0,
+
+ot:0,
+
+attendance:0,
+
+travel:0,
+
+bonus:0,
+
+otherIncome:0,
+
+customIncome:0,
+
+totalIncome:0,
+
+social:0,
+
+tax:0,
+
+otherDeduction:0,
+
+customDeduction:0,
+
+totalDeduction:0,
+
+net:0
+
+};
+
+}
+
+
+const base =
+Number(salary.base_salary) || 0;
+
+
+const ot =
+Number(salary.ot) || 0;
+
+
+const attendance =
+Number(salary.attendance) || 0;
+
+
+const travel =
+Number(salary.travel) || 0;
+
+
+const bonus =
+Number(salary.bonus) || 0;
+
+
+const otherIncome =
+Number(salary.other_income) || 0;
+
+
+const customIncome =
+getSavedCustomIncome(salary);
+
+
+const social =
+Number(salary.social_security) || 0;
+
+
+const tax =
+Number(salary.tax) || 0;
+
+
+const otherDeduction =
+Number(salary.other_deduction) || 0;
+
+
+const customDeduction =
+getSavedCustomDeduction(salary);
+
+
+const totalIncome =
+base +
+ot +
+attendance +
+travel +
+bonus +
+otherIncome +
+customIncome;
+
+
+const totalDeduction =
+social +
+tax +
+otherDeduction +
+customDeduction;
+
+
+const net =
+totalIncome -
+totalDeduction;
+
+
+return {
+
+base,
+
+ot,
+
+attendance,
+
+travel,
+
+bonus,
+
+otherIncome,
+
+customIncome,
+
+totalIncome,
+
+social,
+
+tax,
+
+otherDeduction,
+
+customDeduction,
+
+totalDeduction,
+
+net
+
+};
+
+}
+
+
+/* =====================================
+   RENDER CUSTOM SALARY INPUTS
 ===================================== */
 
 function renderCustomSalaryInputs(){
@@ -3256,7 +3175,6 @@ const incomeBox =
 document.getElementById(
 "customIncomeInputs"
 );
-
 
 const deductionBox =
 document.getElementById(
@@ -3339,7 +3257,12 @@ style="padding:15px">
 
 
 /*
-โหลดค่าของเดือนปัจจุบัน
+=====================================
+สำคัญมาก
+
+โหลดค่า custom ของเดือนปัจจุบัน
+ถ้าไม่มีข้อมูล = เคลียร์ช่อง
+=====================================
 */
 
 const salary =
@@ -3348,56 +3271,10 @@ x=>x.month === currentSalaryMonth
 );
 
 
-/*
-ถ้าไม่มีข้อมูลเดือนนี้
-ให้เคลียร์ค่า Custom
-*/
-
-if(!salary){
-
-salaryItems.forEach(item=>{
-
-const input =
-document.getElementById(
-"customSalary_"+item.id
-);
-
-
-if(input){
-
-input.value="";
-
-}
-
-});
-
-return;
-
-}
-
-
-if(
-salary.custom_items
-){
-
-let custom =
-salary.custom_items;
-
-
-if(typeof custom === "string"){
-
-try{
-
-custom =
-JSON.parse(custom);
-
-}catch(e){
-
-custom={};
-
-}
-
-}
+const custom =
+salary
+? parseCustomItems(salary)
+: {};
 
 
 salaryItems.forEach(item=>{
@@ -3419,11 +3296,9 @@ custom[item.id] ?? "";
 
 }
 
-}
-
 
 /* =====================================
-   CALCULATE SALARY
+   CALCULATE SALARY PAGE
 ===================================== */
 
 function calculateSalary(){
@@ -3432,22 +3307,8 @@ const base =
 salaryNumber("salaryBase");
 
 
-/*
-OT:
-
-เงินเดือน / 30 / 8
-x 1.5
-x 3 ชั่วโมง
-x จำนวนวัน
-*/
-
 const otDays =
-Math.max(
-0,
-Math.floor(
-salaryNumber("salaryOTDays")
-)
-);
+salaryNumber("salaryOTDays");
 
 
 const ot =
@@ -3455,20 +3316,6 @@ calculateOTAmount(
 base,
 otDays
 );
-
-
-const otDisplay =
-document.getElementById(
-"salaryOTDisplay"
-);
-
-
-if(otDisplay){
-
-otDisplay.innerText =
-money(ot);
-
-}
 
 
 const attendance =
@@ -3498,6 +3345,8 @@ salaryNumber("salaryTax");
 const otherDeduction =
 salaryNumber("salaryOtherDeduction");
 
+
+/* CUSTOM */
 
 let customIncome = 0;
 
@@ -3578,7 +3427,9 @@ ${money(value)}
 
 
 /*
-รายรับรวม
+=====================================
+ใช้สูตรเดียวกับ getSalaryBreakdown()
+=====================================
 */
 
 const totalIncome =
@@ -3591,10 +3442,6 @@ otherIncome +
 customIncome;
 
 
-/*
-หักรวม
-*/
-
 const totalDeduction =
 social +
 tax +
@@ -3602,18 +3449,20 @@ otherDeduction +
 customDeduction;
 
 
-/*
-สุทธิ
-*/
-
 const net =
 totalIncome -
 totalDeduction;
 
 
-/*
-NET
-*/
+/* OT DISPLAY */
+
+document.getElementById(
+"salaryOTDisplay"
+).innerText =
+money(ot);
+
+
+/* NET */
 
 document.getElementById(
 "salaryNet"
@@ -3621,9 +3470,7 @@ document.getElementById(
 money(net);
 
 
-/*
-INCOME
-*/
+/* INCOME */
 
 document.getElementById(
 "showBase"
@@ -3673,9 +3520,7 @@ document.getElementById(
 money(totalIncome);
 
 
-/*
-DEDUCTION
-*/
+/* DEDUCTION */
 
 document.getElementById(
 "showSocial"
@@ -3710,56 +3555,6 @@ money(totalDeduction);
 
 
 /* =====================================
-   SAVED SALARY INCOME
-   ใช้ร่วมกับ Home + Summary
-===================================== */
-
-function getSavedSalaryIncome(salary){
-
-if(!salary){
-
-return 0;
-
-}
-
-
-return (
-Number(salary.base_salary || 0) +
-Number(salary.ot || 0) +
-Number(salary.attendance || 0) +
-Number(salary.travel || 0) +
-Number(salary.bonus || 0) +
-Number(salary.other_income || 0) +
-getSavedCustomIncome(salary)
-);
-
-}
-
-
-/* =====================================
-   SAVED SALARY DEDUCTION
-===================================== */
-
-function getSavedSalaryDeduction(salary){
-
-if(!salary){
-
-return 0;
-
-}
-
-
-return (
-Number(salary.social_security || 0) +
-Number(salary.tax || 0) +
-Number(salary.other_deduction || 0) +
-getSavedCustomDeduction(salary)
-);
-
-}
-
-
-/* =====================================
    SAVE SALARY
 ===================================== */
 
@@ -3784,17 +3579,16 @@ return;
 }
 
 
+/* BASIC */
+
 const base =
 salaryNumber("salaryBase");
 
 
+/* OT */
+
 const otDays =
-Math.max(
-0,
-Math.floor(
-salaryNumber("salaryOTDays")
-)
-);
+salaryNumber("salaryOTDays");
 
 
 const ot =
@@ -3803,6 +3597,8 @@ base,
 otDays
 );
 
+
+/* CUSTOM */
 
 let customItems = {};
 
@@ -3822,6 +3618,8 @@ input
 
 });
 
+
+/* SALARY DATA */
 
 const salaryData = {
 
@@ -3862,6 +3660,8 @@ customItems
 };
 
 
+/* EXISTING */
+
 const existing =
 salaries.find(
 x=>x.month === currentSalaryMonth
@@ -3877,8 +3677,7 @@ result =
 await supabaseClient
 .from("salaries")
 .update(salaryData)
-.eq("id",existing.id)
-.eq("user_id",user.id);
+.eq("id",existing.id);
 
 }else{
 
@@ -3909,6 +3708,11 @@ showToast(
 );
 
 
+/*
+โหลดข้อมูลจาก Database ใหม่
+แล้วให้ทั้งสองหน้าใช้ข้อมูลชุดเดียวกัน
+*/
+
 await loadSalaries();
 
 }
@@ -3919,9 +3723,7 @@ await loadSalaries();
 ===================================== */
 
 
-/* =====================================
-   LOAD ITEMS
-===================================== */
+/* LOAD ITEMS */
 
 async function loadSalaryItems(){
 
@@ -3977,9 +3779,7 @@ renderSettingsSalaryItems();
 }
 
 
-/* =====================================
-   OPEN SALARY ITEM
-===================================== */
+/* OPEN SALARY ITEM */
 
 function openSalaryItemModal(type){
 
@@ -4006,9 +3806,7 @@ document.getElementById(
 }
 
 
-/* =====================================
-   CLOSE SALARY ITEM
-===================================== */
+/* CLOSE SALARY ITEM */
 
 function closeSalaryItemModal(){
 
@@ -4019,9 +3817,7 @@ document.getElementById(
 }
 
 
-/* =====================================
-   SAVE SALARY ITEM
-===================================== */
+/* SAVE SALARY ITEM */
 
 async function saveSalaryItem(){
 
@@ -4108,9 +3904,7 @@ showToast(
 }
 
 
-/* =====================================
-   DELETE CUSTOM ITEM
-===================================== */
+/* DELETE SALARY ITEM */
 
 async function deleteSalaryItem(id){
 
@@ -4123,30 +3917,12 @@ return;
 
 
 const {
-data:userData
-} =
-await supabaseClient.auth.getUser();
-
-
-const user =
-userData.user;
-
-
-if(!user){
-
-return;
-
-}
-
-
-const {
 error
 } =
 await supabaseClient
 .from("salary_items")
 .delete()
-.eq("id",id)
-.eq("user_id",user.id);
+.eq("id",id);
 
 
 if(error){
@@ -4169,9 +3945,7 @@ loadSalaryMonth();
 }
 
 
-/* =====================================
-   SETTINGS LIST
-===================================== */
+/* SETTINGS SALARY ITEMS */
 
 function renderSettingsSalaryItems(){
 
@@ -4235,7 +4009,7 @@ onclick="deleteSalaryItem('${item.id}')">
 
 
 /* =====================================
-   YEAR SUMMARY
+   ⭐ YEAR SALARY SUMMARY
 ===================================== */
 
 function renderYearSummary(){
@@ -4246,80 +4020,116 @@ currentSalaryMonth.slice(0,4);
 
 const yearData =
 salaries.filter(
-x =>
+x=>
 x.month &&
 x.month.startsWith(year)
 );
 
 
 /*
+=====================================
 รายรับรวมทั้งปี
-ใช้สูตรเดียวกับหน้าเงินเดือน
+
+ใช้ getSalaryBreakdown()
+เพียงตัวเดียว
+=====================================
 */
 
 const totalIncome =
 yearData.reduce(
-(sum,salary)=>
-sum +
-getSavedSalaryIncome(salary),
+(sum,salary)=>{
+
+const breakdown =
+getSalaryBreakdown(salary);
+
+return sum +
+breakdown.totalIncome;
+
+},
 0
 );
 
 
 /*
-OT
+OT รวม
 */
 
 const totalOT =
 yearData.reduce(
-(sum,salary)=>
-sum +
-Number(salary.ot || 0),
+(sum,salary)=>{
+
+const breakdown =
+getSalaryBreakdown(salary);
+
+return sum +
+breakdown.ot;
+
+},
 0
 );
 
 
 /*
-โบนัส
+โบนัสรวม
 */
 
 const totalBonus =
 yearData.reduce(
-(sum,salary)=>
-sum +
-Number(salary.bonus || 0),
+(sum,salary)=>{
+
+const breakdown =
+getSalaryBreakdown(salary);
+
+return sum +
+breakdown.bonus;
+
+},
 0
 );
 
 
 /*
-ประกันสังคม
+ประกันสังคมรวม
 */
 
 const totalSocial =
 yearData.reduce(
-(sum,salary)=>
-sum +
-Number(salary.social_security || 0),
+(sum,salary)=>{
+
+const breakdown =
+getSalaryBreakdown(salary);
+
+return sum +
+breakdown.social;
+
+},
 0
 );
 
 
 /*
-ภาษี
+ภาษีรวม
 */
 
 const totalTax =
 yearData.reduce(
-(sum,salary)=>
-sum +
-Number(salary.tax || 0),
+(sum,salary)=>{
+
+const breakdown =
+getSalaryBreakdown(salary);
+
+return sum +
+breakdown.tax;
+
+},
 0
 );
 
 
 /*
-เฉลี่ย
+ค่าเฉลี่ย
+
+เฉลี่ยจากจำนวนเดือนที่มีข้อมูลจริง
 */
 
 const average =
@@ -4327,6 +4137,8 @@ yearData.length
 ? totalIncome / yearData.length
 : 0;
 
+
+/* DISPLAY */
 
 document.getElementById(
 "yearTotalIncome"
@@ -4364,6 +4176,8 @@ document.getElementById(
 money(totalTax);
 
 
+/* LIST */
+
 const list =
 document.getElementById(
 "yearSalaryList"
@@ -4398,27 +4212,31 @@ a.month.localeCompare(b.month)
 list.innerHTML =
 sorted.map(salary=>{
 
+/*
+=====================================
+ใช้สูตรเดียวกับหน้าเงินเดือน
+=====================================
+*/
+
+const breakdown =
+getSalaryBreakdown(salary);
+
+
 const income =
-getSavedSalaryIncome(
-salary
-);
+breakdown.totalIncome;
 
 
 const deduction =
-getSavedSalaryDeduction(
-salary
-);
+breakdown.totalDeduction;
 
 
 const net =
-income -
-deduction;
+breakdown.net;
 
 
 const date =
 new Date(
-salary.month+
-"-01T00:00:00"
+salary.month+"-01T00:00:00"
 );
 
 
@@ -4448,9 +4266,7 @@ ${Number(year)+543}
 
 <small>
 รายรับ ${money(income)}
-</small>
-
-<small>
+·
 หัก ${money(deduction)}
 </small>
 
@@ -4474,147 +4290,13 @@ ${money(net)}
 
 
 /* =====================================
-   SAVED CUSTOM INCOME
-===================================== */
-
-function getSavedCustomIncome(salary){
-
-if(
-!salary ||
-!salary.custom_items
-){
-
-return 0;
-
-}
-
-
-let custom =
-salary.custom_items;
-
-
-if(typeof custom==="string"){
-
-try{
-
-custom =
-JSON.parse(custom);
-
-}catch(e){
-
-return 0;
-
-}
-
-}
-
-
-let total=0;
-
-
-Object.keys(custom || {}).forEach(id=>{
-
-const item =
-salaryItems.find(
-x =>
-String(x.id) ===
-String(id)
-);
-
-
-if(
-item &&
-item.type === "income"
-){
-
-total +=
-Number(custom[id]) || 0;
-
-}
-
-});
-
-
-return total;
-
-}
-
-
-/* =====================================
-   SAVED CUSTOM DEDUCTION
-===================================== */
-
-function getSavedCustomDeduction(salary){
-
-if(
-!salary ||
-!salary.custom_items
-){
-
-return 0;
-
-}
-
-
-let custom =
-salary.custom_items;
-
-
-if(typeof custom==="string"){
-
-try{
-
-custom =
-JSON.parse(custom);
-
-}catch(e){
-
-return 0;
-
-}
-
-}
-
-
-let total=0;
-
-
-Object.keys(custom || {}).forEach(id=>{
-
-const item =
-salaryItems.find(
-x =>
-String(x.id) ===
-String(id)
-);
-
-
-if(
-item &&
-item.type === "deduction"
-){
-
-total +=
-Number(custom[id]) || 0;
-
-}
-
-});
-
-
-return total;
-
-}
-
-
-/* =====================================
    MONEY
 ===================================== */
 
 function money(number){
 
 return "฿" +
-Number(number || 0)
+Number(number)
 .toLocaleString(
 "th-TH",
 {
@@ -4678,7 +4360,7 @@ return icons[category] || "📦";
 
 
 /* =====================================
-   ESCAPE
+   ESCAPE HTML
 ===================================== */
 
 function escapeHTML(text){
@@ -4731,6 +4413,9 @@ toast.classList.remove("show");
 checkSession();
 
 </script>
+```
+
+
 
 </body>
 
