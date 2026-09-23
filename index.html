@@ -3900,31 +3900,33 @@ function getSalaryBreakdown(salary){
         ) || 0;
 
 
-    const ot1 =
-        calculateOT1Amount(
-            base,
-            salary.ot_1_hours
-            ?? salary.ot_1
-            ?? 0
-        );
+   const ot1Hours =
+    Number(salary.ot_1_hours) || 0;
+
+const ot15Hours =
+    Number(salary.ot_15_hours) || 0;
+
+const ot3Hours =
+    Number(salary.ot_3_hours) || 0;
 
 
-    const ot15 =
-        calculateOT15Amount(
-            base,
-            salary.ot_15_hours
-            ?? salary.ot_15
-            ?? 0
-        );
+const ot1 =
+    calculateOT1Amount(
+        base,
+        ot1Hours
+    );
 
+const ot15 =
+    calculateOT15Amount(
+        base,
+        ot15Hours
+    );
 
-    const ot3 =
-        calculateOT3Amount(
-            base,
-            salary.ot_3_hours
-            ?? salary.ot_3
-            ?? 0
-        );
+const ot3 =
+    calculateOT3Amount(
+        base,
+        ot3Hours
+    );
 
 
     return buildSalaryBreakdown({
