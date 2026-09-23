@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="th">
@@ -538,6 +537,44 @@ button{
 }
 
 
+/* CUSTOM ADD BUTTONS */
+
+.custom-add-buttons{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin-top:12px;
+}
+
+.custom-add-btn{
+    width:100%;
+    border:0;
+    border-radius:12px;
+    padding:13px;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.custom-income-btn{
+    background:#e9faf3;
+    color:#159565;
+}
+
+.custom-income-btn:hover{
+    background:#d9f5e9;
+}
+
+.custom-deduction-btn{
+    background:#fff0f2;
+    color:#df4e5b;
+}
+
+.custom-deduction-btn:hover{
+    background:#ffe2e6;
+}
+
+
 /* YEAR */
 
 .year-grid{
@@ -1063,6 +1100,8 @@ button{
     </div>
 
 
+    <!-- CUSTOM INCOME -->
+
     <div class="card salary-section">
 
         <div
@@ -1074,6 +1113,19 @@ button{
         </div>
 
         <div id="customIncomeInputs"></div>
+
+        <div class="custom-add-buttons">
+
+            <button
+                type="button"
+                class="custom-add-btn custom-income-btn"
+                onclick="openSalaryItemModal('income')">
+
+                ＋ เพิ่มรายการรับ
+
+            </button>
+
+        </div>
 
     </div>
 
@@ -1095,8 +1147,6 @@ button{
 
         </div>
 
-
-        <!-- OT 1 SUMMARY -->
 
         <div class="salary-row">
 
@@ -1261,6 +1311,8 @@ button{
     </div>
 
 
+    <!-- CUSTOM DEDUCTION -->
+
     <div class="card salary-section">
 
         <div
@@ -1272,6 +1324,19 @@ button{
         </div>
 
         <div id="customDeductionInputs"></div>
+
+        <div class="custom-add-buttons">
+
+            <button
+                type="button"
+                class="custom-add-btn custom-deduction-btn"
+                onclick="openSalaryItemModal('deduction')">
+
+                ＋ เพิ่มรายการหัก
+
+            </button>
+
+        </div>
 
     </div>
 
@@ -2207,8 +2272,6 @@ function getSalaryBreakdown(salary){
         ) || 0;
 
 
-    /* OT 1 */
-
     let ot1 = 0;
 
     if(
@@ -2234,8 +2297,6 @@ function getSalaryBreakdown(salary){
     }
 
 
-    /* OT 1.5 */
-
     let ot15 = 0;
 
     if(
@@ -2260,8 +2321,6 @@ function getSalaryBreakdown(salary){
 
     }
 
-
-    /* OT 3 */
 
     let ot3 = 0;
 
@@ -3025,17 +3084,11 @@ async function saveSalary(){
             base_salary:
                 base,
 
-
-            /* OT 1 */
-
             ot_1_hours:
                 ot1Hours,
 
             ot_1:
                 ot1,
-
-
-            /* OT 1.5 */
 
             ot_15_hours:
                 ot15Hours,
@@ -3043,15 +3096,11 @@ async function saveSalary(){
             ot_15:
                 ot15,
 
-
-            /* OT 3 */
-
             ot_3_hours:
                 ot3Hours,
 
             ot_3:
                 ot3,
-
 
             attendance:
                 salaryNumber(
@@ -3472,7 +3521,6 @@ async function loadSalaryItems(){
     renderCustomSalaryInputs();
 
     renderSettingsSalaryItems();
-
 
 }
 
@@ -5020,4 +5068,3 @@ document.addEventListener(
 </body>
 
 </html>
-
