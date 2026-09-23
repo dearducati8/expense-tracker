@@ -6,8 +6,7 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>MoneyMate</title>
 
@@ -919,7 +918,7 @@ inputmode="decimal"
 placeholder="0"
 oninput="calculateSalary()">
 
-<label>OT 1.5 เท่า</label>
+<label>OT 1.5 เท่า (3 ชั่วโมง/วัน)</label>
 
 <input
 id="salaryOTDays"
@@ -927,16 +926,28 @@ type="number"
 inputmode="numeric"
 min="0"
 step="1"
-placeholder="จำนวนวัน"
+placeholder="จำนวนวัน OT"
 oninput="calculateSalary()">
 
 <div class="ot-info">
 
-1 วัน = <strong>3 ชั่วโมง</strong>
+สูตร OT:
+
+<strong>
+เงินเดือน ÷ 30 ÷ 8 × 1.5 × 3
+</strong>
 
 <br>
 
-ค่า OT ที่คำนวณได้: <strong id="salaryOTDisplay">฿0.00</strong>
+1 วัน OT = <strong>3 ชั่วโมง</strong>
+
+<br>
+
+ค่า OT ที่คำนวณได้:
+
+<strong id="salaryOTDisplay">
+฿0.00
+</strong>
 
 </div>
 
@@ -2657,10 +2668,6 @@ document.getElementById(
 salary.base_salary || 0;
 
 
-/*
-โหลดจำนวนวัน OT
-*/
-
 document.getElementById(
 "salaryOTDays"
 ).value =
@@ -2714,11 +2721,6 @@ clearSalaryForm();
 
 }
 
-
-/*
-สร้างช่องรายการเพิ่มเติม
-และโหลดค่าที่เคยบันทึก
-*/
 
 renderCustomSalaryInputs();
 
@@ -2788,6 +2790,36 @@ return 0;
 return Number(
 element.value
 ) || 0;
+
+}
+
+
+/* OT CALCULATOR */
+
+function calculateOTAmount(base,otDays){
+
+/*
+=====================================
+สูตร OT ของ MoneyMate
+=====================================
+
+เงินเดือน ÷ 30 ÷ 8 × 1.5 × 3
+
+30 = จำนวนวันสำหรับคำนวณค่าแรง
+8  = ชั่วโมงทำงานปกติต่อวัน
+1.5 = OT 1.5 เท่า
+3  = OT 3 ชั่วโมงต่อวัน
+
+แล้วคูณจำนวนวัน OT
+=====================================
+*/
+
+return (
+(base / 30 / 8)
+* 1.5
+* 3
+* otDays
+);
 
 }
 
@@ -2951,22 +2983,12 @@ salaryNumber("salaryBase");
 OT 1.5 เท่า
 =====================================
 
-1 วัน = 3 ชั่วโมง
+สูตร:
 
-เงินเดือน / 26
-= ค่าแรงต่อวัน
-
-/ 8
-= ค่าแรงต่อชั่วโมง
-
+เงินเดือน / 30 / 8
 x 1.5
-= OT 1.5 เท่า
-
 x 3 ชั่วโมง
-= OT ต่อ 1 วัน
-
-x จำนวนวัน
-= OT ทั้งหมด
+x จำนวนวัน OT
 =====================================
 */
 
@@ -2975,10 +2997,10 @@ salaryNumber("salaryOTDays");
 
 
 const ot =
-(base / 26 / 8)
-* 1.5
-* 3
-* otDays;
+calculateOTAmount(
+base,
+otDays
+);
 
 
 /*
@@ -3132,10 +3154,6 @@ totalIncome -
 totalDeduction;
 
 
-/*
-NET
-*/
-
 document.getElementById(
 "salaryNet"
 ).innerText =
@@ -3151,25 +3169,30 @@ document.getElementById(
 ).innerText =
 money(base);
 
+
 document.getElementById(
 "showOT"
 ).innerText =
 money(ot);
+
 
 document.getElementById(
 "showAttendance"
 ).innerText =
 money(attendance);
 
+
 document.getElementById(
 "showTravel"
 ).innerText =
 money(travel);
 
+
 document.getElementById(
 "showBonus"
 ).innerText =
 money(bonus);
+
 
 document.getElementById(
 "showOtherIncome"
@@ -3198,10 +3221,12 @@ document.getElementById(
 ).innerText =
 money(social);
 
+
 document.getElementById(
 "showTax"
 ).innerText =
 money(tax);
+
 
 document.getElementById(
 "showOtherDeduction"
@@ -3250,8 +3275,11 @@ return;
 =====================================
 คำนวณ OT
 =====================================
-1 วัน = 3 ชั่วโมง
-OT 1.5 เท่า
+
+เงินเดือน / 30 / 8
+x 1.5
+x 3 ชั่วโมง
+x จำนวนวัน OT
 =====================================
 */
 
@@ -3264,10 +3292,10 @@ salaryNumber("salaryOTDays");
 
 
 const ot =
-(base / 26 / 8)
-* 1.5
-* 3
-* otDays;
+calculateOTAmount(
+base,
+otDays
+);
 
 
 /*
@@ -3575,10 +3603,6 @@ closeSalaryItemModal();
 
 await loadSalaryItems();
 
-
-/*
-โหลดเดือนปัจจุบันใหม่
-*/
 
 loadSalaryMonth();
 
