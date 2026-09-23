@@ -1,33 +1,26 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MoneyMate</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
     box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,"Noto Sans Thai",sans-serif;
 }
 
 body{
-    margin:0;
-    font-family:Arial,"Noto Sans Thai",sans-serif;
     background:#f5f7fb;
     color:#222;
 }
 
-button,
-input,
-select{
+button,input,select{
     font-family:inherit;
 }
 
@@ -35,83 +28,86 @@ button{
     cursor:pointer;
 }
 
-.hidden{
-    display:none !important;
-}
-
-/* =========================
-   LOGIN
-========================= */
-
 .login-page{
     min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:20px;
-    background:linear-gradient(135deg,#667eea,#764ba2);
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
 }
 
 .login-box{
-    width:100%;
-    max-width:420px;
-    background:#fff;
-    border-radius:20px;
+    width:90%;
+    max-width:400px;
+    background:white;
     padding:30px;
-    box-shadow:0 20px 50px rgba(0,0,0,.2);
+    border-radius:20px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
 }
 
 .login-box h1{
     text-align:center;
-    margin:0 0 8px;
-}
-
-.login-box p{
-    text-align:center;
-    color:#777;
     margin-bottom:25px;
 }
 
-.login-box input{
-    width:100%;
-    padding:13px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    margin-bottom:12px;
-    font-size:15px;
+.form-group{
+    margin-bottom:15px;
 }
 
-.primary{
-    width:100%;
-    border:0;
-    background:#667eea;
-    color:#fff;
-    padding:13px;
-    border-radius:10px;
-    font-size:15px;
+.form-group label{
+    display:block;
+    margin-bottom:7px;
     font-weight:bold;
 }
 
-.primary:hover{
-    opacity:.9;
-}
-
-.secondary{
+.form-group input,
+.form-group select{
     width:100%;
-    border:0;
-    background:#eee;
-    color:#333;
-    padding:13px;
+    padding:12px;
+    border:1px solid #ddd;
     border-radius:10px;
-    font-size:15px;
+    outline:none;
 }
 
-/* =========================
-   LAYOUT
-========================= */
+.btn{
+    border:none;
+    padding:11px 16px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:white;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-secondary{
+    background:#e5e7eb;
+    color:#222;
+}
+
+.full{
+    width:100%;
+}
+
+.error{
+    color:#dc2626;
+    margin-top:10px;
+    text-align:center;
+}
 
 .app{
-    min-height:100vh;
+    display:none;
 }
 
 .sidebar{
@@ -120,56 +116,52 @@ button{
     top:0;
     bottom:0;
     width:240px;
-    background:#171b2d;
-    color:#fff;
+    background:#111827;
+    color:white;
     padding:20px;
-    z-index:20;
+    z-index:100;
 }
 
-.logo{
-    font-size:24px;
-    font-weight:bold;
-    margin-bottom:30px;
+.sidebar h2{
+    margin-bottom:25px;
 }
 
-.logo span{
-    color:#8b9aff;
+.sidebar-user{
+    background:#1f2937;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:20px;
+    font-size:14px;
 }
 
 .nav-btn{
     width:100%;
-    border:0;
+    border:none;
     background:transparent;
-    color:#cfd3e6;
-    padding:13px 15px;
-    text-align:left;
+    color:#d1d5db;
+    padding:13px;
     border-radius:10px;
+    text-align:left;
     margin-bottom:7px;
     font-size:15px;
 }
 
 .nav-btn:hover,
 .nav-btn.active{
-    background:#2b3150;
-    color:#fff;
+    background:#2563eb;
+    color:white;
 }
 
 .logout-btn{
-    position:absolute;
-    left:20px;
-    right:20px;
-    bottom:20px;
-    border:0;
-    padding:12px;
-    border-radius:10px;
-    background:#3b405d;
-    color:#fff;
+    margin-top:20px;
+    background:#dc2626;
+    color:white;
 }
 
 .main{
     margin-left:240px;
     padding:25px;
-    max-width:1400px;
+    min-height:100vh;
 }
 
 .page{
@@ -181,33 +173,18 @@ button{
 }
 
 .page-title{
-    font-size:28px;
-    font-weight:bold;
     margin-bottom:20px;
 }
 
-/* =========================
-   CARDS
-========================= */
-
 .card{
-    background:#fff;
-    border-radius:15px;
+    background:white;
+    border-radius:16px;
     padding:20px;
-    margin-bottom:18px;
-    box-shadow:0 3px 15px rgba(0,0,0,.05);
+    box-shadow:0 3px 15px rgba(0,0,0,.06);
+    margin-bottom:20px;
 }
 
-.card h2{
-    margin-top:0;
-    font-size:19px;
-}
-
-/* =========================
-   MONTH
-========================= */
-
-.month-selector{
+.month-bar{
     display:flex;
     align-items:center;
     justify-content:center;
@@ -215,394 +192,173 @@ button{
     margin-bottom:20px;
 }
 
-.month-selector button{
+.month-bar button{
+    border:none;
     width:40px;
     height:40px;
-    border:0;
-    border-radius:10px;
-    background:#eee;
-    font-size:20px;
+    border-radius:50%;
+    background:#e5e7eb;
 }
 
-.month-label{
-    font-size:18px;
+.month-title{
     font-weight:bold;
-    min-width:150px;
+    font-size:18px;
+    min-width:130px;
     text-align:center;
 }
 
-/* =========================
-   DASHBOARD
-========================= */
-
-.balance-card{
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    color:#fff;
-}
-
-.balance-title{
-    opacity:.85;
-}
-
-.balance-value{
-    font-size:36px;
-    font-weight:bold;
-    margin:10px 0;
-}
-
-.stats-grid{
+.dashboard-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
 }
 
 .stat-card{
-    background:#fff;
-    padding:18px;
-    border-radius:14px;
-    box-shadow:0 3px 15px rgba(0,0,0,.05);
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 3px 15px rgba(0,0,0,.06);
 }
 
-.stat-title{
-    color:#777;
-    font-size:13px;
+.stat-card small{
+    color:#6b7280;
 }
 
-.stat-value{
-    font-size:24px;
-    font-weight:bold;
+.stat-card h2{
     margin-top:8px;
 }
 
-/* =========================
-   TRANSACTIONS
-========================= */
+.income{
+    color:#16a34a;
+}
+
+.expense{
+    color:#dc2626;
+}
+
+.balance{
+    color:#2563eb;
+}
 
 .transaction{
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
     padding:14px 0;
     border-bottom:1px solid #eee;
 }
 
 .transaction:last-child{
-    border-bottom:0;
+    border-bottom:none;
 }
 
-.transaction-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
+.transaction-info strong{
+    display:block;
 }
 
-.transaction-icon{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#f0f2ff;
-}
-
-.transaction-name{
-    font-weight:bold;
-}
-
-.transaction-date{
-    color:#888;
-    font-size:12px;
-    margin-top:3px;
-}
-
-.income{
-    color:#16a085;
-}
-
-.expense{
-    color:#e74c3c;
+.transaction-info small{
+    color:#777;
 }
 
 .transaction-actions{
     display:flex;
+    gap:5px;
     align-items:center;
-    gap:10px;
 }
 
-.edit-btn,
-.delete-btn{
-    border:0;
-    background:#eee;
-    padding:7px 9px;
-    border-radius:7px;
-    font-size:12px;
+.amount{
+    font-weight:bold;
 }
 
-.delete-btn{
-    background:#fff0f0;
-    color:#d9534f;
-}
-
-/* =========================
-   ADD BUTTON
-========================= */
-
-.floating-add{
+.fab{
     position:fixed;
     right:30px;
     bottom:30px;
     width:58px;
     height:58px;
-    border:0;
+    border:none;
     border-radius:50%;
-    background:#667eea;
-    color:#fff;
-    font-size:30px;
-    box-shadow:0 8px 20px rgba(0,0,0,.2);
-    z-index:15;
-}
-
-/* =========================
-   FORMS
-========================= */
-
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-}
-
-.form-group{
-    margin-bottom:12px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:6px;
-    font-size:13px;
-    color:#555;
-}
-
-.form-group input,
-.form-group select{
-    width:100%;
-    padding:11px;
-    border:1px solid #ddd;
-    border-radius:9px;
-    background:#fff;
-}
-
-.full{
-    grid-column:1/-1;
-}
-
-/* =========================
-   SALARY
-========================= */
-
-.salary-net{
-    text-align:center;
-    padding:25px;
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    color:#fff;
-    border-radius:15px;
-    margin-bottom:18px;
-}
-
-.salary-net-title{
-    opacity:.85;
-}
-
-.salary-net-value{
-    font-size:38px;
-    font-weight:bold;
-    margin-top:8px;
+    background:#2563eb;
+    color:white;
+    font-size:28px;
+    box-shadow:0 5px 20px rgba(37,99,235,.4);
 }
 
 .salary-section{
-    margin-bottom:18px;
-}
-
-.section-title{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    margin-bottom:10px;
-}
-
-.section-title h2{
-    margin:0;
-}
-
-/* =========================
-   CUSTOM SALARY ITEMS
-========================= */
-
-.custom-item{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    padding:10px 0;
-    border-bottom:1px solid #eee;
-}
-
-.custom-item:last-child{
-    border-bottom:0;
-}
-
-.custom-item-name{
-    flex:1;
-    font-weight:500;
-}
-
-.custom-item-controls{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    width:220px;
-}
-
-.custom-item-controls input{
-    flex:1;
-    width:auto;
-    min-width:0;
-    padding:9px;
-    border:1px solid #ddd;
-    border-radius:8px;
-}
-
-.custom-delete{
-    border:none;
-    background:#fff0f0;
-    color:#d9534f;
-    padding:8px 10px;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:12px;
-    white-space:nowrap;
-}
-
-.custom-delete:hover{
-    background:#ffe0e0;
-}
-
-.small-btn{
-    border:0;
-    background:#667eea;
-    color:#fff;
-    padding:8px 12px;
-    border-radius:8px;
-    font-size:12px;
-    white-space:nowrap;
-}
-
-.small-btn:hover{
-    opacity:.9;
-}
-
-.salary-summary-row{
-    display:flex;
-    justify-content:space-between;
-    padding:9px 0;
-    border-bottom:1px solid #eee;
-}
-
-.salary-summary-row:last-child{
-    border-bottom:0;
-}
-
-.salary-summary-total{
-    font-weight:bold;
-    font-size:17px;
-}
-
-/* =========================
-   SETTINGS
-========================= */
-
-.settings-item{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:12px 0;
-    border-bottom:1px solid #eee;
-}
-
-.settings-item:last-child{
-    border-bottom:0;
-}
-
-.settings-item-info{
-    flex:1;
-}
-
-.settings-item-name{
-    font-weight:bold;
-}
-
-.settings-item-type{
-    font-size:12px;
-    color:#888;
-    margin-top:3px;
-}
-
-/* =========================
-   SUMMARY
-========================= */
-
-.summary-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
     margin-bottom:20px;
 }
 
-.summary-card{
-    background:#fff;
-    padding:18px;
-    border-radius:14px;
-    box-shadow:0 3px 15px rgba(0,0,0,.05);
+.salary-section h3{
+    margin-bottom:12px;
 }
 
-.summary-card-title{
-    color:#777;
-    font-size:13px;
+.salary-row{
+    display:grid;
+    grid-template-columns:1fr 180px;
+    gap:15px;
+    align-items:center;
+    margin-bottom:10px;
 }
 
-.summary-card-value{
-    font-size:23px;
-    font-weight:bold;
-    margin-top:8px;
+.salary-row input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:9px;
 }
 
-.year-row{
+.custom-row{
+    display:grid;
+    grid-template-columns:1fr 180px auto;
+    gap:10px;
+    align-items:center;
+    margin-bottom:8px;
+}
+
+.custom-row input{
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:9px;
+}
+
+.summary-box{
+    background:#f8fafc;
+    border-radius:12px;
+    padding:15px;
+    margin-top:15px;
+}
+
+.summary-line{
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    padding:12px 0;
-    border-bottom:1px solid #eee;
+    padding:6px 0;
 }
 
-.year-row:last-child{
-    border-bottom:0;
+.salary-total{
+    font-size:22px;
+    font-weight:bold;
+    margin-top:10px;
 }
 
-/* =========================
-   MODAL
-========================= */
+.add-item{
+    margin-bottom:12px;
+}
+
+.year-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
 
 .modal{
     position:fixed;
     inset:0;
     background:rgba(0,0,0,.5);
     display:none;
-    align-items:center;
     justify-content:center;
+    align-items:center;
+    z-index:500;
     padding:20px;
-    z-index:100;
 }
 
 .modal.show{
@@ -610,73 +366,48 @@ button{
 }
 
 .modal-box{
-    background:#fff;
+    background:white;
     width:100%;
     max-width:450px;
     border-radius:18px;
     padding:25px;
-    max-height:90vh;
-    overflow-y:auto;
 }
 
-.modal-box h2{
-    margin-top:0;
+.modal-box h3{
+    margin-bottom:20px;
 }
 
-.modal-box input,
-.modal-box select{
-    width:100%;
-    padding:12px;
-    border:1px solid #ddd;
-    border-radius:9px;
-    margin-bottom:12px;
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
 }
 
-/* =========================
-   TOAST
-========================= */
-
-.toast{
-    position:fixed;
-    left:50%;
-    bottom:30px;
-    transform:translateX(-50%);
-    background:#222;
-    color:#fff;
-    padding:12px 18px;
-    border-radius:10px;
-    z-index:200;
-    display:none;
-}
-
-.toast.show{
-    display:block;
-}
-
-/* =========================
-   EMPTY
-========================= */
-
-.empty{
-    text-align:center;
-    color:#888;
-    padding:30px 10px;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-.mobile-header{
-    display:none;
+.modal-actions button{
+    flex:1;
 }
 
 .bottom-nav{
     display:none;
 }
 
-@media(max-width:800px){
+.empty{
+    text-align:center;
+    color:#888;
+    padding:30px;
+}
 
+@media(max-width:900px){
+    .dashboard-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .year-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:700px){
     .sidebar{
         display:none;
     }
@@ -684,344 +415,158 @@ button{
     .main{
         margin-left:0;
         padding:15px;
-        padding-bottom:90px;
-    }
-
-    .mobile-header{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        padding:15px;
-        background:#171b2d;
-        color:#fff;
-    }
-
-    .stats-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .summary-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
+        padding-bottom:80px;
     }
 
     .bottom-nav{
-        position:fixed;
         display:flex;
+        position:fixed;
         left:0;
         right:0;
         bottom:0;
         height:65px;
-        background:#fff;
-        border-top:1px solid #ddd;
-        z-index:50;
+        background:white;
+        box-shadow:0 -3px 15px rgba(0,0,0,.1);
+        z-index:200;
     }
 
     .bottom-nav button{
         flex:1;
-        border:0;
-        background:#fff;
-        color:#777;
-        font-size:11px;
+        border:none;
+        background:white;
+        font-size:12px;
     }
 
     .bottom-nav button.active{
-        color:#667eea;
+        color:#2563eb;
         font-weight:bold;
     }
 
-    .floating-add{
+    .dashboard-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .salary-row{
+        grid-template-columns:1fr;
+        gap:5px;
+    }
+
+    .custom-row{
+        grid-template-columns:1fr 1fr auto;
+    }
+
+    .year-grid{
+        grid-template-columns:1fr;
+    }
+
+    .fab{
         right:20px;
         bottom:80px;
     }
-
-    .custom-item{
-        flex-direction:column;
-        align-items:stretch;
-    }
-
-    .custom-item-controls{
-        width:100%;
-    }
-
-    .salary-section .section-title{
-        align-items:flex-start;
-    }
-
 }
-
-@media(max-width:500px){
-
-    .page-title{
-        font-size:23px;
-    }
-
-    .stats-grid{
-        gap:10px;
-    }
-
-    .stat-card{
-        padding:14px;
-    }
-
-    .stat-value{
-        font-size:19px;
-    }
-
-    .summary-grid{
-        gap:10px;
-    }
-
-    .summary-card{
-        padding:14px;
-    }
-
-    .summary-card-value{
-        font-size:18px;
-    }
-
-}
-
 </style>
-
 </head>
 
 <body>
 
-
-<!-- =========================
-     LOGIN
-========================= -->
-
+<!-- LOGIN -->
 <div id="loginPage" class="login-page">
-
     <div class="login-box">
-
         <h1>💰 MoneyMate</h1>
 
-        <p>ระบบจัดการรายรับ รายจ่าย และเงินเดือน</p>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="Email">
+        </div>
 
-        <input
-            id="loginEmail"
-            type="email"
-            placeholder="อีเมล">
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Password">
+        </div>
 
-        <input
-            id="loginPassword"
-            type="password"
-            placeholder="รหัสผ่าน">
-
-        <button
-            class="primary"
-            onclick="login()">
+        <button class="btn btn-primary full" onclick="login()">
             เข้าสู่ระบบ
         </button>
 
-        <div
-            id="loginError"
-            style="
-                color:#e74c3c;
-                text-align:center;
-                margin-top:15px;
-            ">
-        </div>
-
+        <div id="loginError" class="error"></div>
     </div>
-
 </div>
 
 
-<!-- =========================
-     APP
-========================= -->
-
-<div id="app" class="app hidden">
-
-
-    <!-- MOBILE HEADER -->
-
-    <div class="mobile-header">
-
-        <div>
-            <b>💰 MoneyMate</b>
-        </div>
-
-        <button
-            onclick="logout()"
-            style="
-                border:0;
-                background:transparent;
-                color:#fff;
-            ">
-            ออก
-        </button>
-
-    </div>
-
+<!-- APP -->
+<div id="app" class="app">
 
     <!-- SIDEBAR -->
-
     <aside class="sidebar">
 
-        <div class="logo">
-            💰 Money<span>Mate</span>
+        <h2>💰 MoneyMate</h2>
+
+        <div class="sidebar-user">
+            <div id="sidebarEmail">-</div>
         </div>
 
-        <button
-            id="navHome"
-            class="nav-btn active"
-            onclick="showPage('home')">
+        <button class="nav-btn active" onclick="showPage('home',this)">
             🏠 หน้าหลัก
         </button>
 
-        <button
-            id="navSalary"
-            class="nav-btn"
-            onclick="showPage('salary')">
-            💰 เงินเดือน
+        <button class="nav-btn" onclick="showPage('salary',this)">
+            💵 เงินเดือน
         </button>
 
-        <button
-            id="navSummary"
-            class="nav-btn"
-            onclick="showPage('summary')">
+        <button class="nav-btn" onclick="showPage('summary',this)">
             📊 สรุป
         </button>
 
-        <button
-            id="navSettings"
-            class="nav-btn"
-            onclick="showPage('settings')">
+        <button class="nav-btn" onclick="showPage('settings',this)">
             ⚙️ ตั้งค่า
         </button>
 
-        <button
-            class="logout-btn"
-            onclick="logout()">
-            🚪 ออกจากระบบ
+        <button class="nav-btn logout-btn" onclick="logout()">
+            🚪 Logout
         </button>
 
     </aside>
 
 
     <!-- MAIN -->
-
     <main class="main">
 
+        <!-- HOME -->
+        <section id="homePage" class="page active">
 
-        <!-- =========================
-             HOME
-        ========================= -->
+            <h1 class="page-title">🏠 หน้าหลัก</h1>
 
-        <section id="page-home" class="page active">
+            <div class="month-bar">
 
-            <div class="page-title">
-                🏠 หน้าหลัก
-            </div>
+                <button onclick="changeMonth(-1)">‹</button>
 
+                <div id="homeMonthTitle" class="month-title"></div>
 
-            <div class="month-selector">
-
-                <button onclick="changeMonth(-1)">
-                    ‹
-                </button>
-
-                <div
-                    id="currentMonthLabel"
-                    class="month-label">
-                </div>
-
-                <button onclick="changeMonth(1)">
-                    ›
-                </button>
+                <button onclick="changeMonth(1)">›</button>
 
             </div>
 
 
-            <div class="balance-card card">
-
-                <div class="balance-title">
-                    ยอดคงเหลือ
-                </div>
-
-                <div
-                    id="balance"
-                    class="balance-value">
-                    ฿0.00
-                </div>
-
-                <div>
-                    ยอดยกมา:
-                    <span id="carryBalance">
-                        ฿0.00
-                    </span>
-                </div>
-
-            </div>
-
-
-            <div class="stats-grid">
+            <div class="dashboard-grid">
 
                 <div class="stat-card">
-
-                    <div class="stat-title">
-                        รายรับ
-                    </div>
-
-                    <div
-                        id="totalIncome"
-                        class="stat-value income">
-                        ฿0.00
-                    </div>
-
+                    <small>รายรับ</small>
+                    <h2 class="income" id="totalIncome">฿0.00</h2>
                 </div>
 
-
                 <div class="stat-card">
-
-                    <div class="stat-title">
-                        รายจ่าย
-                    </div>
-
-                    <div
-                        id="totalExpense"
-                        class="stat-value expense">
-                        ฿0.00
-                    </div>
-
+                    <small>รายจ่าย</small>
+                    <h2 class="expense" id="totalExpense">฿0.00</h2>
                 </div>
 
-
                 <div class="stat-card">
-
-                    <div class="stat-title">
-                        จำนวนรายการรับ
-                    </div>
-
-                    <div
-                        id="incomeCount"
-                        class="stat-value">
-                        0
-                    </div>
-
+                    <small>คงเหลือ</small>
+                    <h2 class="balance" id="totalBalance">฿0.00</h2>
                 </div>
 
-
                 <div class="stat-card">
-
-                    <div class="stat-title">
-                        จำนวนรายการจ่าย
-                    </div>
-
-                    <div
-                        id="expenseCount"
-                        class="stat-value">
-                        0
-                    </div>
-
+                    <small>รายการ</small>
+                    <h2 id="transactionCount">0</h2>
                 </div>
 
             </div>
@@ -1029,13 +574,7 @@ button{
 
             <div class="card">
 
-                <div class="section-title">
-
-                    <h2>
-                        รายการเดือนนี้
-                    </h2>
-
-                </div>
+                <h3>รายการของเดือนนี้</h3>
 
                 <div id="transactionList"></div>
 
@@ -1044,426 +583,160 @@ button{
         </section>
 
 
-        <!-- =========================
-             SALARY
-        ========================= -->
+        <!-- SALARY -->
+        <section id="salaryPage" class="page">
 
-        <section id="page-salary" class="page">
+            <h1 class="page-title">💵 เงินเดือน</h1>
 
-            <div class="page-title">
-                💰 เงินเดือน
-            </div>
+            <div class="month-bar">
 
+                <button onclick="changeSalaryMonth(-1)">‹</button>
 
-            <div class="month-selector">
+                <div id="salaryMonthTitle" class="month-title"></div>
 
-                <button onclick="changeSalaryMonth(-1)">
-                    ‹
-                </button>
-
-                <div
-                    id="salaryMonthLabel"
-                    class="month-label">
-                </div>
-
-                <button onclick="changeSalaryMonth(1)">
-                    ›
-                </button>
+                <button onclick="changeSalaryMonth(1)">›</button>
 
             </div>
 
 
-            <div class="salary-net">
+            <div class="card">
 
-                <div class="salary-net-title">
-                    เงินเดือนสุทธิ
-                </div>
+                <div class="salary-section">
 
-                <div
-                    id="salaryNet"
-                    class="salary-net-value">
-                    ฿0.00
-                </div>
+                    <h3>💰 รายรับหลัก</h3>
 
-            </div>
-
-
-            <!-- BASE -->
-
-            <div class="card salary-section">
-
-                <h2>
-                    💵 เงินเดือนพื้นฐาน
-                </h2>
-
-                <div class="form-group">
-
-                    <label>
-                        เงินเดือน
-                    </label>
-
-                    <input
-                        id="salaryBase"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        placeholder="0"
-                        oninput="calculateSalary()">
-
-                </div>
-
-            </div>
-
-
-            <!-- OT -->
-
-            <div class="card salary-section">
-
-                <h2>
-                    ⏰ OT
-                </h2>
-
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label>
-                            OT ×1 ชั่วโมง
-                        </label>
-
+                    <div class="salary-row">
+                        <label>เงินเดือนพื้นฐาน</label>
                         <input
+                            type="number"
+                            id="salaryBase"
+                            min="0"
+                            step="0.01"
+                            oninput="calculateSalary()"
+                        >
+                    </div>
+
+                    <div class="salary-row">
+                        <label>OT ×1 ชั่วโมง</label>
+                        <input
+                            type="number"
                             id="salaryOT1Hours"
-                            type="number"
                             min="0"
-                            step="0.5"
-                            placeholder="0"
-                            oninput="calculateSalary()">
-
+                            step="0.01"
+                            oninput="calculateSalary()"
+                        >
                     </div>
 
-
-                    <div class="form-group">
-
-                        <label>
-                            เงิน OT ×1
-                        </label>
-
+                    <div class="salary-row">
+                        <label>OT ×1.5 ชั่วโมง</label>
                         <input
-                            id="salaryOT1Display"
-                            type="text"
-                            readonly
-                            value="฿0.00">
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            OT ×1.5 ชั่วโมง
-                        </label>
-
-                        <input
+                            type="number"
                             id="salaryOT15Hours"
-                            type="number"
                             min="0"
-                            step="0.5"
-                            placeholder="0"
-                            oninput="calculateSalary()">
-
+                            step="0.01"
+                            oninput="calculateSalary()"
+                        >
                     </div>
 
-
-                    <div class="form-group">
-
-                        <label>
-                            เงิน OT ×1.5
-                        </label>
-
+                    <div class="salary-row">
+                        <label>OT ×3 ชั่วโมง</label>
                         <input
-                            id="salaryOT15Display"
-                            type="text"
-                            readonly
-                            value="฿0.00">
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            OT ×3 ชั่วโมง
-                        </label>
-
-                        <input
+                            type="number"
                             id="salaryOT3Hours"
-                            type="number"
                             min="0"
-                            step="0.5"
-                            placeholder="0"
-                            oninput="calculateSalary()">
-
+                            step="0.01"
+                            oninput="calculateSalary()"
+                        >
                     </div>
 
-
-                    <div class="form-group">
-
-                        <label>
-                            เงิน OT ×3
-                        </label>
-
+                    <div class="salary-row">
+                        <label>เบี้ยขยัน / Attendance</label>
                         <input
-                            id="salaryOT3Display"
-                            type="text"
-                            readonly
-                            value="฿0.00">
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- OTHER INCOME -->
-
-            <div class="card salary-section">
-
-                <h2>
-                    💵 รายรับอื่น ๆ
-                </h2>
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label>
-                            เบี้ยขยัน
-                        </label>
-
-                        <input
+                            type="number"
                             id="salaryAttendance"
-                            type="number"
                             min="0"
                             step="0.01"
-                            oninput="calculateSalary()">
-
+                            oninput="calculateSalary()"
+                        >
                     </div>
 
-
-                    <div class="form-group">
-
-                        <label>
-                            ค่าเดินทาง
-                        </label>
-
+                    <div class="salary-row">
+                        <label>ค่าเดินทาง</label>
                         <input
+                            type="number"
                             id="salaryTravel"
-                            type="number"
                             min="0"
                             step="0.01"
-                            oninput="calculateSalary()">
-
+                            oninput="calculateSalary()"
+                        >
                     </div>
 
-
-                    <div class="form-group">
-
-                        <label>
-                            โบนัส
-                        </label>
-
+                    <div class="salary-row">
+                        <label>โบนัส</label>
                         <input
+                            type="number"
                             id="salaryBonus"
-                            type="number"
                             min="0"
                             step="0.01"
-                            oninput="calculateSalary()">
-
+                            oninput="calculateSalary()"
+                        >
                     </div>
 
-
-                    <div class="form-group">
-
-                        <label>
-                            รายรับอื่น
-                        </label>
-
+                    <div class="salary-row">
+                        <label>รายได้อื่น ๆ</label>
                         <input
-                            id="salaryOtherIncome"
                             type="number"
+                            id="salaryOtherIncome"
                             min="0"
                             step="0.01"
-                            oninput="calculateSalary()">
-
+                            oninput="calculateSalary()"
+                        >
                     </div>
 
                 </div>
 
-            </div>
 
+                <!-- CUSTOM INCOME -->
+                <div class="salary-section">
 
-            <!-- CUSTOM INCOME -->
-
-            <div class="card salary-section">
-
-                <div class="section-title">
-
-                    <h2>
-                        ➕ รายรับเพิ่มเติม
-                    </h2>
+                    <h3>➕ รายรับเพิ่มเติม</h3>
 
                     <button
-                        class="small-btn"
-                        onclick="openSalaryItemModal('income')">
+                        class="btn btn-secondary add-item"
+                        onclick="openSalaryItemModal('income')"
+                    >
                         ＋ เพิ่มรายการ
                     </button>
 
-                </div>
-
-                <div id="customIncomeInputs"></div>
-
-            </div>
-
-
-            <!-- INCOME SUMMARY -->
-
-            <div class="card salary-section">
-
-                <h2>
-                    📋 สรุปรายรับ
-                </h2>
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        เงินเดือน
-                    </span>
-
-                    <span id="salarySummaryBase">
-                        ฿0.00
-                    </span>
+                    <div id="customIncomeList"></div>
 
                 </div>
 
 
-                <div class="salary-summary-row">
+                <!-- INCOME SUMMARY -->
+                <div class="summary-box">
 
-                    <span>
-                        OT ×1
-                    </span>
+                    <div class="summary-line">
+                        <span>OT ×1</span>
+                        <strong id="salaryOT1Amount">฿0.00</strong>
+                    </div>
 
-                    <span id="salarySummaryOT1">
-                        ฿0.00
-                    </span>
+                    <div class="summary-line">
+                        <span>OT ×1.5</span>
+                        <strong id="salaryOT15Amount">฿0.00</strong>
+                    </div>
 
-                </div>
+                    <div class="summary-line">
+                        <span>OT ×3</span>
+                        <strong id="salaryOT3Amount">฿0.00</strong>
+                    </div>
 
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        OT ×1.5
-                    </span>
-
-                    <span id="salarySummaryOT15">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        OT ×3
-                    </span>
-
-                    <span id="salarySummaryOT3">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        OT รวม
-                    </span>
-
-                    <span id="salarySummaryTotalOT">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        Attendance
-                    </span>
-
-                    <span id="salarySummaryAttendance">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        ค่าเดินทาง
-                    </span>
-
-                    <span id="salarySummaryTravel">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        โบนัส
-                    </span>
-
-                    <span id="salarySummaryBonus">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        รายรับอื่น
-                    </span>
-
-                    <span id="salarySummaryOtherIncome">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-
-                <div id="customIncomeSummary"></div>
-
-
-                <div class="salary-summary-row salary-summary-total">
-
-                    <span>
-                        รายรับรวม
-                    </span>
-
-                    <span id="salarySummaryTotalIncome">
-                        ฿0.00
-                    </span>
+                    <div class="summary-line">
+                        <span>รายรับทั้งหมด</span>
+                        <strong class="income" id="salaryTotalIncome">
+                            ฿0.00
+                        </strong>
+                    </div>
 
                 </div>
 
@@ -1471,278 +744,130 @@ button{
 
 
             <!-- DEDUCTION -->
+            <div class="card">
 
-            <div class="card salary-section">
+                <div class="salary-section">
 
-                <h2>
-                    ➖ รายการหัก
-                </h2>
+                    <h3>➖ รายการหัก</h3>
 
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label>
-                            ประกันสังคม
-                        </label>
-
+                    <div class="salary-row">
+                        <label>ประกันสังคม</label>
                         <input
+                            type="number"
                             id="salarySocial"
-                            type="number"
                             min="0"
                             step="0.01"
-                            oninput="calculateSalary()">
-
+                            oninput="calculateSalary()"
+                        >
                     </div>
 
-
-                    <div class="form-group">
-
-                        <label>
-                            ภาษี
-                        </label>
-
+                    <div class="salary-row">
+                        <label>ภาษี</label>
                         <input
+                            type="number"
                             id="salaryTax"
-                            type="number"
                             min="0"
                             step="0.01"
-                            oninput="calculateSalary()">
-
+                            oninput="calculateSalary()"
+                        >
                     </div>
 
-
-                    <div class="form-group full">
-
-                        <label>
-                            หักอื่น ๆ
-                        </label>
-
+                    <div class="salary-row">
+                        <label>หักอื่น ๆ</label>
                         <input
-                            id="salaryOtherDeduction"
                             type="number"
+                            id="salaryOtherDeduction"
                             min="0"
                             step="0.01"
-                            oninput="calculateSalary()">
-
+                            oninput="calculateSalary()"
+                        >
                     </div>
 
                 </div>
 
-            </div>
 
+                <!-- CUSTOM DEDUCTION -->
+                <div class="salary-section">
 
-            <!-- CUSTOM DEDUCTION -->
-
-            <div class="card salary-section">
-
-                <div class="section-title">
-
-                    <h2>
-                        ➖ รายการหักเพิ่มเติม
-                    </h2>
+                    <h3>➖ รายการหักเพิ่มเติม</h3>
 
                     <button
-                        class="small-btn"
-                        onclick="openSalaryItemModal('deduction')">
+                        class="btn btn-secondary add-item"
+                        onclick="openSalaryItemModal('deduction')"
+                    >
                         ＋ เพิ่มรายการ
                     </button>
 
+                    <div id="customDeductionList"></div>
+
                 </div>
 
-                <div id="customDeductionInputs"></div>
+
+                <div class="summary-box">
+
+                    <div class="summary-line">
+                        <span>รายการหักทั้งหมด</span>
+                        <strong class="expense" id="salaryTotalDeduction">
+                            ฿0.00
+                        </strong>
+                    </div>
+
+                    <div class="summary-line salary-total">
+                        <span>เงินเดือนสุทธิ</span>
+                        <strong class="balance" id="salaryNet">
+                            ฿0.00
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="btn btn-success full"
+                    style="margin-top:15px"
+                    onclick="saveSalary()"
+                >
+                    💾 บันทึกเงินเดือน
+                </button>
 
             </div>
-
-
-            <!-- DEDUCTION SUMMARY -->
-
-            <div class="card salary-section">
-
-                <h2>
-                    📋 สรุปรายการหัก
-                </h2>
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        ประกันสังคม
-                    </span>
-
-                    <span id="salarySummarySocial">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        ภาษี
-                    </span>
-
-                    <span id="salarySummaryTax">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-
-                <div class="salary-summary-row">
-
-                    <span>
-                        หักอื่น ๆ
-                    </span>
-
-                    <span id="salarySummaryOtherDeduction">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-
-                <div id="customDeductionSummary"></div>
-
-
-                <div class="salary-summary-row salary-summary-total">
-
-                    <span>
-                        หักรวม
-                    </span>
-
-                    <span id="salarySummaryTotalDeduction">
-                        ฿0.00
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <button
-                class="primary"
-                onclick="saveSalary()">
-                💾 บันทึกเงินเดือน
-            </button>
 
         </section>
 
 
-        <!-- =========================
-             SUMMARY
-        ========================= -->
+        <!-- SUMMARY -->
+        <section id="summaryPage" class="page">
 
-        <section id="page-summary" class="page">
-
-            <div class="page-title">
-                📊 สรุปเงินเดือน
-            </div>
-
-
-            <div class="summary-grid">
-
-                <div class="summary-card">
-
-                    <div class="summary-card-title">
-                        รายรับทั้งปี
-                    </div>
-
-                    <div
-                        id="yearTotalIncome"
-                        class="summary-card-value">
-                        ฿0.00
-                    </div>
-
-                </div>
-
-
-                <div class="summary-card">
-
-                    <div class="summary-card-title">
-                        เงินเดือนเฉลี่ย
-                    </div>
-
-                    <div
-                        id="yearAverage"
-                        class="summary-card-value">
-                        ฿0.00
-                    </div>
-
-                </div>
-
-
-                <div class="summary-card">
-
-                    <div class="summary-card-title">
-                        OT ทั้งปี
-                    </div>
-
-                    <div
-                        id="yearTotalOT"
-                        class="summary-card-value">
-                        ฿0.00
-                    </div>
-
-                </div>
-
-
-                <div class="summary-card">
-
-                    <div class="summary-card-title">
-                        โบนัสทั้งปี
-                    </div>
-
-                    <div
-                        id="yearTotalBonus"
-                        class="summary-card-value">
-                        ฿0.00
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="summary-grid">
-
-                <div class="summary-card">
-
-                    <div class="summary-card-title">
-                        ประกันสังคม
-                    </div>
-
-                    <div
-                        id="yearTotalSocial"
-                        class="summary-card-value">
-                        ฿0.00
-                    </div>
-
-                </div>
-
-
-                <div class="summary-card">
-
-                    <div class="summary-card-title">
-                        ภาษี
-                    </div>
-
-                    <div
-                        id="yearTotalTax"
-                        class="summary-card-value">
-                        ฿0.00
-                    </div>
-
-                </div>
-
-            </div>
-
+            <h1 class="page-title">📊 สรุป</h1>
 
             <div class="card">
 
-                <h2>
-                    📅 เงินเดือนรายเดือน
-                </h2>
+                <h3>สรุปเงินเดือนรายปี</h3>
+
+                <div class="year-grid">
+
+                    <div class="stat-card">
+                        <small>รายรับรวม</small>
+                        <h2 class="income" id="yearIncome">฿0.00</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <small>หักรวม</small>
+                        <h2 class="expense" id="yearDeduction">฿0.00</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <small>สุทธิรวม</small>
+                        <h2 class="balance" id="yearNet">฿0.00</h2>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>รายละเอียดรายเดือน</h3>
 
                 <div id="yearSalaryList"></div>
 
@@ -1751,309 +876,179 @@ button{
         </section>
 
 
-        <!-- =========================
-             SETTINGS
-        ========================= -->
+        <!-- SETTINGS -->
+        <section id="settingsPage" class="page">
 
-        <section id="page-settings" class="page">
-
-            <div class="page-title">
-                ⚙️ ตั้งค่า
-            </div>
-
+            <h1 class="page-title">⚙️ ตั้งค่า</h1>
 
             <div class="card">
 
-                <h2>
-                    👤 บัญชีผู้ใช้
-                </h2>
+                <h3>บัญชีผู้ใช้</h3>
 
-                <div
-                    id="settingsEmail"
-                    style="color:#666;">
-                </div>
+                <p style="margin-top:10px">
+                    Email:
+                    <strong id="settingsEmail">-</strong>
+                </p>
 
-            </div>
-
-
-            <div class="card">
-
-                <h2>
-                    🔗 Supabase
-                </h2>
-
-                <div style="color:#16a085;">
-                    ● เชื่อมต่อระบบ
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="section-title">
-
-                    <h2>
-                        💰 รายการเงินเดือนที่สร้างเอง
-                    </h2>
-
-                </div>
-
-                <div id="settingsSalaryItems"></div>
+                <button
+                    class="btn btn-danger"
+                    style="margin-top:15px"
+                    onclick="logout()"
+                >
+                    🚪 Logout
+                </button>
 
             </div>
 
         </section>
 
-
     </main>
 
 
-    <!-- BOTTOM NAV -->
+    <!-- MOBILE NAV -->
+    <nav class="bottom-nav">
 
-    <div class="bottom-nav">
-
-        <button
-            id="bottomHome"
-            class="active"
-            onclick="showPage('home')">
-            🏠<br>
-            หน้าหลัก
+        <button class="active" onclick="showPage('home',this)">
+            🏠<br>หน้าหลัก
         </button>
 
-        <button
-            id="bottomSalary"
-            onclick="showPage('salary')">
-            💰<br>
-            เงินเดือน
+        <button onclick="showPage('salary',this)">
+            💵<br>เงินเดือน
         </button>
 
-        <button
-            id="bottomSummary"
-            onclick="showPage('summary')">
-            📊<br>
-            สรุป
+        <button onclick="showPage('summary',this)">
+            📊<br>สรุป
         </button>
 
-        <button
-            id="bottomSettings"
-            onclick="showPage('settings')">
-            ⚙️<br>
-            ตั้งค่า
+        <button onclick="showPage('settings',this)">
+            ⚙️<br>ตั้งค่า
         </button>
 
-    </div>
+    </nav>
 
 
-    <!-- FLOATING ADD -->
-
+    <!-- TRANSACTION FAB -->
     <button
-        id="addButton"
-        class="floating-add"
-        onclick="openTransactionModal()">
+        id="transactionFab"
+        class="fab"
+        onclick="openTransactionModal()"
+    >
         +
     </button>
 
 </div>
 
 
-<!-- =========================
-     TRANSACTION MODAL
-========================= -->
-
-<div
-    id="transactionModal"
-    class="modal">
+<!-- TRANSACTION MODAL -->
+<div id="transactionModal" class="modal">
 
     <div class="modal-box">
 
-        <h2 id="transactionModalTitle">
-            เพิ่มรายการ
-        </h2>
-
+        <h3>เพิ่มรายการ</h3>
 
         <div class="form-group">
-
-            <label>
-                ประเภท
-            </label>
+            <label>ประเภท</label>
 
             <select id="transactionType">
-
-                <option value="income">
-                    รายรับ
-                </option>
-
-                <option value="expense">
-                    รายจ่าย
-                </option>
-
+                <option value="income">รายรับ</option>
+                <option value="expense">รายจ่าย</option>
             </select>
-
         </div>
 
-
         <div class="form-group">
-
-            <label>
-                รายการ
-            </label>
-
-            <input
-                id="transactionName"
-                type="text"
-                placeholder="เช่น เงินเดือน / ค่าอาหาร">
-
+            <label>รายการ</label>
+            <input id="transactionTitle" placeholder="เช่น เงินเดือน / ค่าอาหาร">
         </div>
 
-
         <div class="form-group">
-
-            <label>
-                จำนวนเงิน
-            </label>
-
-            <input
-                id="transactionAmount"
-                type="number"
-                min="0"
-                step="0.01"
-                placeholder="0">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>
-                หมวดหมู่
-            </label>
+            <label>หมวดหมู่</label>
 
             <select id="transactionCategory">
-
-                <option value="salary">
-                    เงินเดือน
-                </option>
-
-                <option value="food">
-                    อาหาร
-                </option>
-
-                <option value="travel">
-                    เดินทาง
-                </option>
-
-                <option value="shopping">
-                    ช้อปปิ้ง
-                </option>
-
-                <option value="bills">
-                    บิล
-                </option>
-
-                <option value="health">
-                    สุขภาพ
-                </option>
-
-                <option value="other">
-                    อื่น ๆ
-                </option>
-
+                <option value="salary">เงินเดือน</option>
+                <option value="food">อาหาร</option>
+                <option value="travel">เดินทาง</option>
+                <option value="shopping">ช้อปปิ้ง</option>
+                <option value="bills">บิล</option>
+                <option value="health">สุขภาพ</option>
+                <option value="other">อื่น ๆ</option>
             </select>
-
         </div>
-
 
         <div class="form-group">
-
-            <label>
-                วันที่
-            </label>
-
+            <label>จำนวนเงิน</label>
             <input
-                id="transactionDate"
-                type="date">
-
+                type="number"
+                id="transactionAmount"
+                min="0"
+                step="0.01"
+            >
         </div>
 
+        <div class="modal-actions">
 
-        <button
-            class="primary"
-            onclick="saveTransaction()">
-            💾 บันทึก
-        </button>
+            <button
+                class="btn btn-secondary"
+                onclick="closeTransactionModal()"
+            >
+                ยกเลิก
+            </button>
 
-        <br><br>
+            <button
+                class="btn btn-primary"
+                onclick="saveTransaction()"
+            >
+                บันทึก
+            </button>
 
-        <button
-            class="secondary"
-            onclick="closeTransactionModal()">
-            ยกเลิก
-        </button>
+        </div>
 
     </div>
 
 </div>
 
 
-<!-- =========================
-     SALARY ITEM MODAL
-========================= -->
-
-<div
-    id="salaryItemModal"
-    class="modal">
+<!-- SALARY ITEM MODAL -->
+<div id="salaryItemModal" class="modal">
 
     <div class="modal-box">
 
-        <h2 id="salaryItemModalTitle">
-            เพิ่มรายการเงินเดือน
-        </h2>
+        <h3 id="salaryItemModalTitle">เพิ่มรายการรับ</h3>
 
+        <div class="form-group">
 
-        <label>
-            ชื่อรายการ
-        </label>
+            <label>ชื่อรายการ</label>
 
-        <input
-            id="salaryItemName"
-            type="text"
-            placeholder="เช่น ค่าตำแหน่ง">
+            <input
+                id="salaryItemName"
+                placeholder="เช่น ค่าโทรศัพท์ / ค่ากะ"
+            >
 
-        <button
-            class="primary"
-            onclick="saveSalaryItem()">
-            💾 บันทึกรายการ
-        </button>
+        </div>
 
-        <br><br>
+        <div class="modal-actions">
 
-        <button
-            class="secondary"
-            onclick="closeSalaryItemModal()">
-            ยกเลิก
-        </button>
+            <button
+                class="btn btn-secondary"
+                onclick="closeSalaryItemModal()"
+            >
+                ยกเลิก
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="saveSalaryItem()"
+            >
+                เพิ่มรายการ
+            </button>
+
+        </div>
 
     </div>
 
-</div>
-
-
-<!-- =========================
-     TOAST
-========================= -->
-
-<div
-    id="toast"
-    class="toast">
 </div>
 
 
 <script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
 
 const SUPABASE_URL =
     "https://dhzvgerfkvmpxxkpcqcv.supabase.co";
@@ -2068,157 +1063,65 @@ const supabaseClient =
     );
 
 
-/* =====================================================
-   GLOBAL
-===================================================== */
+let user = null;
 
-let currentUser = null;
+let currentMonth = new Date();
 
-let transactions = [];
-
-let salaries = [];
+let salaryMonth = new Date();
 
 let salaryItems = [];
-
-let currentSalaryMonth =
-    getLocalMonth();
-
-let currentMonth =
-    getLocalMonth();
-
-let editingTransactionId = null;
-
-let transactionType = "income";
 
 let salaryItemType = "income";
 
 
-/* =====================================================
-   DATE
-===================================================== */
+const monthNames = [
+    "มกราคม",
+    "กุมภาพันธ์",
+    "มีนาคม",
+    "เมษายน",
+    "พฤษภาคม",
+    "มิถุนายน",
+    "กรกฎาคม",
+    "สิงหาคม",
+    "กันยายน",
+    "ตุลาคม",
+    "พฤศจิกายน",
+    "ธันวาคม"
+];
 
-function getLocalMonth(){
-
-    const d = new Date();
-
-    return d.getFullYear()
-        + "-"
-        + String(d.getMonth()+1).padStart(2,"0");
-
-}
-
-
-function formatMonth(month){
-
-    const parts =
-        String(month).split("-");
-
-    if(parts.length !== 2){
-        return month;
-    }
-
-    const year =
-        Number(parts[0]);
-
-    const m =
-        Number(parts[1]);
-
-    const names = [
-        "มกราคม",
-        "กุมภาพันธ์",
-        "มีนาคม",
-        "เมษายน",
-        "พฤษภาคม",
-        "มิถุนายน",
-        "กรกฎาคม",
-        "สิงหาคม",
-        "กันยายน",
-        "ตุลาคม",
-        "พฤศจิกายน",
-        "ธันวาคม"
-    ];
-
-    return names[m-1] + " " + year;
-
-}
-
-
-function changeMonth(diff){
-
-    const [year,month] =
-        currentMonth.split("-").map(Number);
-
-    const d =
-        new Date(year,month-1+diff,1);
-
-    currentMonth =
-        d.getFullYear()
-        + "-"
-        + String(d.getMonth()+1).padStart(2,"0");
-
-    loadMonth();
-
-}
-
-
-function changeSalaryMonth(diff){
-
-    const [year,month] =
-        currentSalaryMonth.split("-").map(Number);
-
-    const d =
-        new Date(year,month-1+diff,1);
-
-    currentSalaryMonth =
-        d.getFullYear()
-        + "-"
-        + String(d.getMonth()+1).padStart(2,"0");
-
-    loadSalaryMonth();
-
-}
-
-
-/* =====================================================
-   FORMAT
-===================================================== */
 
 function money(value){
 
-    return Number(value || 0)
-        .toLocaleString("th-TH",{
+    return Number(value || 0).toLocaleString(
+        "th-TH",
+        {
             minimumFractionDigits:2,
             maximumFractionDigits:2
-        });
+        }
+    );
 
 }
 
 
-/* =====================================================
-   TOAST
-===================================================== */
+function monthString(date){
 
-function showToast(message){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.innerText = message;
-
-    toast.classList.add("show");
-
-    setTimeout(() => {
-
-        toast.classList.remove("show");
-
-    },2500);
+    return `${date.getFullYear()}-${String(
+        date.getMonth()+1
+    ).padStart(2,"0")}`;
 
 }
 
 
-/* =====================================================
+function monthTitle(date){
+
+    return `${monthNames[date.getMonth()]} ${date.getFullYear()+543}`;
+
+}
+
+
+/* =========================
    LOGIN
-===================================================== */
+========================= */
 
 async function login(){
 
@@ -2228,39 +1131,39 @@ async function login(){
     const password =
         document.getElementById("loginPassword").value;
 
-    const errorBox =
+    const error =
         document.getElementById("loginError");
 
-    errorBox.innerText = "";
+    error.innerText = "";
 
     if(!email || !password){
 
-        errorBox.innerText =
-            "กรุณากรอกอีเมลและรหัสผ่าน";
+        error.innerText =
+            "กรุณากรอก Email และ Password";
 
         return;
-
     }
 
-    const {data,error} =
+
+    const {data,error:loginError} =
         await supabaseClient.auth.signInWithPassword({
             email,
             password
         });
 
-    if(error){
 
-        errorBox.innerText =
-            error.message;
+    if(loginError){
+
+        error.innerText =
+            loginError.message;
 
         return;
-
     }
 
-    currentUser =
-        data.user;
 
-    await showApp();
+    user = data.user;
+
+    await startApp();
 
 }
 
@@ -2269,742 +1172,508 @@ async function logout(){
 
     await supabaseClient.auth.signOut();
 
-    currentUser = null;
+    user = null;
 
-    document
-        .getElementById("app")
-        .classList.add("hidden");
+    document.getElementById("app").style.display =
+        "none";
 
-    document
-        .getElementById("loginPage")
-        .classList.remove("hidden");
+    document.getElementById("loginPage").style.display =
+        "flex";
 
 }
 
 
-/* =====================================================
-   START
-===================================================== */
+async function checkSession(){
 
-async function init(){
+    const {data} =
+        await supabaseClient.auth.getSession();
 
-    const {
-        data
-    } =
-        await supabaseClient.auth.getUser();
+    if(data.session){
 
-    if(data?.user){
+        user = data.session.user;
 
-        currentUser =
-            data.user;
-
-        await showApp();
+        await startApp();
 
     }
 
 }
 
 
-async function showApp(){
+async function startApp(){
 
-    document
-        .getElementById("loginPage")
-        .classList.add("hidden");
+    document.getElementById("loginPage").style.display =
+        "none";
 
-    document
-        .getElementById("app")
-        .classList.remove("hidden");
+    document.getElementById("app").style.display =
+        "block";
 
-    document
-        .getElementById("settingsEmail")
-        .innerText =
-        currentUser.email || "";
+
+    document.getElementById("sidebarEmail").innerText =
+        user.email;
+
+    document.getElementById("settingsEmail").innerText =
+        user.email;
+
+
+    updateMonthUI();
+
+    updateSalaryMonthUI();
 
     await loadSalaryItems();
 
-    await loadData();
+    await loadTransactions();
 
-    await loadSalaries();
+    await loadSalaryMonth();
 
-    showPage("home");
+    await renderYearSummary();
 
 }
 
 
-/* =====================================================
+/* =========================
    PAGE
-===================================================== */
+========================= */
 
-function showPage(page){
+function showPage(page,button){
 
-    document
-        .querySelectorAll(".page")
-        .forEach(p => p.classList.remove("active"));
+    document.querySelectorAll(".page")
+        .forEach(x => x.classList.remove("active"));
 
-    const target =
-        document.getElementById("page-" + page);
-
-    if(target){
-        target.classList.add("active");
-    }
+    document.getElementById(page+"Page")
+        .classList.add("active");
 
 
-    document
-        .querySelectorAll(".nav-btn")
-        .forEach(btn => btn.classList.remove("active"));
+    document.querySelectorAll(".nav-btn")
+        .forEach(x => x.classList.remove("active"));
 
-    const nav =
-        document.getElementById(
-            "nav" +
-            page.charAt(0).toUpperCase() +
-            page.slice(1)
-        );
-
-    if(nav){
-        nav.classList.add("active");
-    }
+    document.querySelectorAll(".bottom-nav button")
+        .forEach(x => x.classList.remove("active"));
 
 
-    document
-        .querySelectorAll(".bottom-nav button")
-        .forEach(btn => btn.classList.remove("active"));
+    if(button){
 
-    const bottom =
-        document.getElementById(
-            "bottom" +
-            page.charAt(0).toUpperCase() +
-            page.slice(1)
-        );
-
-    if(bottom){
-        bottom.classList.add("active");
-    }
-
-
-    const addButton =
-        document.getElementById("addButton");
-
-    if(addButton){
-
-        if(page === "home"){
-
-            addButton.classList.remove("hidden");
-
-        }else{
-
-            addButton.classList.add("hidden");
-
-        }
+        button.classList.add("active");
 
     }
 
 
     if(page === "home"){
 
-        loadMonth();
+        document.getElementById("transactionFab")
+            .style.display = "block";
+
+        loadTransactions();
+
+    }else{
+
+        document.getElementById("transactionFab")
+            .style.display = "none";
 
     }
 
+
     if(page === "salary"){
+
+        loadSalaryItems();
 
         loadSalaryMonth();
 
     }
 
+
     if(page === "summary"){
 
         renderYearSummary();
 
-        renderYearSalaryList();
-
-    }
-
-    if(page === "settings"){
-
-        renderSettingsSalaryItems();
-
     }
 
 }
 
 
-/* =====================================================
+/* =========================
+   HOME MONTH
+========================= */
+
+function updateMonthUI(){
+
+    document.getElementById("homeMonthTitle")
+        .innerText =
+        monthTitle(currentMonth);
+
+}
+
+
+async function changeMonth(direction){
+
+    currentMonth.setMonth(
+        currentMonth.getMonth()+direction
+    );
+
+    updateMonthUI();
+
+    await loadTransactions();
+
+}
+
+
+/* =========================
    TRANSACTIONS
-===================================================== */
+========================= */
 
-async function loadData(){
+function openTransactionModal(){
 
-    if(!currentUser){
-        return;
-    }
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("transactions")
-            .select("*")
-            .eq("user_id",currentUser.id)
-            .order("date",{ascending:false})
-            .order("created_at",{ascending:false});
-
-    if(error){
-
-        console.error(error);
-
-        showToast(
-            "โหลดรายการไม่สำเร็จ: "
-            + error.message
-        );
-
-        return;
-
-    }
-
-    transactions =
-        data || [];
-
-    loadMonth();
-
-}
-
-
-function loadMonth(){
-
-    const label =
-        document.getElementById(
-            "currentMonthLabel"
-        );
-
-    if(label){
-
-        label.innerText =
-            formatMonth(currentMonth);
-
-    }
-
-
-    const list =
-        transactions.filter(item =>
-            String(item.date || "")
-                .startsWith(currentMonth)
-        );
-
-
-    let income = 0;
-
-    let expense = 0;
-
-    let incomeCount = 0;
-
-    let expenseCount = 0;
-
-
-    list.forEach(item => {
-
-        const amount =
-            Number(item.amount) || 0;
-
-        if(item.type === "income"){
-
-            income += amount;
-
-            incomeCount++;
-
-        }else{
-
-            expense += amount;
-
-            expenseCount++;
-
-        }
-
-    });
-
-
-    const balance =
-        income - expense;
-
-
-    document.getElementById(
-        "totalIncome"
-    ).innerText =
-        "฿" + money(income);
-
-
-    document.getElementById(
-        "totalExpense"
-    ).innerText =
-        "฿" + money(expense);
-
-
-    document.getElementById(
-        "incomeCount"
-    ).innerText =
-        incomeCount;
-
-
-    document.getElementById(
-        "expenseCount"
-    ).innerText =
-        expenseCount;
-
-
-    document.getElementById(
-        "balance"
-    ).innerText =
-        "฿" + money(balance);
-
-
-    renderTransactions(list);
-
-}
-
-
-function renderTransactions(list){
-
-    const container =
-        document.getElementById(
-            "transactionList"
-        );
-
-    if(!container){
-        return;
-    }
-
-    if(list.length === 0){
-
-        container.innerHTML = `
-            <div class="empty">
-                ยังไม่มีรายการในเดือนนี้
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        list.map(item => {
-
-            const isIncome =
-                item.type === "income";
-
-            const icon =
-                isIncome ? "💰" : "💸";
-
-            const sign =
-                isIncome ? "+" : "-";
-
-            const colorClass =
-                isIncome ? "income" : "expense";
-
-            return `
-
-                <div class="transaction">
-
-                    <div class="transaction-left">
-
-                        <div class="transaction-icon">
-                            ${icon}
-                        </div>
-
-                        <div>
-
-                            <div class="transaction-name">
-                                ${escapeHtml(item.name || "-")}
-                            </div>
-
-                            <div class="transaction-date">
-                                ${item.date || ""}
-                                ${item.category
-                                    ? " • " + escapeHtml(item.category)
-                                    : ""}
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="transaction-actions">
-
-                        <strong class="${colorClass}">
-                            ${sign}฿${money(item.amount)}
-                        </strong>
-
-                        <button
-                            class="edit-btn"
-                            onclick="editTransaction('${item.id}')">
-                            แก้ไข
-                        </button>
-
-                        <button
-                            class="delete-btn"
-                            onclick="deleteTransaction('${item.id}')">
-                            ลบ
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }).join("");
-
-}
-
-
-function openTransactionModal(id = null){
-
-    editingTransactionId =
-        id;
-
-    const modal =
-        document.getElementById(
-            "transactionModal"
-        );
-
-    const title =
-        document.getElementById(
-            "transactionModalTitle"
-        );
-
-
-    if(id){
-
-        const item =
-            transactions.find(
-                x => String(x.id) === String(id)
-            );
-
-        if(!item){
-            return;
-        }
-
-        title.innerText =
-            "แก้ไขรายการ";
-
-        document.getElementById(
-            "transactionType"
-        ).value =
-            item.type || "income";
-
-        document.getElementById(
-            "transactionName"
-        ).value =
-            item.name || "";
-
-        document.getElementById(
-            "transactionAmount"
-        ).value =
-            item.amount || "";
-
-        document.getElementById(
-            "transactionCategory"
-        ).value =
-            item.category || "other";
-
-        document.getElementById(
-            "transactionDate"
-        ).value =
-            item.date || "";
-
-    }else{
-
-        title.innerText =
-            "เพิ่มรายการ";
-
-        document.getElementById(
-            "transactionType"
-        ).value =
-            "income";
-
-        document.getElementById(
-            "transactionName"
-        ).value =
-            "";
-
-        document.getElementById(
-            "transactionAmount"
-        ).value =
-            "";
-
-        document.getElementById(
-            "transactionCategory"
-        ).value =
-            "other";
-
-        document.getElementById(
-            "transactionDate"
-        ).value =
-            new Date().toISOString().slice(0,10);
-
-    }
-
-
-    modal.classList.add("show");
+    document.getElementById("transactionModal")
+        .classList.add("show");
 
 }
 
 
 function closeTransactionModal(){
 
-    document
-        .getElementById("transactionModal")
+    document.getElementById("transactionModal")
         .classList.remove("show");
-
-    editingTransactionId = null;
 
 }
 
 
 async function saveTransaction(){
 
-    if(!currentUser){
-        return;
-    }
+    if(!user) return;
 
 
     const type =
-        document.getElementById(
-            "transactionType"
-        ).value;
+        document.getElementById("transactionType").value;
 
-    const name =
-        document.getElementById(
-            "transactionName"
-        ).value.trim();
+    const title =
+        document.getElementById("transactionTitle")
+            .value.trim();
+
+    const category =
+        document.getElementById("transactionCategory")
+            .value;
 
     const amount =
         Number(
-            document.getElementById(
-                "transactionAmount"
-            ).value
-        ) || 0;
-
-    const category =
-        document.getElementById(
-            "transactionCategory"
-        ).value;
-
-    const date =
-        document.getElementById(
-            "transactionDate"
-        ).value;
-
-
-    if(!name){
-
-        showToast(
-            "กรุณากรอกรายการ"
+            document.getElementById("transactionAmount")
+                .value
         );
+
+
+    if(!title || amount <= 0){
+
+        alert("กรุณากรอกข้อมูลให้ครบ");
 
         return;
 
     }
 
 
-    if(amount <= 0){
+    const {error} =
+        await supabaseClient
+        .from("transactions")
+        .insert({
 
-        showToast(
-            "กรุณากรอกจำนวนเงิน"
-        );
+            user_id:user.id,
 
-        return;
+            title:title,
 
-    }
+            category:category,
 
+            type:type,
 
-    if(!date){
+            amount:amount,
 
-        showToast(
-            "กรุณาเลือกวันที่"
-        );
+            transaction_date:
+                `${monthString(currentMonth)}-01`
 
-        return;
-
-    }
-
-
-    const payload = {
-
-        user_id:
-            currentUser.id,
-
-        type,
-
-        name,
-
-        amount,
-
-        category,
-
-        date
-
-    };
+        });
 
 
-    let result;
+    if(error){
 
-
-    if(editingTransactionId){
-
-        result =
-            await supabaseClient
-                .from("transactions")
-                .update(payload)
-                .eq("id",editingTransactionId)
-                .eq("user_id",currentUser.id);
-
-    }else{
-
-        result =
-            await supabaseClient
-                .from("transactions")
-                .insert(payload);
-
-    }
-
-
-    if(result.error){
-
-        showToast(
-            "บันทึกไม่สำเร็จ: "
-            + result.error.message
-        );
+        alert(error.message);
 
         return;
 
     }
+
+
+    document.getElementById("transactionTitle")
+        .value = "";
+
+    document.getElementById("transactionAmount")
+        .value = "";
 
 
     closeTransactionModal();
 
-    await loadData();
-
-    showToast(
-        editingTransactionId
-            ? "แก้ไขรายการแล้ว"
-            : "เพิ่มรายการแล้ว"
-    );
+    await loadTransactions();
 
 }
 
 
-function editTransaction(id){
+async function loadTransactions(){
 
-    openTransactionModal(id);
+    if(!user) return;
+
+
+    const start =
+        `${monthString(currentMonth)}-01`;
+
+
+    const nextMonth =
+        new Date(
+            currentMonth.getFullYear(),
+            currentMonth.getMonth()+1,
+            1
+        );
+
+
+    const end =
+        `${monthString(nextMonth)}-01`;
+
+
+    const {data,error} =
+        await supabaseClient
+        .from("transactions")
+        .select("*")
+        .eq("user_id",user.id)
+        .gte("transaction_date",start)
+        .lt("transaction_date",end)
+        .order("transaction_date",{ascending:false});
+
+
+    if(error){
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    const list =
+        document.getElementById("transactionList");
+
+
+    if(!data || data.length === 0){
+
+        list.innerHTML =
+            `<div class="empty">ยังไม่มีรายการ</div>`;
+
+        document.getElementById("totalIncome")
+            .innerText = "฿0.00";
+
+        document.getElementById("totalExpense")
+            .innerText = "฿0.00";
+
+        document.getElementById("totalBalance")
+            .innerText = "฿0.00";
+
+        document.getElementById("transactionCount")
+            .innerText = "0";
+
+        return;
+
+    }
+
+
+    let income = 0;
+
+    let expense = 0;
+
+
+    list.innerHTML = "";
+
+
+    data.forEach(item => {
+
+        const amount =
+            Number(item.amount || 0);
+
+
+        if(item.type === "income"){
+
+            income += amount;
+
+        }else{
+
+            expense += amount;
+
+        }
+
+
+        const div =
+            document.createElement("div");
+
+        div.className = "transaction";
+
+
+        div.innerHTML = `
+
+            <div class="transaction-info">
+
+                <strong>${escapeHTML(item.title)}</strong>
+
+                <small>${escapeHTML(item.category || "")}</small>
+
+            </div>
+
+            <div class="transaction-actions">
+
+                <span class="amount ${
+                    item.type === "income"
+                    ? "income"
+                    : "expense"
+                }">
+
+                    ${item.type === "income" ? "+" : "-"}
+                    ฿${money(amount)}
+
+                </span>
+
+                <button
+                    class="btn btn-danger"
+                    style="padding:6px 9px"
+                    onclick="deleteTransaction('${item.id}')"
+                >
+                    ลบ
+                </button>
+
+            </div>
+        `;
+
+
+        list.appendChild(div);
+
+    });
+
+
+    document.getElementById("totalIncome")
+        .innerText = `฿${money(income)}`;
+
+    document.getElementById("totalExpense")
+        .innerText = `฿${money(expense)}`;
+
+    document.getElementById("totalBalance")
+        .innerText = `฿${money(income-expense)}`;
+
+    document.getElementById("transactionCount")
+        .innerText = data.length;
 
 }
 
 
 async function deleteTransaction(id){
 
-    if(!confirm(
-        "ต้องการลบรายการนี้หรือไม่?"
-    )){
+    if(!confirm("ต้องการลบรายการนี้หรือไม่?")){
+
         return;
+
     }
 
 
-    const {
-        error
-    } =
+    const {error} =
         await supabaseClient
-            .from("transactions")
-            .delete()
-            .eq("id",id)
-            .eq("user_id",currentUser.id);
+        .from("transactions")
+        .delete()
+        .eq("id",id)
+        .eq("user_id",user.id);
 
 
     if(error){
 
-        showToast(
-            "ลบไม่สำเร็จ: "
-            + error.message
-        );
+        alert(error.message);
 
         return;
 
     }
 
 
-    await loadData();
+    await loadTransactions();
 
-    showToast(
-        "ลบรายการแล้ว"
+}
+
+
+/* =========================
+   SALARY MONTH
+========================= */
+
+function updateSalaryMonthUI(){
+
+    document.getElementById("salaryMonthTitle")
+        .innerText =
+        monthTitle(salaryMonth);
+
+}
+
+
+async function changeSalaryMonth(direction){
+
+    salaryMonth.setMonth(
+        salaryMonth.getMonth()+direction
+    );
+
+    updateSalaryMonthUI();
+
+    await loadSalaryMonth();
+
+}
+
+
+/* =========================
+   OT CALCULATIONS
+========================= */
+
+function calculateOT1Amount(base,hours){
+
+    return (
+        (Number(base)||0)
+        /30
+        /8
+        *1
+        *(Number(hours)||0)
     );
 
 }
 
 
-/* =====================================================
-   SALARY ITEMS
-===================================================== */
+function calculateOT15Amount(base,hours){
 
-async function loadSalaryItems(){
-
-    if(!currentUser){
-        return;
-    }
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("salary_items")
-            .select("*")
-            .eq("user_id",currentUser.id)
-            .order("created_at",{
-                ascending:true
-            });
-
-
-    if(error){
-
-        console.error(
-            "loadSalaryItems",
-            error
-        );
-
-        salaryItems = [];
-
-        renderCustomSalaryInputs();
-
-        renderSettingsSalaryItems();
-
-        return;
-
-    }
-
-
-    salaryItems =
-        data || [];
-
-
-    renderCustomSalaryInputs();
-
-    renderSettingsSalaryItems();
+    return (
+        (Number(base)||0)
+        /30
+        /8
+        *1.5
+        *(Number(hours)||0)
+    );
 
 }
 
 
-/* =====================================================
-   SALARY ITEM MODAL
-===================================================== */
+function calculateOT3Amount(base,hours){
+
+    return (
+        (Number(base)||0)
+        /30
+        /8
+        *3
+        *(Number(hours)||0)
+    );
+
+}
+
+
+/* =========================
+   CUSTOM ITEMS
+========================= */
 
 function openSalaryItemModal(type){
 
     salaryItemType =
         type === "deduction"
-            ? "deduction"
-            : "income";
+        ? "deduction"
+        : "income";
 
 
     const title =
@@ -3013,35 +1682,17 @@ function openSalaryItemModal(type){
         );
 
 
-    if(title){
-
-        title.innerText =
-            salaryItemType === "income"
-                ? "เพิ่มรายการรับ"
-                : "เพิ่มรายการหัก";
-
-    }
+    title.innerText =
+        salaryItemType === "income"
+        ? "เพิ่มรายการรับ"
+        : "เพิ่มรายการหัก";
 
 
-    const input =
-        document.getElementById(
-            "salaryItemName"
-        );
+    document.getElementById("salaryItemName")
+        .value = "";
 
 
-    if(input){
-
-        input.value = "";
-
-        setTimeout(() => {
-            input.focus();
-        },100);
-
-    }
-
-
-    document
-        .getElementById("salaryItemModal")
+    document.getElementById("salaryItemModal")
         .classList.add("show");
 
 }
@@ -3049,8 +1700,7 @@ function openSalaryItemModal(type){
 
 function closeSalaryItemModal(){
 
-    document
-        .getElementById("salaryItemModal")
+    document.getElementById("salaryItemModal")
         .classList.remove("show");
 
 }
@@ -3058,56 +1708,37 @@ function closeSalaryItemModal(){
 
 async function saveSalaryItem(){
 
-    if(!currentUser){
-        return;
-    }
-
-
-    const input =
-        document.getElementById(
-            "salaryItemName"
-        );
-
-
     const name =
-        input.value.trim();
+        document.getElementById("salaryItemName")
+            .value.trim();
 
 
     if(!name){
 
-        showToast(
-            "กรุณากรอกชื่อรายการ"
-        );
+        alert("กรุณากรอกชื่อรายการ");
 
         return;
 
     }
 
 
-    const {
-        error
-    } =
+    const {error} =
         await supabaseClient
-            .from("salary_items")
-            .insert({
+        .from("salary_items")
+        .insert({
 
-                user_id:
-                    currentUser.id,
+            user_id:user.id,
 
-                name,
+            name:name,
 
-                type:
-                    salaryItemType
+            type:salaryItemType
 
-            });
+        });
 
 
     if(error){
 
-        showToast(
-            "เพิ่มรายการไม่สำเร็จ: "
-            + error.message
-        );
+        alert(error.message);
 
         return;
 
@@ -3118,11 +1749,7 @@ async function saveSalaryItem(){
 
     await loadSalaryItems();
 
-    loadSalaryMonth();
-
-    showToast(
-        "เพิ่มรายการเรียบร้อย"
-    );
+    await loadSalaryMonth();
 
 }
 
@@ -3130,28 +1757,25 @@ async function saveSalaryItem(){
 async function deleteSalaryItem(id){
 
     if(!confirm(
-        "ต้องการลบรายการนี้หรือไม่?\n\nรายการนี้จะหายจากระบบ"
+        "ต้องการลบรายการนี้หรือไม่?"
     )){
+
         return;
+
     }
 
 
-    const {
-        error
-    } =
+    const {error} =
         await supabaseClient
-            .from("salary_items")
-            .delete()
-            .eq("id",id)
-            .eq("user_id",currentUser.id);
+        .from("salary_items")
+        .delete()
+        .eq("id",id)
+        .eq("user_id",user.id);
 
 
     if(error){
 
-        showToast(
-            "ลบรายการไม่สำเร็จ: "
-            + error.message
-        );
+        alert(error.message);
 
         return;
 
@@ -3160,78 +1784,146 @@ async function deleteSalaryItem(id){
 
     await loadSalaryItems();
 
-    loadSalaryMonth();
-
-    showToast(
-        "ลบรายการแล้ว"
-    );
+    await loadSalaryMonth();
 
 }
 
 
-/* =====================================================
-   CUSTOM ITEMS
-===================================================== */
+async function loadSalaryItems(){
 
-function parseCustomItems(salary){
-
-    if(
-        !salary ||
-        !salary.custom_items
-    ){
-        return {};
-    }
+    if(!user) return;
 
 
-    if(
-        typeof salary.custom_items ===
-        "string"
-    ){
+    const {data,error} =
+        await supabaseClient
+        .from("salary_items")
+        .select("*")
+        .eq("user_id",user.id)
+        .order("created_at",{ascending:true});
 
-        try{
 
-            return JSON.parse(
-                salary.custom_items
-            );
+    if(error){
 
-        }catch(e){
+        console.error(error);
 
-            return {};
+        salaryItems = [];
 
-        }
+        return;
 
     }
 
 
-    return salary.custom_items || {};
+    salaryItems = data || [];
+
+
+    renderCustomSalaryInputs();
 
 }
 
+
+function renderCustomSalaryInputs(){
+
+    const incomeList =
+        document.getElementById(
+            "customIncomeList"
+        );
+
+
+    const deductionList =
+        document.getElementById(
+            "customDeductionList"
+        );
+
+
+    incomeList.innerHTML = "";
+
+    deductionList.innerHTML = "";
+
+
+    const incomeItems =
+        salaryItems.filter(
+            x => x.type === "income"
+        );
+
+
+    const deductionItems =
+        salaryItems.filter(
+            x => x.type === "deduction"
+        );
+
+
+    incomeItems.forEach(item => {
+
+        incomeList.appendChild(
+            createCustomSalaryRow(item)
+        );
+
+    });
+
+
+    deductionItems.forEach(item => {
+
+        deductionList.appendChild(
+            createCustomSalaryRow(item)
+        );
+
+    });
+
+}
+
+
+function createCustomSalaryRow(item){
+
+    const row =
+        document.createElement("div");
+
+    row.className = "custom-row";
+
+
+    row.innerHTML = `
+
+        <label>${escapeHTML(item.name)}</label>
+
+        <input
+            type="number"
+            min="0"
+            step="0.01"
+            class="custom-salary-input"
+            data-id="${item.id}"
+            data-type="${item.type}"
+            value="0"
+            oninput="calculateSalary()"
+        >
+
+        <button
+            class="btn btn-danger"
+            onclick="deleteSalaryItem('${item.id}')"
+        >
+            ลบ
+        </button>
+
+    `;
+
+
+    return row;
+
+}
+
+
+/* =========================
+   CUSTOM VALUES
+========================= */
 
 function getCustomIncomeFromInputs(){
 
     let total = 0;
 
 
-    salaryItems.forEach(item => {
+    document.querySelectorAll(
+        '.custom-salary-input[data-type="income"]'
+    ).forEach(input => {
 
-        if(item.type !== "income"){
-            return;
-        }
-
-
-        const input =
-            document.getElementById(
-                "customSalary_" + item.id
-            );
-
-
-        if(input){
-
-            total +=
-                Number(input.value) || 0;
-
-        }
+        total += Number(input.value)||0;
 
     });
 
@@ -3246,25 +1938,11 @@ function getCustomDeductionFromInputs(){
     let total = 0;
 
 
-    salaryItems.forEach(item => {
+    document.querySelectorAll(
+        '.custom-salary-input[data-type="deduction"]'
+    ).forEach(input => {
 
-        if(item.type !== "deduction"){
-            return;
-        }
-
-
-        const input =
-            document.getElementById(
-                "customSalary_" + item.id
-            );
-
-
-        if(input){
-
-            total +=
-                Number(input.value) || 0;
-
-        }
+        total += Number(input.value)||0;
 
     });
 
@@ -3274,31 +1952,53 @@ function getCustomDeductionFromInputs(){
 }
 
 
+function parseCustomItems(salary){
+
+    if(!salary || !salary.custom_items){
+
+        return {};
+
+    }
+
+
+    try{
+
+        if(typeof salary.custom_items === "object"){
+
+            return salary.custom_items;
+
+        }
+
+
+        return JSON.parse(
+            salary.custom_items
+        );
+
+    }catch(e){
+
+        return {};
+
+    }
+
+}
+
+
 function getSavedCustomIncome(salary){
 
-    const custom =
+    const items =
         parseCustomItems(salary);
+
 
     let total = 0;
 
 
-    Object.keys(custom).forEach(id => {
+    salaryItems
+    .filter(x => x.type === "income")
+    .forEach(item => {
 
-        const item =
-            salaryItems.find(
-                x => String(x.id) === String(id)
-            );
-
-
-        if(
-            item &&
-            item.type === "income"
-        ){
-
-            total +=
-                Number(custom[id]) || 0;
-
-        }
+        total += Number(
+            items[item.id] || 0
+        );
 
     });
 
@@ -3310,29 +2010,20 @@ function getSavedCustomIncome(salary){
 
 function getSavedCustomDeduction(salary){
 
-    const custom =
+    const items =
         parseCustomItems(salary);
+
 
     let total = 0;
 
 
-    Object.keys(custom).forEach(id => {
+    salaryItems
+    .filter(x => x.type === "deduction")
+    .forEach(item => {
 
-        const item =
-            salaryItems.find(
-                x => String(x.id) === String(id)
-            );
-
-
-        if(
-            item &&
-            item.type === "deduction"
-        ){
-
-            total +=
-                Number(custom[id]) || 0;
-
-        }
+        total += Number(
+            items[item.id] || 0
+        );
 
     });
 
@@ -3342,675 +2033,35 @@ function getSavedCustomDeduction(salary){
 }
 
 
-/* =====================================================
-   RENDER CUSTOM SALARY INPUTS
-===================================================== */
-
-function renderCustomSalaryInputs(){
-
-    const incomeContainer =
-        document.getElementById(
-            "customIncomeInputs"
-        );
-
-    const deductionContainer =
-        document.getElementById(
-            "customDeductionInputs"
-        );
-
-
-    if(
-        !incomeContainer ||
-        !deductionContainer
-    ){
-        return;
-    }
-
-
-    incomeContainer.innerHTML = "";
-
-    deductionContainer.innerHTML = "";
-
-
-    const salary =
-        salaries.find(
-            x =>
-                String(x.month) ===
-                String(currentSalaryMonth)
-        );
-
-
-    const custom =
-        salary
-            ? parseCustomItems(salary)
-            : {};
-
-
-    const incomeItems =
-        salaryItems.filter(
-            item =>
-                item.type === "income"
-        );
-
-
-    const deductionItems =
-        salaryItems.filter(
-            item =>
-                item.type === "deduction"
-        );
-
-
-    /* =========================
-       INCOME
-    ========================= */
-
-    if(incomeItems.length === 0){
-
-        incomeContainer.innerHTML = `
-
-            <div class="empty">
-
-                ยังไม่มีรายการรับเพิ่มเติม
-
-                <br>
-
-                กด
-                <b>＋ เพิ่มรายการ</b>
-                เพื่อสร้างรายการ
-
-            </div>
-
-        `;
-
-    }else{
-
-        incomeItems.forEach(item => {
-
-            const wrapper =
-                document.createElement("div");
-
-            wrapper.className =
-                "custom-item";
-
-
-            const name =
-                document.createElement("div");
-
-            name.className =
-                "custom-item-name";
-
-            name.innerText =
-                item.name;
-
-
-            const controls =
-                document.createElement("div");
-
-            controls.className =
-                "custom-item-controls";
-
-
-            const input =
-                document.createElement("input");
-
-            input.type = "number";
-
-            input.min = "0";
-
-            input.step = "0.01";
-
-            input.inputMode =
-                "decimal";
-
-            input.placeholder =
-                "0.00";
-
-            input.id =
-                "customSalary_" +
-                item.id;
-
-
-            if(
-                custom[item.id] !==
-                undefined &&
-                custom[item.id] !==
-                null
-            ){
-
-                input.value =
-                    custom[item.id];
-
-            }else{
-
-                input.value = "";
-
-            }
-
-
-            input.addEventListener(
-                "input",
-                calculateSalary
-            );
-
-
-            const deleteButton =
-                document.createElement("button");
-
-            deleteButton.type =
-                "button";
-
-            deleteButton.className =
-                "custom-delete";
-
-            deleteButton.innerText =
-                "ลบ";
-
-
-            deleteButton.onclick =
-                function(){
-
-                    deleteSalaryItem(
-                        item.id
-                    );
-
-                };
-
-
-            controls.appendChild(input);
-
-            controls.appendChild(
-                deleteButton
-            );
-
-
-            wrapper.appendChild(name);
-
-            wrapper.appendChild(
-                controls
-            );
-
-
-            incomeContainer.appendChild(
-                wrapper
-            );
-
-        });
-
-    }
-
-
-    /* =========================
-       DEDUCTION
-    ========================= */
-
-    if(deductionItems.length === 0){
-
-        deductionContainer.innerHTML = `
-
-            <div class="empty">
-
-                ยังไม่มีรายการหักเพิ่มเติม
-
-                <br>
-
-                กด
-                <b>＋ เพิ่มรายการ</b>
-                เพื่อสร้างรายการ
-
-            </div>
-
-        `;
-
-    }else{
-
-        deductionItems.forEach(item => {
-
-            const wrapper =
-                document.createElement("div");
-
-            wrapper.className =
-                "custom-item";
-
-
-            const name =
-                document.createElement("div");
-
-            name.className =
-                "custom-item-name";
-
-            name.innerText =
-                item.name;
-
-
-            const controls =
-                document.createElement("div");
-
-            controls.className =
-                "custom-item-controls";
-
-
-            const input =
-                document.createElement("input");
-
-            input.type = "number";
-
-            input.min = "0";
-
-            input.step = "0.01";
-
-            input.inputMode =
-                "decimal";
-
-            input.placeholder =
-                "0.00";
-
-            input.id =
-                "customSalary_" +
-                item.id;
-
-
-            if(
-                custom[item.id] !==
-                undefined &&
-                custom[item.id] !==
-                null
-            ){
-
-                input.value =
-                    custom[item.id];
-
-            }else{
-
-                input.value = "";
-
-            }
-
-
-            input.addEventListener(
-                "input",
-                calculateSalary
-            );
-
-
-            const deleteButton =
-                document.createElement("button");
-
-            deleteButton.type =
-                "button";
-
-            deleteButton.className =
-                "custom-delete";
-
-            deleteButton.innerText =
-                "ลบ";
-
-
-            deleteButton.onclick =
-                function(){
-
-                    deleteSalaryItem(
-                        item.id
-                    );
-
-                };
-
-
-            controls.appendChild(input);
-
-            controls.appendChild(
-                deleteButton
-            );
-
-
-            wrapper.appendChild(name);
-
-            wrapper.appendChild(
-                controls
-            );
-
-
-            deductionContainer.appendChild(
-                wrapper
-            );
-
-        });
-
-    }
-
-
-    renderCustomIncomeSummary();
-
-    renderCustomDeductionSummary();
-
-}
-
-
-/* =====================================================
+/* =========================
    SALARY BREAKDOWN
-===================================================== */
-
-function buildSalaryBreakdown({
-
-    base = 0,
-
-    ot1 = 0,
-
-    ot15 = 0,
-
-    ot3 = 0,
-
-    attendance = 0,
-
-    travel = 0,
-
-    bonus = 0,
-
-    otherIncome = 0,
-
-    customIncome = 0,
-
-    social = 0,
-
-    tax = 0,
-
-    otherDeduction = 0,
-
-    customDeduction = 0
-
-} = {}){
-
-
-    const totalOT =
-
-        (Number(ot1) || 0)
-
-        +
-
-        (Number(ot15) || 0)
-
-        +
-
-        (Number(ot3) || 0);
-
-
-    const totalIncome =
-
-        (Number(base) || 0)
-
-        +
-
-        totalOT
-
-        +
-
-        (Number(attendance) || 0)
-
-        +
-
-        (Number(travel) || 0)
-
-        +
-
-        (Number(bonus) || 0)
-
-        +
-
-        (Number(otherIncome) || 0)
-
-        +
-
-        (Number(customIncome) || 0);
-
-
-    const totalDeduction =
-
-        (Number(social) || 0)
-
-        +
-
-        (Number(tax) || 0)
-
-        +
-
-        (Number(otherDeduction) || 0)
-
-        +
-
-        (Number(customDeduction) || 0);
-
-
-    const net =
-        totalIncome -
-        totalDeduction;
-
-
-    return {
-
-        base:
-            Number(base) || 0,
-
-        ot1:
-            Number(ot1) || 0,
-
-        ot15:
-            Number(ot15) || 0,
-
-        ot3:
-            Number(ot3) || 0,
-
-        totalOT,
-
-        attendance:
-            Number(attendance) || 0,
-
-        travel:
-            Number(travel) || 0,
-
-        bonus:
-            Number(bonus) || 0,
-
-        otherIncome:
-            Number(otherIncome) || 0,
-
-        customIncome:
-            Number(customIncome) || 0,
-
-        totalIncome,
-
-        social:
-            Number(social) || 0,
-
-        tax:
-            Number(tax) || 0,
-
-        otherDeduction:
-            Number(otherDeduction) || 0,
-
-        customDeduction:
-            Number(customDeduction) || 0,
-
-        totalDeduction,
-
-        net
-
-    };
-
-}
-
-
-/* =====================================================
-   OT
-===================================================== */
-
-function calculateOT1Amount(base,hours){
-
-    return (
-        (Number(base) || 0)
-        / 30
-        / 8
-        * 1
-        * (Number(hours) || 0)
-    );
-
-}
-
-
-function calculateOT15Amount(base,hours){
-
-    return (
-        (Number(base) || 0)
-        / 30
-        / 8
-        * 1.5
-        * (Number(hours) || 0)
-    );
-
-}
-
-
-function calculateOT3Amount(base,hours){
-
-    return (
-        (Number(base) || 0)
-        / 30
-        / 8
-        * 3
-        * (Number(hours) || 0)
-    );
-
-}
-
-
-/* =====================================================
-   GET SALARY BREAKDOWN
-===================================================== */
+========================= */
 
 function getSalaryBreakdown(salary){
 
-    if(!salary){
-
-        return buildSalaryBreakdown();
-
-    }
-
-
     const base =
-        Number(
-            salary.base_salary
-        ) || 0;
+        Number(salary?.base_salary)||0;
 
 
-   const ot1Hours =
-    Number(salary.ot_1_hours) || 0;
+    /*
+       สำคัญมาก
 
-const ot15Hours =
-    Number(salary.ot_15_hours) || 0;
+       ใช้เฉพาะ *_hours
+       เป็นตัวคำนวณ OT
 
-const ot3Hours =
-    Number(salary.ot_3_hours) || 0;
-
-
-const ot1 =
-    calculateOT1Amount(
-        base,
-        ot1Hours
-    );
-
-const ot15 =
-    calculateOT15Amount(
-        base,
-        ot15Hours
-    );
-
-const ot3 =
-    calculateOT3Amount(
-        base,
-        ot3Hours
-    );
-
-
-    return buildSalaryBreakdown({
-
-        base,
-
-        ot1,
-
-        ot15,
-
-        ot3,
-
-        attendance:
-            salary.attendance,
-
-        travel:
-            salary.travel,
-
-        bonus:
-            salary.bonus,
-
-        otherIncome:
-            salary.other_income,
-
-        customIncome:
-            getSavedCustomIncome(
-                salary
-            ),
-
-        social:
-            salary.social_security,
-
-        tax:
-            salary.tax,
-
-        otherDeduction:
-            salary.other_deduction,
-
-        customDeduction:
-            getSavedCustomDeduction(
-                salary
-            )
-
-    });
-
-}
-
-
-/* =====================================================
-   CALCULATE SALARY
-===================================================== */
-
-function calculateSalary(){
-
-    const base =
-        Number(
-            document.getElementById(
-                "salaryBase"
-            )?.value
-        ) || 0;
-
+       ห้ามเอา ot_3
+       ซึ่งเป็น "จำนวนเงิน"
+       มาใช้เป็นชั่วโมง
+    */
 
     const ot1Hours =
-        Number(
-            document.getElementById(
-                "salaryOT1Hours"
-            )?.value
-        ) || 0;
-
+        Number(salary?.ot_1_hours)||0;
 
     const ot15Hours =
-        Number(
-            document.getElementById(
-                "salaryOT15Hours"
-            )?.value
-        ) || 0;
-
+        Number(salary?.ot_15_hours)||0;
 
     const ot3Hours =
-        Number(
-            document.getElementById(
-                "salaryOT3Hours"
-            )?.value
-        ) || 0;
+        Number(salary?.ot_3_hours)||0;
 
 
     const ot1 =
@@ -4034,422 +2085,504 @@ function calculateSalary(){
         );
 
 
-    const breakdown =
-        buildSalaryBreakdown({
+    const attendance =
+        Number(salary?.attendance)||0;
 
+    const travel =
+        Number(salary?.travel)||0;
+
+    const bonus =
+        Number(salary?.bonus)||0;
+
+    const otherIncome =
+        Number(salary?.other_income)||0;
+
+
+    const customIncome =
+        getSavedCustomIncome(salary);
+
+
+    const social =
+        Number(salary?.social_security)||0;
+
+    const tax =
+        Number(salary?.tax)||0;
+
+    const otherDeduction =
+        Number(salary?.other_deduction)||0;
+
+
+    const customDeduction =
+        getSavedCustomDeduction(salary);
+
+
+    const totalIncome =
+        base
+        + ot1
+        + ot15
+        + ot3
+        + attendance
+        + travel
+        + bonus
+        + otherIncome
+        + customIncome;
+
+
+    const totalDeduction =
+        social
+        + tax
+        + otherDeduction
+        + customDeduction;
+
+
+    return {
+
+        base,
+
+        ot1Hours,
+        ot15Hours,
+        ot3Hours,
+
+        ot1,
+        ot15,
+        ot3,
+
+        attendance,
+        travel,
+        bonus,
+        otherIncome,
+
+        customIncome,
+
+        social,
+        tax,
+        otherDeduction,
+
+        customDeduction,
+
+        totalIncome,
+        totalDeduction,
+
+        net:
+            totalIncome-totalDeduction
+
+    };
+
+}
+
+
+/* =========================
+   CALCULATE CURRENT FORM
+========================= */
+
+function calculateSalary(){
+
+    const base =
+        Number(
+            document.getElementById(
+                "salaryBase"
+            ).value
+        )||0;
+
+
+    const ot1Hours =
+        Number(
+            document.getElementById(
+                "salaryOT1Hours"
+            ).value
+        )||0;
+
+
+    const ot15Hours =
+        Number(
+            document.getElementById(
+                "salaryOT15Hours"
+            ).value
+        )||0;
+
+
+    const ot3Hours =
+        Number(
+            document.getElementById(
+                "salaryOT3Hours"
+            ).value
+        )||0;
+
+
+    const ot1 =
+        calculateOT1Amount(
             base,
-
-            ot1,
-
-            ot15,
-
-            ot3,
-
-            attendance:
-                Number(
-                    document.getElementById(
-                        "salaryAttendance"
-                    )?.value
-                ) || 0,
-
-            travel:
-                Number(
-                    document.getElementById(
-                        "salaryTravel"
-                    )?.value
-                ) || 0,
-
-            bonus:
-                Number(
-                    document.getElementById(
-                        "salaryBonus"
-                    )?.value
-                ) || 0,
-
-            otherIncome:
-                Number(
-                    document.getElementById(
-                        "salaryOtherIncome"
-                    )?.value
-                ) || 0,
-
-            customIncome:
-                getCustomIncomeFromInputs(),
-
-            social:
-                Number(
-                    document.getElementById(
-                        "salarySocial"
-                    )?.value
-                ) || 0,
-
-            tax:
-                Number(
-                    document.getElementById(
-                        "salaryTax"
-                    )?.value
-                ) || 0,
-
-            otherDeduction:
-                Number(
-                    document.getElementById(
-                        "salaryOtherDeduction"
-                    )?.value
-                ) || 0,
-
-            customDeduction:
-                getCustomDeductionFromInputs()
-
-        });
-
-
-    document.getElementById(
-        "salaryOT1Display"
-    ).value =
-        "฿" + money(ot1);
-
-
-    document.getElementById(
-        "salaryOT15Display"
-    ).value =
-        "฿" + money(ot15);
-
-
-    document.getElementById(
-        "salaryOT3Display"
-    ).value =
-        "฿" + money(ot3);
-
-
-    document.getElementById(
-        "salaryNet"
-    ).innerText =
-        "฿" + money(
-            breakdown.net
+            ot1Hours
         );
 
 
-    document.getElementById(
-        "salarySummaryBase"
-    ).innerText =
-        "฿" + money(
-            breakdown.base
+    const ot15 =
+        calculateOT15Amount(
+            base,
+            ot15Hours
         );
 
 
-    document.getElementById(
-        "salarySummaryOT1"
-    ).innerText =
-        "฿" + money(
-            breakdown.ot1
+    const ot3 =
+        calculateOT3Amount(
+            base,
+            ot3Hours
         );
 
 
-    document.getElementById(
-        "salarySummaryOT15"
-    ).innerText =
-        "฿" + money(
-            breakdown.ot15
-        );
+    const attendance =
+        Number(
+            document.getElementById(
+                "salaryAttendance"
+            ).value
+        )||0;
 
 
-    document.getElementById(
-        "salarySummaryOT3"
-    ).innerText =
-        "฿" + money(
-            breakdown.ot3
-        );
+    const travel =
+        Number(
+            document.getElementById(
+                "salaryTravel"
+            ).value
+        )||0;
 
 
-    document.getElementById(
-        "salarySummaryTotalOT"
-    ).innerText =
-        "฿" + money(
-            breakdown.totalOT
-        );
+    const bonus =
+        Number(
+            document.getElementById(
+                "salaryBonus"
+            ).value
+        )||0;
 
 
-    document.getElementById(
-        "salarySummaryAttendance"
-    ).innerText =
-        "฿" + money(
-            breakdown.attendance
-        );
+    const otherIncome =
+        Number(
+            document.getElementById(
+                "salaryOtherIncome"
+            ).value
+        )||0;
 
 
-    document.getElementById(
-        "salarySummaryTravel"
-    ).innerText =
-        "฿" + money(
-            breakdown.travel
-        );
+    const social =
+        Number(
+            document.getElementById(
+                "salarySocial"
+            ).value
+        )||0;
 
 
-    document.getElementById(
-        "salarySummaryBonus"
-    ).innerText =
-        "฿" + money(
-            breakdown.bonus
-        );
+    const tax =
+        Number(
+            document.getElementById(
+                "salaryTax"
+            ).value
+        )||0;
 
 
-    document.getElementById(
-        "salarySummaryOtherIncome"
-    ).innerText =
-        "฿" + money(
-            breakdown.otherIncome
-        );
+    const otherDeduction =
+        Number(
+            document.getElementById(
+                "salaryOtherDeduction"
+            ).value
+        )||0;
 
 
-    document.getElementById(
-        "salarySummaryTotalIncome"
-    ).innerText =
-        "฿" + money(
-            breakdown.totalIncome
-        );
+    const customIncome =
+        getCustomIncomeFromInputs();
 
 
-    document.getElementById(
-        "salarySummarySocial"
-    ).innerText =
-        "฿" + money(
-            breakdown.social
-        );
+    const customDeduction =
+        getCustomDeductionFromInputs();
 
 
-    document.getElementById(
-        "salarySummaryTax"
-    ).innerText =
-        "฿" + money(
-            breakdown.tax
-        );
+    const totalIncome =
+        base
+        + ot1
+        + ot15
+        + ot3
+        + attendance
+        + travel
+        + bonus
+        + otherIncome
+        + customIncome;
 
 
-    document.getElementById(
-        "salarySummaryOtherDeduction"
-    ).innerText =
-        "฿" + money(
-            breakdown.otherDeduction
-        );
+    const totalDeduction =
+        social
+        + tax
+        + otherDeduction
+        + customDeduction;
 
 
-    document.getElementById(
-        "salarySummaryTotalDeduction"
-    ).innerText =
-        "฿" + money(
-            breakdown.totalDeduction
-        );
+    document.getElementById("salaryOT1Amount")
+        .innerText = `฿${money(ot1)}`;
 
 
-    renderCustomIncomeSummary();
+    document.getElementById("salaryOT15Amount")
+        .innerText = `฿${money(ot15)}`;
 
-    renderCustomDeductionSummary();
+
+    document.getElementById("salaryOT3Amount")
+        .innerText = `฿${money(ot3)}`;
+
+
+    document.getElementById("salaryTotalIncome")
+        .innerText = `฿${money(totalIncome)}`;
+
+
+    document.getElementById("salaryTotalDeduction")
+        .innerText = `฿${money(totalDeduction)}`;
+
+
+    document.getElementById("salaryNet")
+        .innerText =
+        `฿${money(totalIncome-totalDeduction)}`;
 
 }
 
 
-/* =====================================================
-   CUSTOM SUMMARY
-===================================================== */
+/* =========================
+   SAVE SALARY
+========================= */
 
-function renderCustomIncomeSummary(){
+async function saveSalary(){
 
-    const container =
-        document.getElementById(
-            "customIncomeSummary"
+    if(!user) return;
+
+
+    const base =
+        Number(
+            document.getElementById(
+                "salaryBase"
+            ).value
+        )||0;
+
+
+    const ot1Hours =
+        Number(
+            document.getElementById(
+                "salaryOT1Hours"
+            ).value
+        )||0;
+
+
+    const ot15Hours =
+        Number(
+            document.getElementById(
+                "salaryOT15Hours"
+            ).value
+        )||0;
+
+
+    const ot3Hours =
+        Number(
+            document.getElementById(
+                "salaryOT3Hours"
+            ).value
+        )||0;
+
+
+    /*
+       คำนวณจำนวนเงินจากชั่วโมง
+    */
+
+    const ot1 =
+        calculateOT1Amount(
+            base,
+            ot1Hours
         );
 
 
-    if(!container){
-        return;
-    }
-
-
-    container.innerHTML = "";
-
-
-    salaryItems
-        .filter(
-            item => item.type === "income"
-        )
-        .forEach(item => {
-
-            const input =
-                document.getElementById(
-                    "customSalary_" + item.id
-                );
-
-
-            const amount =
-                Number(input?.value) || 0;
-
-
-            if(amount !== 0){
-
-                container.innerHTML += `
-
-                    <div class="salary-summary-row">
-
-                        <span>
-                            ${escapeHtml(item.name)}
-                        </span>
-
-                        <span>
-                            ฿${money(amount)}
-                        </span>
-
-                    </div>
-
-                `;
-
-            }
-
-        });
-
-}
-
-
-function renderCustomDeductionSummary(){
-
-    const container =
-        document.getElementById(
-            "customDeductionSummary"
+    const ot15 =
+        calculateOT15Amount(
+            base,
+            ot15Hours
         );
 
 
-    if(!container){
-        return;
-    }
+    const ot3 =
+        calculateOT3Amount(
+            base,
+            ot3Hours
+        );
 
 
-    container.innerHTML = "";
+    const attendance =
+        Number(
+            document.getElementById(
+                "salaryAttendance"
+            ).value
+        )||0;
 
 
-    salaryItems
-        .filter(
-            item => item.type === "deduction"
-        )
-        .forEach(item => {
-
-            const input =
-                document.getElementById(
-                    "customSalary_" + item.id
-                );
+    const travel =
+        Number(
+            document.getElementById(
+                "salaryTravel"
+            ).value
+        )||0;
 
 
-            const amount =
-                Number(input?.value) || 0;
+    const bonus =
+        Number(
+            document.getElementById(
+                "salaryBonus"
+            ).value
+        )||0;
 
 
-            if(amount !== 0){
-
-                container.innerHTML += `
-
-                    <div class="salary-summary-row">
-
-                        <span>
-                            ${escapeHtml(item.name)}
-                        </span>
-
-                        <span>
-                            ฿${money(amount)}
-                        </span>
-
-                    </div>
-
-                `;
-
-            }
-
-        });
-
-}
+    const otherIncome =
+        Number(
+            document.getElementById(
+                "salaryOtherIncome"
+            ).value
+        )||0;
 
 
-/* =====================================================
-   LOAD SALARIES
-===================================================== */
-
-async function loadSalaries(){
-
-    if(!currentUser){
-        return;
-    }
+    const social =
+        Number(
+            document.getElementById(
+                "salarySocial"
+            ).value
+        )||0;
 
 
-    const {
-        data,
-        error
-    } =
+    const tax =
+        Number(
+            document.getElementById(
+                "salaryTax"
+            ).value
+        )||0;
+
+
+    const otherDeduction =
+        Number(
+            document.getElementById(
+                "salaryOtherDeduction"
+            ).value
+        )||0;
+
+
+    const customItems = {};
+
+
+    document.querySelectorAll(
+        ".custom-salary-input"
+    ).forEach(input => {
+
+        customItems[input.dataset.id] =
+            Number(input.value)||0;
+
+    });
+
+
+    const payload = {
+
+        user_id:user.id,
+
+        month:monthString(salaryMonth),
+
+        base_salary:base,
+
+        /*
+           ชั่วโมง
+        */
+
+        ot_1_hours:ot1Hours,
+        ot_15_hours:ot15Hours,
+        ot_3_hours:ot3Hours,
+
+        /*
+           จำนวนเงิน
+        */
+
+        ot_1:ot1,
+        ot_15:ot15,
+        ot_3:ot3,
+
+        attendance:attendance,
+
+        travel:travel,
+
+        bonus:bonus,
+
+        other_income:otherIncome,
+
+        social_security:social,
+
+        tax:tax,
+
+        other_deduction:otherDeduction,
+
+        custom_items:
+            JSON.stringify(customItems)
+
+    };
+
+
+    const {error} =
         await supabaseClient
-            .from("salaries")
-            .select("*")
-            .eq("user_id",currentUser.id)
-            .order("month",{
-                ascending:true
-            });
+        .from("salaries")
+        .upsert(
+            payload,
+            {
+                onConflict:"user_id,month"
+            }
+        );
 
 
     if(error){
 
         console.error(error);
 
-        showToast(
-            "โหลดเงินเดือนไม่สำเร็จ: "
-            + error.message
-        );
-
-        salaries = [];
+        alert(error.message);
 
         return;
 
     }
 
 
-    salaries =
-        data || [];
+    alert("บันทึกเงินเดือนเรียบร้อยแล้ว");
 
+    await loadSalaryMonth();
 
-    loadSalaryMonth();
+    await renderYearSummary();
 
 }
 
 
-/* =====================================================
-   LOAD SALARY MONTH
-===================================================== */
+/* =========================
+   LOAD SALARY
+========================= */
 
-function loadSalaryMonth(){
+async function loadSalaryMonth(){
 
-    const label =
-        document.getElementById(
-            "salaryMonthLabel"
-        );
+    if(!user) return;
 
 
-    if(label){
+    updateSalaryMonthUI();
 
-        label.innerText =
-            formatMonth(
-                currentSalaryMonth
-            );
+
+    const {data,error} =
+        await supabaseClient
+        .from("salaries")
+        .select("*")
+        .eq("user_id",user.id)
+        .eq("month",monthString(salaryMonth))
+        .maybeSingle();
+
+
+    if(error){
+
+        console.error(error);
+
+        return;
 
     }
 
 
-    const salary =
-        salaries.find(
-            x =>
-                String(x.month) ===
-                String(currentSalaryMonth)
-        );
-
-
-    if(!salary){
+    if(!data){
 
         clearSalaryForm();
-
-        renderCustomSalaryInputs();
 
         calculateSalary();
 
@@ -4458,92 +2591,72 @@ function loadSalaryMonth(){
     }
 
 
-    document.getElementById(
-        "salaryBase"
-    ).value =
-        salary.base_salary ?? "";
+    /*
+       สำคัญ:
+       โหลด "ชั่วโมง" จาก *_hours เท่านั้น
+    */
+
+    document.getElementById("salaryBase")
+        .value =
+        Number(data.base_salary)||"";
 
 
-    document.getElementById(
-        "salaryOT1Hours"
-    ).value =
-        salary.ot_1_hours
-        ?? "";
+    document.getElementById("salaryOT1Hours")
+        .value =
+        Number(data.ot_1_hours)||"";
 
 
-    document.getElementById(
-        "salaryOT15Hours"
-    ).value =
-        salary.ot_15_hours
-        ?? "";
+    document.getElementById("salaryOT15Hours")
+        .value =
+        Number(data.ot_15_hours)||"";
 
 
-    document.getElementById(
-        "salaryOT3Hours"
-    ).value =
-        salary.ot_3_hours
-        ?? "";
+    document.getElementById("salaryOT3Hours")
+        .value =
+        Number(data.ot_3_hours)||"";
 
 
-    document.getElementById(
-        "salaryAttendance"
-    ).value =
-        salary.attendance
-        ?? "";
+    document.getElementById("salaryAttendance")
+        .value =
+        Number(data.attendance)||"";
 
 
-    document.getElementById(
-        "salaryTravel"
-    ).value =
-        salary.travel
-        ?? "";
+    document.getElementById("salaryTravel")
+        .value =
+        Number(data.travel)||"";
 
 
-    document.getElementById(
-        "salaryBonus"
-    ).value =
-        salary.bonus
-        ?? "";
+    document.getElementById("salaryBonus")
+        .value =
+        Number(data.bonus)||"";
 
 
-    document.getElementById(
-        "salaryOtherIncome"
-    ).value =
-        salary.other_income
-        ?? "";
+    document.getElementById("salaryOtherIncome")
+        .value =
+        Number(data.other_income)||"";
 
 
-    document.getElementById(
-        "salarySocial"
-    ).value =
-        salary.social_security
-        ?? "";
+    document.getElementById("salarySocial")
+        .value =
+        Number(data.social_security)||"";
 
 
-    document.getElementById(
-        "salaryTax"
-    ).value =
-        salary.tax
-        ?? "";
+    document.getElementById("salaryTax")
+        .value =
+        Number(data.tax)||"";
 
 
-    document.getElementById(
-        "salaryOtherDeduction"
-    ).value =
-        salary.other_deduction
-        ?? "";
+    document.getElementById("salaryOtherDeduction")
+        .value =
+        Number(data.other_deduction)||"";
 
 
-    renderCustomSalaryInputs();
+    loadCustomValues(data);
 
     calculateSalary();
 
 }
 
-
-/* =====================================================
-   CLEAR SALARY
-===================================================== */
 
 function clearSalaryForm(){
 
@@ -4580,578 +2693,236 @@ function clearSalaryForm(){
             document.getElementById(id);
 
         if(el){
+
             el.value = "";
+
         }
 
     });
 
-}
 
+    document.querySelectorAll(
+        ".custom-salary-input"
+    ).forEach(input => {
 
-/* =====================================================
-   SAVE SALARY
-===================================================== */
-
-async function saveSalary(){
-
-    if(!currentUser){
-        return;
-    }
-
-
-    const base =
-        Number(
-            document.getElementById(
-                "salaryBase"
-            ).value
-        ) || 0;
-
-
-    const ot1Hours =
-        Number(
-            document.getElementById(
-                "salaryOT1Hours"
-            ).value
-        ) || 0;
-
-
-    const ot15Hours =
-        Number(
-            document.getElementById(
-                "salaryOT15Hours"
-            ).value
-        ) || 0;
-
-
-    const ot3Hours =
-        Number(
-            document.getElementById(
-                "salaryOT3Hours"
-            ).value
-        ) || 0;
-
-
-    const ot1 =
-        calculateOT1Amount(
-            base,
-            ot1Hours
-        );
-
-
-    const ot15 =
-        calculateOT15Amount(
-            base,
-            ot15Hours
-        );
-
-
-    const ot3 =
-        calculateOT3Amount(
-            base,
-            ot3Hours
-        );
-
-
-    const customItems = {};
-
-
-    salaryItems.forEach(item => {
-
-        const input =
-            document.getElementById(
-                "customSalary_" + item.id
-            );
-
-
-        customItems[item.id] =
-            Number(input?.value) || 0;
+        input.value = 0;
 
     });
 
+}
 
-    const payload = {
 
-        user_id:
-            currentUser.id,
+function loadCustomValues(salary){
 
-        month:
-            currentSalaryMonth,
+    const items =
+        parseCustomItems(salary);
 
-        base_salary:
-            base,
 
-        ot_1_hours:
-            ot1Hours,
+    document.querySelectorAll(
+        ".custom-salary-input"
+    ).forEach(input => {
 
-        ot_1:
-            ot1,
-
-        ot_15_hours:
-            ot15Hours,
-
-        ot_15:
-            ot15,
-
-        ot_3_hours:
-            ot3,
-
-        ot_3:
-            ot3,
-
-        attendance:
+        input.value =
             Number(
-                document.getElementById(
-                    "salaryAttendance"
-                ).value
-            ) || 0,
+                items[input.dataset.id] || 0
+            );
 
-        travel:
-            Number(
-                document.getElementById(
-                    "salaryTravel"
-                ).value
-            ) || 0,
-
-        bonus:
-            Number(
-                document.getElementById(
-                    "salaryBonus"
-                ).value
-            ) || 0,
-
-        other_income:
-            Number(
-                document.getElementById(
-                    "salaryOtherIncome"
-                ).value
-            ) || 0,
-
-        social_security:
-            Number(
-                document.getElementById(
-                    "salarySocial"
-                ).value
-            ) || 0,
-
-        tax:
-            Number(
-                document.getElementById(
-                    "salaryTax"
-                ).value
-            ) || 0,
-
-        other_deduction:
-            Number(
-                document.getElementById(
-                    "salaryOtherDeduction"
-                ).value
-            ) || 0,
-
-        custom_items:
-            customItems
-
-    };
-
-
-    const existing =
-        salaries.find(
-            x =>
-                String(x.month) ===
-                String(currentSalaryMonth)
-        );
-
-
-    let result;
-
-
-    if(existing){
-
-        result =
-            await supabaseClient
-                .from("salaries")
-                .update(payload)
-                .eq("id",existing.id)
-                .eq("user_id",currentUser.id);
-
-    }else{
-
-        result =
-            await supabaseClient
-                .from("salaries")
-                .insert(payload);
-
-    }
-
-
-    if(result.error){
-
-        showToast(
-            "บันทึกเงินเดือนไม่สำเร็จ: "
-            + result.error.message
-        );
-
-        console.error(
-            result.error
-        );
-
-        return;
-
-    }
-
-
-    await loadSalaries();
-
-    showToast(
-        "บันทึกเงินเดือนเรียบร้อย"
-    );
+    });
 
 }
 
 
-/* =====================================================
+/* =========================
    YEAR SUMMARY
-===================================================== */
+========================= */
 
-function renderYearSummary(){
+async function renderYearSummary(){
+
+    if(!user) return;
+
 
     const year =
-        Number(
-            String(
-                getLocalMonth()
-            ).slice(0,4)
-        );
+        salaryMonth.getFullYear();
 
 
-    const yearSalaries =
-        salaries.filter(
-            s =>
-                Number(
-                    String(s.month).slice(0,4)
-                ) === year
-        );
+    const {data,error} =
+        await supabaseClient
+        .from("salaries")
+        .select("*")
+        .eq("user_id",user.id)
+        .gte(
+            "month",
+            `${year}-01`
+        )
+        .lte(
+            "month",
+            `${year}-12`
+        )
+        .order("month",{ascending:true});
 
 
-    let totalIncome = 0;
+    if(error){
 
-    let totalOT = 0;
+        console.error(error);
 
-    let totalBonus = 0;
+        return;
 
-    let totalSocial = 0;
-
-    let totalTax = 0;
-
-    let totalNet = 0;
+    }
 
 
-    yearSalaries.forEach(salary => {
+    let income = 0;
 
-        const b =
-            getSalaryBreakdown(
-                salary
-            );
+    let deduction = 0;
 
-
-        totalIncome +=
-            b.totalIncome;
-
-        totalOT +=
-            b.totalOT;
-
-        totalBonus +=
-            b.bonus;
-
-        totalSocial +=
-            b.social;
-
-        totalTax +=
-            b.tax;
-
-        totalNet +=
-            b.net;
-
-    });
+    let net = 0;
 
 
-    const average =
-        yearSalaries.length
-            ? totalNet / yearSalaries.length
-            : 0;
-
-
-    document.getElementById(
-        "yearTotalIncome"
-    ).innerText =
-        "฿" + money(totalIncome);
-
-
-    document.getElementById(
-        "yearAverage"
-    ).innerText =
-        "฿" + money(average);
-
-
-    document.getElementById(
-        "yearTotalOT"
-    ).innerText =
-        "฿" + money(totalOT);
-
-
-    document.getElementById(
-        "yearTotalBonus"
-    ).innerText =
-        "฿" + money(totalBonus);
-
-
-    document.getElementById(
-        "yearTotalSocial"
-    ).innerText =
-        "฿" + money(totalSocial);
-
-
-    document.getElementById(
-        "yearTotalTax"
-    ).innerText =
-        "฿" + money(totalTax);
-
-}
-
-
-/* =====================================================
-   YEAR SALARY LIST
-===================================================== */
-
-function renderYearSalaryList(){
-
-    const container =
+    const list =
         document.getElementById(
             "yearSalaryList"
         );
 
 
-    if(!container){
-        return;
-    }
+    list.innerHTML = "";
 
 
-    const year =
-        Number(
-            String(
-                getLocalMonth()
-            ).slice(0,4)
-        );
+    for(let month=1; month<=12; month++){
+
+        const monthValue =
+            `${year}-${String(month).padStart(2,"0")}`;
 
 
-    const list =
-        salaries
-            .filter(
-                s =>
-                    Number(
-                        String(s.month).slice(0,4)
-                    ) === year
-            )
-            .sort(
-                (a,b) =>
-                    String(a.month)
-                        .localeCompare(
-                            String(b.month)
-                        )
+        const salary =
+            (data || []).find(
+                x => x.month === monthValue
             );
 
 
-    if(list.length === 0){
+        if(salary){
 
-        container.innerHTML = `
-            <div class="empty">
-                ยังไม่มีข้อมูลเงินเดือนปี ${year}
-            </div>
-        `;
-
-        return;
-
-    }
+            const breakdown =
+                getSalaryBreakdown(salary);
 
 
-    container.innerHTML =
-        list.map(salary => {
+            income +=
+                breakdown.totalIncome;
 
-            const b =
-                getSalaryBreakdown(
-                    salary
-                );
+            deduction +=
+                breakdown.totalDeduction;
+
+            net +=
+                breakdown.net;
 
 
-            return `
+            const div =
+                document.createElement("div");
 
-                <div class="year-row">
+            div.className = "transaction";
 
-                    <div>
 
-                        <strong>
-                            ${formatMonth(
-                                salary.month
-                            )}
-                        </strong>
+            div.innerHTML = `
 
-                        <div
-                            style="
-                                color:#888;
-                                font-size:12px;
-                                margin-top:4px;
-                            ">
-
-                            OT ฿${money(b.totalOT)}
-                            •
-                            โบนัส ฿${money(b.bonus)}
-
-                        </div>
-
-                    </div>
-
+                <div class="transaction-info">
 
                     <strong>
-                        ฿${money(b.net)}
+                        ${monthNames[month-1]}
                     </strong>
 
-                </div>
-
-            `;
-
-        }).join("");
-
-}
-
-
-/* =====================================================
-   SETTINGS SALARY ITEMS
-===================================================== */
-
-function renderSettingsSalaryItems(){
-
-    const container =
-        document.getElementById(
-            "settingsSalaryItems"
-        );
-
-
-    if(!container){
-        return;
-    }
-
-
-    if(salaryItems.length === 0){
-
-        container.innerHTML = `
-
-            <div class="empty">
-
-                ยังไม่มีรายการที่สร้างเอง
-
-                <br><br>
-
-                สามารถเพิ่มรายการได้จากหน้า
-                <b>เงินเดือน</b>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        salaryItems.map(item => {
-
-            const type =
-                item.type === "income"
-                    ? "รายรับ"
-                    : "รายการหัก";
-
-
-            return `
-
-                <div class="settings-item">
-
-                    <div class="settings-item-info">
-
-                        <div class="settings-item-name">
-
-                            ${escapeHtml(
-                                item.name
-                            )}
-
-                        </div>
-
-                        <div class="settings-item-type">
-
-                            ${type}
-
-                        </div>
-
-                    </div>
-
-
-                    <button
-                        class="delete-btn"
-                        onclick="deleteSalaryItem('${item.id}')">
-
-                        ลบ
-
-                    </button>
+                    <small>
+                        รายรับ ฿${money(
+                            breakdown.totalIncome
+                        )}
+                        |
+                        หัก ฿${money(
+                            breakdown.totalDeduction
+                        )}
+                    </small>
 
                 </div>
 
+                <strong class="balance">
+                    ฿${money(breakdown.net)}
+                </strong>
+
             `;
 
-        }).join("");
 
-}
+            list.appendChild(div);
 
+        }else{
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
+            const div =
+                document.createElement("div");
 
-function escapeHtml(value){
-
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
+            div.className = "transaction";
 
 
-/* =====================================================
-   AUTH STATE
-===================================================== */
+            div.innerHTML = `
 
-supabaseClient.auth.onAuthStateChange(
-    async (event,session) => {
+                <div class="transaction-info">
 
-        if(
-            session &&
-            session.user
-        ){
+                    <strong>
+                        ${monthNames[month-1]}
+                    </strong>
 
-            currentUser =
-                session.user;
+                    <small>
+                        ยังไม่มีข้อมูล
+                    </small>
+
+                </div>
+
+                <strong>
+                    ฿0.00
+                </strong>
+
+            `;
+
+
+            list.appendChild(div);
 
         }
 
     }
-);
 
 
-/* =====================================================
-   START APP
-===================================================== */
+    document.getElementById("yearIncome")
+        .innerText =
+        `฿${money(income)}`;
 
-init();
+
+    document.getElementById("yearDeduction")
+        .innerText =
+        `฿${money(deduction)}`;
+
+
+    document.getElementById("yearNet")
+        .innerText =
+        `฿${money(net)}`;
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+checkSession();
 
 </script>
 
