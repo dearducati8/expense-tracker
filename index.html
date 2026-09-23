@@ -296,8 +296,10 @@ font-size:14px;
 }
 
 .info small{
+display:block;
 color:#888;
 font-size:11px;
+margin-top:3px;
 }
 
 .amount-area{
@@ -465,6 +467,7 @@ justify-content:space-between;
 padding:12px 0;
 border-bottom:1px solid #eee;
 font-size:14px;
+gap:15px;
 }
 
 .salary-row:last-child{
@@ -934,7 +937,7 @@ oninput="calculateSalary()">
 สูตร OT:
 
 <strong>
-เงินเดือน ÷ 30 ÷ 8 × 1.5 × 3
+เงินเดือน ÷ 30 ÷ 8 × 1.5 × 3 × จำนวนวัน OT
 </strong>
 
 <br>
@@ -1002,10 +1005,7 @@ oninput="calculateSalary()">
 <button
 class="small-btn"
 onclick="openSalaryItemModal('income')">
-
-＋ เพิ่ม
-
-</button>
+＋ เพิ่ม </button>
 
 </div>
 
@@ -1152,10 +1152,7 @@ oninput="calculateSalary()">
 <button
 class="small-btn"
 onclick="openSalaryItemModal('deduction')">
-
-＋ เพิ่ม
-
-</button>
+＋ เพิ่ม </button>
 
 </div>
 
@@ -1500,19 +1497,33 @@ placeholder="0.00">
 
 <select id="category">
 
-<option value="เงินเดือน">💰 เงินเดือน</option>
+<option value="เงินเดือน">
+💰 เงินเดือน
+</option>
 
-<option value="อาหาร">🍜 อาหาร</option>
+<option value="อาหาร">
+🍜 อาหาร
+</option>
 
-<option value="เดินทาง">🚗 เดินทาง</option>
+<option value="เดินทาง">
+🚗 เดินทาง
+</option>
 
-<option value="ช้อปปิ้ง">🛍️ ช้อปปิ้ง</option>
+<option value="ช้อปปิ้ง">
+🛍️ ช้อปปิ้ง
+</option>
 
-<option value="บิล">🧾 บิล / ค่าใช้จ่าย</option>
+<option value="บิล">
+🧾 บิล / ค่าใช้จ่าย
+</option>
 
-<option value="สุขภาพ">❤️ สุขภาพ</option>
+<option value="สุขภาพ">
+❤️ สุขภาพ
+</option>
 
-<option value="อื่นๆ">📦 อื่นๆ</option>
+<option value="อื่นๆ">
+📦 อื่นๆ
+</option>
 
 </select>
 
@@ -1599,7 +1610,9 @@ class="toast">
 <script>
 
 
-/* SUPABASE */
+/* =====================================
+   SUPABASE
+===================================== */
 
 const SUPABASE_URL =
 "https://dhzvgerfkvmpxxkpcqcv.supabase.co";
@@ -1614,7 +1627,9 @@ SUPABASE_KEY
 );
 
 
-/* VARIABLES */
+/* =====================================
+   VARIABLES
+===================================== */
 
 let items = [];
 
@@ -1637,7 +1652,9 @@ let currentSalaryMonth =
 new Date().toISOString().slice(0,7);
 
 
-/* LOGIN */
+/* =====================================
+   LOGIN
+===================================== */
 
 async function login(){
 
@@ -1676,23 +1693,33 @@ return;
 }
 
 
-showApp();
+await showApp();
 
 }
 
 
-/* LOGOUT */
+/* =====================================
+   LOGOUT
+===================================== */
 
 async function logout(){
 
 await supabaseClient.auth.signOut();
+
+items = [];
+
+salaries = [];
+
+salaryItems = [];
 
 showLogin();
 
 }
 
 
-/* SESSION */
+/* =====================================
+   SESSION
+===================================== */
 
 async function checkSession(){
 
@@ -1704,7 +1731,7 @@ await supabaseClient.auth.getSession();
 
 if(data.session){
 
-showApp();
+await showApp();
 
 }else{
 
@@ -1715,7 +1742,9 @@ showLogin();
 }
 
 
-/* LOGIN PAGE */
+/* =====================================
+   LOGIN PAGE
+===================================== */
 
 function showLogin(){
 
@@ -1738,7 +1767,9 @@ document
 }
 
 
-/* SHOW APP */
+/* =====================================
+   SHOW APP
+===================================== */
 
 async function showApp(){
 
@@ -1780,9 +1811,7 @@ updateSalaryMonthLabel();
 
 
 /*
-โหลดรายการเงินเดือนเพิ่มเติมก่อน
-เพื่อให้ calculateSalary()
-รู้จัก salaryItems ก่อน
+โหลด salary items ก่อน
 */
 
 await loadSalaryItems();
@@ -1800,7 +1829,9 @@ document.querySelector(".nav-item")
 }
 
 
-/* NAVIGATION */
+/* =====================================
+   NAVIGATION
+===================================== */
 
 function showPage(page,element){
 
@@ -1864,9 +1895,28 @@ renderSettingsSalaryItems();
 }
 
 
-/* LOAD TRANSACTIONS */
+/* =====================================
+   LOAD TRANSACTIONS
+===================================== */
 
 async function loadData(){
+
+const {
+data:userData
+} =
+await supabaseClient.auth.getUser();
+
+
+const user =
+userData.user;
+
+
+if(!user){
+
+return;
+
+}
+
 
 const {
 data,
@@ -1875,6 +1925,7 @@ error
 await supabaseClient
 .from("transactions")
 .select("*")
+.eq("user_id",user.id)
 .order("date",{ascending:false});
 
 
@@ -1898,7 +1949,9 @@ render();
 }
 
 
-/* CHANGE MONTH */
+/* =====================================
+   CHANGE MONTH
+===================================== */
 
 function changeMonth(amount){
 
@@ -1945,7 +1998,9 @@ render();
 }
 
 
-/* UPDATE MONTH */
+/* =====================================
+   UPDATE MONTH
+===================================== */
 
 function updateMonthLabel(){
 
@@ -1979,7 +2034,9 @@ label;
 }
 
 
-/* MONTH DATA */
+/* =====================================
+   MONTH DATA
+===================================== */
 
 function getMonthData(month){
 
@@ -1993,7 +2050,9 @@ item.date.slice(0,7) === month;
 }
 
 
-/* PREVIOUS BALANCE */
+/* =====================================
+   PREVIOUS BALANCE
+===================================== */
 
 function getPreviousBalance(){
 
@@ -2011,6 +2070,23 @@ item.date.slice(0,7) <
 currentMonth
 ){
 
+/*
+ไม่รวม transaction
+หมวดเงินเดือน
+เพราะเงินเดือนมาจาก salaries
+*/
+
+if(
+item.category === "เงินเดือน"
+&&
+item.type === "income"
+){
+
+return;
+
+}
+
+
 if(item.type === "income"){
 
 total += Number(item.amount);
@@ -2026,36 +2102,207 @@ total -= Number(item.amount);
 });
 
 
+/*
+เพิ่มเงินเดือนของเดือนก่อนหน้า
+*/
+
+salaries.forEach(salary=>{
+
+if(
+salary.month &&
+salary.month < currentMonth
+){
+
+total +=
+getSavedSalaryIncome(salary);
+
+total -=
+getSavedSalaryDeduction(salary);
+
+}
+
+});
+
+
 return total;
 
 }
 
 
-/* RENDER */
+/* =====================================
+   HOME SALARY
+===================================== */
 
-function render(){
+function getCurrentMonthSalaryIncome(){
 
-const data =
-getMonthData(currentMonth);
+const salary =
+salaries.find(
+x =>
+x.month === currentMonth
+);
 
 
-const income =
-data
-.filter(x=>x.type==="income")
+if(!salary){
+
+return 0;
+
+}
+
+
+return getSavedSalaryIncome(
+salary
+);
+
+
+}
+
+
+/* =====================================
+   HOME DATA
+===================================== */
+
+function getHomeMonthIncome(month){
+
+const salaryIncome =
+salaries
+.filter(x => x.month === month)
 .reduce(
-(sum,x)=>
-sum+Number(x.amount),
+(sum,salary)=>
+sum +
+getSavedSalaryIncome(salary),
 0
 );
 
 
-const expense =
-data
-.filter(x=>x.type==="expense")
+const transactionIncome =
+items
+.filter(item =>
+item.date &&
+item.date.slice(0,7) === month &&
+item.type === "income" &&
+item.category !== "เงินเดือน"
+)
 .reduce(
-(sum,x)=>
-sum+Number(x.amount),
+(sum,item)=>
+sum + Number(item.amount || 0),
 0
+);
+
+
+return salaryIncome +
+transactionIncome;
+
+}
+
+
+/* =====================================
+   HOME EXPENSE
+===================================== */
+
+function getHomeMonthExpense(month){
+
+return items
+.filter(item =>
+item.date &&
+item.date.slice(0,7) === month &&
+item.type === "expense"
+)
+.reduce(
+(sum,item)=>
+sum + Number(item.amount || 0),
+0
+);
+
+
+/*
+หมายเหตุ:
+
+รายการหักเงินเดือน
+เช่น ประกันสังคม / ภาษี
+จะถูกหักออกจากยอดเงินเดือนสุทธิ
+*/
+
+const salary =
+salaries.find(
+x => x.month === month
+);
+
+
+if(salary){
+
+return getSavedSalaryDeduction(
+salary
+);
+
+}
+
+return 0;
+
+}
+
+
+/* =====================================
+   HOME TRANSACTION LIST
+===================================== */
+
+function getDisplayMonthData(month){
+
+return items.filter(item=>{
+
+if(
+!item.date ||
+item.date.slice(0,7) !== month
+){
+
+return false;
+
+}
+
+
+/*
+ไม่แสดงรายการเงินเดือน
+ที่เป็น transaction เก่า
+เพราะระบบคำนวณเงินเดือนจาก salaries
+*/
+
+if(
+item.type === "income" &&
+item.category === "เงินเดือน"
+){
+
+return false;
+
+}
+
+
+return true;
+
+});
+
+}
+
+
+/* =====================================
+   RENDER HOME
+===================================== */
+
+function render(){
+
+const data =
+getDisplayMonthData(
+currentMonth
+);
+
+
+const income =
+getHomeMonthIncome(
+currentMonth
+);
+
+
+const expense =
+getHomeMonthExpense(
+currentMonth
 );
 
 
@@ -2064,7 +2311,9 @@ getPreviousBalance();
 
 
 const balance =
-carry + income - expense;
+carry +
+income -
+expense;
 
 
 document.getElementById(
@@ -2091,30 +2340,126 @@ document.getElementById(
 money(expense);
 
 
-document.getElementById(
-"incomeCount"
-).innerText =
+const salary =
+salaries.find(
+x=>x.month === currentMonth
+);
+
+
+const salaryIncome =
+salary
+? getSavedSalaryIncome(salary)
+: 0;
+
+
+const transactionIncome =
+data
+.filter(x=>x.type==="income")
+.reduce(
+(sum,x)=>
+sum+Number(x.amount),
+0
+);
+
+
+const incomeCount =
+(salaryIncome > 0 ? 1 : 0) +
 data.filter(
 x=>x.type==="income"
 ).length;
 
 
+const expenseCount =
+data.filter(
+x=>x.type==="expense"
+).length +
+(salary ? 1 : 0);
+
+
+document.getElementById(
+"incomeCount"
+).innerText =
+incomeCount;
+
+
 document.getElementById(
 "expenseCount"
 ).innerText =
-data.filter(
-x=>x.type==="expense"
-).length;
+expenseCount;
 
 
 const list =
 document.getElementById("list");
 
 
-if(data.length===0){
+/*
+สร้างรายการเงินเดือน
+*/
 
-list.innerHTML =
-`
+let salaryHTML = "";
+
+
+if(salary){
+
+const salaryNet =
+getSavedSalaryIncome(salary) -
+getSavedSalaryDeduction(salary);
+
+
+salaryHTML = `
+
+<div class="item">
+
+<div class="icon">
+💰
+</div>
+
+<div class="info">
+
+<strong>
+เงินเดือน
+</strong>
+
+<small>
+รายรับ ${money(
+getSavedSalaryIncome(salary)
+)}
+</small>
+
+<small>
+หัก ${money(
+getSavedSalaryDeduction(salary)
+)}
+</small>
+
+</div>
+
+<div class="amount-area">
+
+<div class="amount income">
+
++${money(
+getSavedSalaryIncome(salary)
+)}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+if(
+!salary &&
+data.length===0
+){
+
+list.innerHTML = `
+
 <div class="empty">
 
 ยังไม่มีรายการในเดือนนี้
@@ -2124,6 +2469,7 @@ list.innerHTML =
 กด ＋ เพิ่มรายการ
 
 </div>
+
 `;
 
 return;
@@ -2132,6 +2478,7 @@ return;
 
 
 list.innerHTML =
+salaryHTML +
 data.map(item=>`
 
 <div class="item">
@@ -2200,7 +2547,9 @@ ${money(item.amount)}
 }
 
 
-/* TRANSACTION MODAL */
+/* =====================================
+   TRANSACTION MODAL
+===================================== */
 
 function openModal(id=null){
 
@@ -2292,13 +2641,14 @@ setType("income");
 }
 
 
-/* DEFAULT DATE */
+/* =====================================
+   DEFAULT DATE
+===================================== */
 
 function getDefaultDate(){
 
 const today =
 new Date();
-
 
 const todayMonth =
 today.toISOString().slice(0,7);
@@ -2318,7 +2668,9 @@ return currentMonth + "-01";
 }
 
 
-/* CLOSE TRANSACTION */
+/* =====================================
+   CLOSE TRANSACTION
+===================================== */
 
 function closeModal(){
 
@@ -2329,7 +2681,9 @@ document
 }
 
 
-/* TYPE */
+/* =====================================
+   TYPE
+===================================== */
 
 function setType(type){
 
@@ -2367,7 +2721,9 @@ document.getElementById(
 }
 
 
-/* SAVE TRANSACTION */
+/* =====================================
+   SAVE TRANSACTION
+===================================== */
 
 async function saveItem(){
 
@@ -2407,37 +2763,6 @@ return;
 }
 
 
-if(editId){
-
-const {
-error
-} =
-await supabaseClient
-.from("transactions")
-.update({
-
-type:currentType,
-amount:amount,
-category:category,
-note:note,
-date:date
-
-})
-.eq("id",editId);
-
-
-if(error){
-
-alert("แก้ไขไม่สำเร็จ");
-
-console.error(error);
-
-return;
-
-}
-
-}else{
-
 const {
 data:userData
 } =
@@ -2456,6 +2781,38 @@ return;
 
 }
 
+
+if(editId){
+
+const {
+error
+} =
+await supabaseClient
+.from("transactions")
+.update({
+
+type:currentType,
+amount:amount,
+category:category,
+note:note,
+date:date
+
+})
+.eq("id",editId)
+.eq("user_id",user.id);
+
+
+if(error){
+
+alert("แก้ไขไม่สำเร็จ");
+
+console.error(error);
+
+return;
+
+}
+
+}else{
 
 const {
 error
@@ -2496,7 +2853,9 @@ await loadData();
 }
 
 
-/* DELETE TRANSACTION */
+/* =====================================
+   DELETE TRANSACTION
+===================================== */
 
 async function deleteItem(id){
 
@@ -2509,12 +2868,30 @@ return;
 
 
 const {
+data:userData
+} =
+await supabaseClient.auth.getUser();
+
+
+const user =
+userData.user;
+
+
+if(!user){
+
+return;
+
+}
+
+
+const {
 error
 } =
 await supabaseClient
 .from("transactions")
 .delete()
-.eq("id",id);
+.eq("id",id)
+.eq("user_id",user.id);
 
 
 if(error){
@@ -2538,9 +2915,28 @@ await loadData();
 ===================================== */
 
 
-/* LOAD SALARIES */
+/* =====================================
+   LOAD SALARIES
+===================================== */
 
 async function loadSalaries(){
+
+const {
+data:userData
+} =
+await supabaseClient.auth.getUser();
+
+
+const user =
+userData.user;
+
+
+if(!user){
+
+return;
+
+}
+
 
 const {
 data,
@@ -2549,6 +2945,7 @@ error
 await supabaseClient
 .from("salaries")
 .select("*")
+.eq("user_id",user.id)
 .order("month",{ascending:true});
 
 
@@ -2571,10 +2968,14 @@ loadSalaryMonth();
 
 renderYearSummary();
 
+render();
+
 }
 
 
-/* CHANGE SALARY MONTH */
+/* =====================================
+   CHANGE SALARY MONTH
+===================================== */
 
 function changeSalaryMonth(amount){
 
@@ -2593,6 +2994,7 @@ month += amount;
 if(month < 1){
 
 month = 12;
+
 year--;
 
 }
@@ -2601,6 +3003,7 @@ year--;
 if(month > 12){
 
 month = 1;
+
 year++;
 
 }
@@ -2619,7 +3022,9 @@ loadSalaryMonth();
 }
 
 
-/* UPDATE SALARY MONTH */
+/* =====================================
+   UPDATE SALARY MONTH
+===================================== */
 
 function updateSalaryMonthLabel(){
 
@@ -2647,7 +3052,9 @@ label;
 }
 
 
-/* LOAD SALARY */
+/* =====================================
+   LOAD SALARY MONTH
+===================================== */
 
 function loadSalaryMonth(){
 
@@ -2729,7 +3136,9 @@ calculateSalary();
 }
 
 
-/* CLEAR SALARY */
+/* =====================================
+   CLEAR SALARY
+===================================== */
 
 function clearSalaryForm(){
 
@@ -2737,42 +3146,66 @@ document.getElementById(
 "salaryBase"
 ).value="";
 
+
 document.getElementById(
 "salaryOTDays"
 ).value="";
+
 
 document.getElementById(
 "salaryAttendance"
 ).value="";
 
+
 document.getElementById(
 "salaryTravel"
 ).value="";
+
 
 document.getElementById(
 "salaryBonus"
 ).value="";
 
+
 document.getElementById(
 "salaryOtherIncome"
 ).value="";
+
 
 document.getElementById(
 "salarySocial"
 ).value="";
 
+
 document.getElementById(
 "salaryTax"
 ).value="";
+
 
 document.getElementById(
 "salaryOtherDeduction"
 ).value="";
 
+
+const otDisplay =
+document.getElementById(
+"salaryOTDisplay"
+);
+
+
+if(otDisplay){
+
+otDisplay.innerText =
+money(0);
+
+}
+
 }
 
 
-/* NUMBER */
+/* =====================================
+   NUMBER
+===================================== */
 
 function salaryNumber(id){
 
@@ -2794,37 +3227,28 @@ element.value
 }
 
 
-/* OT CALCULATOR */
+/* =====================================
+   OT CALCULATOR
+===================================== */
 
 function calculateOTAmount(base,otDays){
 
-/*
-=====================================
-สูตร OT ของ MoneyMate
-=====================================
-
-เงินเดือน ÷ 30 ÷ 8 × 1.5 × 3
-
-30 = จำนวนวันสำหรับคำนวณค่าแรง
-8  = ชั่วโมงทำงานปกติต่อวัน
-1.5 = OT 1.5 เท่า
-3  = OT 3 ชั่วโมงต่อวัน
-
-แล้วคูณจำนวนวัน OT
-=====================================
-*/
-
 return (
-(base / 30 / 8)
-* 1.5
-* 3
-* otDays
+(Number(base || 0) / 30 / 8)
+*
+1.5
+*
+3
+*
+Number(otDays || 0)
 );
 
 }
 
 
-/* RENDER CUSTOM INPUTS */
+/* =====================================
+   RENDER CUSTOM INPUTS
+===================================== */
 
 function renderCustomSalaryInputs(){
 
@@ -2832,6 +3256,7 @@ const incomeBox =
 document.getElementById(
 "customIncomeInputs"
 );
+
 
 const deductionBox =
 document.getElementById(
@@ -2914,7 +3339,7 @@ style="padding:15px">
 
 
 /*
-โหลดค่าที่เคยบันทึกของเดือนนี้
+โหลดค่าของเดือนปัจจุบัน
 */
 
 const salary =
@@ -2923,8 +3348,35 @@ x=>x.month === currentSalaryMonth
 );
 
 
+/*
+ถ้าไม่มีข้อมูลเดือนนี้
+ให้เคลียร์ค่า Custom
+*/
+
+if(!salary){
+
+salaryItems.forEach(item=>{
+
+const input =
+document.getElementById(
+"customSalary_"+item.id
+);
+
+
+if(input){
+
+input.value="";
+
+}
+
+});
+
+return;
+
+}
+
+
 if(
-salary &&
 salary.custom_items
 ){
 
@@ -2970,7 +3422,9 @@ custom[item.id] ?? "";
 }
 
 
-/* CALCULATE */
+/* =====================================
+   CALCULATE SALARY
+===================================== */
 
 function calculateSalary(){
 
@@ -2979,21 +3433,21 @@ salaryNumber("salaryBase");
 
 
 /*
-=====================================
-OT 1.5 เท่า
-=====================================
-
-สูตร:
+OT:
 
 เงินเดือน / 30 / 8
 x 1.5
 x 3 ชั่วโมง
-x จำนวนวัน OT
-=====================================
+x จำนวนวัน
 */
 
 const otDays =
-salaryNumber("salaryOTDays");
+Math.max(
+0,
+Math.floor(
+salaryNumber("salaryOTDays")
+)
+);
 
 
 const ot =
@@ -3002,10 +3456,6 @@ base,
 otDays
 );
 
-
-/*
-แสดงเงิน OT
-*/
 
 const otDisplay =
 document.getElementById(
@@ -3024,20 +3474,26 @@ money(ot);
 const attendance =
 salaryNumber("salaryAttendance");
 
+
 const travel =
 salaryNumber("salaryTravel");
+
 
 const bonus =
 salaryNumber("salaryBonus");
 
+
 const otherIncome =
 salaryNumber("salaryOtherIncome");
+
 
 const social =
 salaryNumber("salarySocial");
 
+
 const tax =
 salaryNumber("salaryTax");
+
 
 const otherDeduction =
 salaryNumber("salaryOtherDeduction");
@@ -3058,6 +3514,7 @@ const input =
 document.getElementById(
 "customSalary_"+item.id
 );
+
 
 const value =
 input
@@ -3121,7 +3578,7 @@ ${money(value)}
 
 
 /*
-TOTAL INCOME
+รายรับรวม
 */
 
 const totalIncome =
@@ -3135,7 +3592,7 @@ customIncome;
 
 
 /*
-TOTAL DEDUCTION
+หักรวม
 */
 
 const totalDeduction =
@@ -3146,13 +3603,17 @@ customDeduction;
 
 
 /*
-NET
+สุทธิ
 */
 
 const net =
 totalIncome -
 totalDeduction;
 
+
+/*
+NET
+*/
 
 document.getElementById(
 "salaryNet"
@@ -3248,7 +3709,59 @@ money(totalDeduction);
 }
 
 
-/* SAVE SALARY */
+/* =====================================
+   SAVED SALARY INCOME
+   ใช้ร่วมกับ Home + Summary
+===================================== */
+
+function getSavedSalaryIncome(salary){
+
+if(!salary){
+
+return 0;
+
+}
+
+
+return (
+Number(salary.base_salary || 0) +
+Number(salary.ot || 0) +
+Number(salary.attendance || 0) +
+Number(salary.travel || 0) +
+Number(salary.bonus || 0) +
+Number(salary.other_income || 0) +
+getSavedCustomIncome(salary)
+);
+
+}
+
+
+/* =====================================
+   SAVED SALARY DEDUCTION
+===================================== */
+
+function getSavedSalaryDeduction(salary){
+
+if(!salary){
+
+return 0;
+
+}
+
+
+return (
+Number(salary.social_security || 0) +
+Number(salary.tax || 0) +
+Number(salary.other_deduction || 0) +
+getSavedCustomDeduction(salary)
+);
+
+}
+
+
+/* =====================================
+   SAVE SALARY
+===================================== */
 
 async function saveSalary(){
 
@@ -3271,24 +3784,17 @@ return;
 }
 
 
-/*
-=====================================
-คำนวณ OT
-=====================================
-
-เงินเดือน / 30 / 8
-x 1.5
-x 3 ชั่วโมง
-x จำนวนวัน OT
-=====================================
-*/
-
 const base =
 salaryNumber("salaryBase");
 
 
 const otDays =
-salaryNumber("salaryOTDays");
+Math.max(
+0,
+Math.floor(
+salaryNumber("salaryOTDays")
+)
+);
 
 
 const ot =
@@ -3297,10 +3803,6 @@ base,
 otDays
 );
 
-
-/*
-เก็บรายการเพิ่มเติม
-*/
 
 let customItems = {};
 
@@ -3321,10 +3823,6 @@ input
 });
 
 
-/*
-ข้อมูลเงินเดือน
-*/
-
 const salaryData = {
 
 user_id:user.id,
@@ -3333,15 +3831,7 @@ month:currentSalaryMonth,
 
 base_salary:base,
 
-/*
-จำนวนวัน OT
-*/
-
 ot_days:otDays,
-
-/*
-จำนวนเงิน OT
-*/
 
 ot:ot,
 
@@ -3372,10 +3862,6 @@ customItems
 };
 
 
-/*
-หาเดือนเดิม
-*/
-
 const existing =
 salaries.find(
 x=>x.month === currentSalaryMonth
@@ -3391,7 +3877,8 @@ result =
 await supabaseClient
 .from("salaries")
 .update(salaryData)
-.eq("id",existing.id);
+.eq("id",existing.id)
+.eq("user_id",user.id);
 
 }else{
 
@@ -3432,7 +3919,9 @@ await loadSalaries();
 ===================================== */
 
 
-/* LOAD ITEMS */
+/* =====================================
+   LOAD ITEMS
+===================================== */
 
 async function loadSalaryItems(){
 
@@ -3488,7 +3977,9 @@ renderSettingsSalaryItems();
 }
 
 
-/* OPEN */
+/* =====================================
+   OPEN SALARY ITEM
+===================================== */
 
 function openSalaryItemModal(type){
 
@@ -3515,7 +4006,9 @@ document.getElementById(
 }
 
 
-/* CLOSE */
+/* =====================================
+   CLOSE SALARY ITEM
+===================================== */
 
 function closeSalaryItemModal(){
 
@@ -3526,7 +4019,9 @@ document.getElementById(
 }
 
 
-/* SAVE ITEM */
+/* =====================================
+   SAVE SALARY ITEM
+===================================== */
 
 async function saveSalaryItem(){
 
@@ -3603,7 +4098,6 @@ closeSalaryItemModal();
 
 await loadSalaryItems();
 
-
 loadSalaryMonth();
 
 
@@ -3614,7 +4108,9 @@ showToast(
 }
 
 
-/* DELETE CUSTOM ITEM */
+/* =====================================
+   DELETE CUSTOM ITEM
+===================================== */
 
 async function deleteSalaryItem(id){
 
@@ -3627,12 +4123,30 @@ return;
 
 
 const {
+data:userData
+} =
+await supabaseClient.auth.getUser();
+
+
+const user =
+userData.user;
+
+
+if(!user){
+
+return;
+
+}
+
+
+const {
 error
 } =
 await supabaseClient
 .from("salary_items")
 .delete()
-.eq("id",id);
+.eq("id",id)
+.eq("user_id",user.id);
 
 
 if(error){
@@ -3655,7 +4169,9 @@ loadSalaryMonth();
 }
 
 
-/* SETTINGS LIST */
+/* =====================================
+   SETTINGS LIST
+===================================== */
 
 function renderSettingsSalaryItems(){
 
@@ -3718,7 +4234,9 @@ onclick="deleteSalaryItem('${item.id}')">
 }
 
 
-/* YEAR SUMMARY */
+/* =====================================
+   YEAR SUMMARY
+===================================== */
 
 function renderYearSummary(){
 
@@ -3728,57 +4246,81 @@ currentSalaryMonth.slice(0,4);
 
 const yearData =
 salaries.filter(
-x=>x.month &&
+x =>
+x.month &&
 x.month.startsWith(year)
 );
 
 
+/*
+รายรับรวมทั้งปี
+ใช้สูตรเดียวกับหน้าเงินเดือน
+*/
+
 const totalIncome =
 yearData.reduce(
-(sum,x)=>
+(sum,salary)=>
 sum +
-Number(x.base_salary||0) +
-Number(x.ot||0) +
-Number(x.attendance||0) +
-Number(x.travel||0) +
-Number(x.bonus||0) +
-Number(x.other_income||0) +
-getSavedCustomIncome(x),
+getSavedSalaryIncome(salary),
 0
 );
 
+
+/*
+OT
+*/
 
 const totalOT =
 yearData.reduce(
-(sum,x)=>
-sum + Number(x.ot||0),
+(sum,salary)=>
+sum +
+Number(salary.ot || 0),
 0
 );
 
+
+/*
+โบนัส
+*/
 
 const totalBonus =
 yearData.reduce(
-(sum,x)=>
-sum + Number(x.bonus||0),
+(sum,salary)=>
+sum +
+Number(salary.bonus || 0),
 0
 );
 
+
+/*
+ประกันสังคม
+*/
 
 const totalSocial =
 yearData.reduce(
-(sum,x)=>
-sum + Number(x.social_security||0),
+(sum,salary)=>
+sum +
+Number(salary.social_security || 0),
 0
 );
 
+
+/*
+ภาษี
+*/
 
 const totalTax =
 yearData.reduce(
-(sum,x)=>
-sum + Number(x.tax||0),
+(sum,salary)=>
+sum +
+Number(salary.tax || 0),
 0
 );
 
+
+/*
+เฉลี่ย
+*/
 
 const average =
 yearData.length
@@ -3854,23 +4396,18 @@ a.month.localeCompare(b.month)
 
 
 list.innerHTML =
-sorted.map(x=>{
+sorted.map(salary=>{
 
 const income =
-Number(x.base_salary||0) +
-Number(x.ot||0) +
-Number(x.attendance||0) +
-Number(x.travel||0) +
-Number(x.bonus||0) +
-Number(x.other_income||0) +
-getSavedCustomIncome(x);
+getSavedSalaryIncome(
+salary
+);
 
 
 const deduction =
-Number(x.social_security||0) +
-Number(x.tax||0) +
-Number(x.other_deduction||0) +
-getSavedCustomDeduction(x);
+getSavedSalaryDeduction(
+salary
+);
 
 
 const net =
@@ -3880,7 +4417,8 @@ deduction;
 
 const date =
 new Date(
-x.month+"-01T00:00:00"
+salary.month+
+"-01T00:00:00"
 );
 
 
@@ -3912,6 +4450,10 @@ ${Number(year)+543}
 รายรับ ${money(income)}
 </small>
 
+<small>
+หัก ${money(deduction)}
+</small>
+
 </div>
 
 <div class="amount-area">
@@ -3931,12 +4473,20 @@ ${money(net)}
 }
 
 
-/* SAVED CUSTOM INCOME */
+/* =====================================
+   SAVED CUSTOM INCOME
+===================================== */
 
 function getSavedCustomIncome(salary){
 
-if(!salary.custom_items)
+if(
+!salary ||
+!salary.custom_items
+){
+
 return 0;
+
+}
 
 
 let custom =
@@ -3947,7 +4497,8 @@ if(typeof custom==="string"){
 
 try{
 
-custom=JSON.parse(custom);
+custom =
+JSON.parse(custom);
 
 }catch(e){
 
@@ -3961,15 +4512,20 @@ return 0;
 let total=0;
 
 
-Object.keys(custom).forEach(id=>{
+Object.keys(custom || {}).forEach(id=>{
 
 const item =
 salaryItems.find(
-x=>String(x.id)===String(id)
+x =>
+String(x.id) ===
+String(id)
 );
 
 
-if(item && item.type==="income"){
+if(
+item &&
+item.type === "income"
+){
 
 total +=
 Number(custom[id]) || 0;
@@ -3984,12 +4540,20 @@ return total;
 }
 
 
-/* SAVED CUSTOM DEDUCTION */
+/* =====================================
+   SAVED CUSTOM DEDUCTION
+===================================== */
 
 function getSavedCustomDeduction(salary){
 
-if(!salary.custom_items)
+if(
+!salary ||
+!salary.custom_items
+){
+
 return 0;
+
+}
 
 
 let custom =
@@ -4000,7 +4564,8 @@ if(typeof custom==="string"){
 
 try{
 
-custom=JSON.parse(custom);
+custom =
+JSON.parse(custom);
 
 }catch(e){
 
@@ -4014,15 +4579,20 @@ return 0;
 let total=0;
 
 
-Object.keys(custom).forEach(id=>{
+Object.keys(custom || {}).forEach(id=>{
 
 const item =
 salaryItems.find(
-x=>String(x.id)===String(id)
+x =>
+String(x.id) ===
+String(id)
 );
 
 
-if(item && item.type==="deduction"){
+if(
+item &&
+item.type === "deduction"
+){
 
 total +=
 Number(custom[id]) || 0;
@@ -4037,12 +4607,14 @@ return total;
 }
 
 
-/* MONEY */
+/* =====================================
+   MONEY
+===================================== */
 
 function money(number){
 
 return "฿" +
-Number(number)
+Number(number || 0)
 .toLocaleString(
 "th-TH",
 {
@@ -4054,7 +4626,9 @@ maximumFractionDigits:2
 }
 
 
-/* FORMAT DATE */
+/* =====================================
+   FORMAT DATE
+===================================== */
 
 function formatDate(date){
 
@@ -4073,7 +4647,9 @@ year:"numeric"
 }
 
 
-/* ICON */
+/* =====================================
+   ICON
+===================================== */
 
 function getIcon(category){
 
@@ -4101,7 +4677,9 @@ return icons[category] || "📦";
 }
 
 
-/* ESCAPE */
+/* =====================================
+   ESCAPE
+===================================== */
 
 function escapeHTML(text){
 
@@ -4120,7 +4698,9 @@ return String(text)
 }
 
 
-/* TOAST */
+/* =====================================
+   TOAST
+===================================== */
 
 function showToast(message){
 
@@ -4144,7 +4724,9 @@ toast.classList.remove("show");
 }
 
 
-/* START */
+/* =====================================
+   START
+===================================== */
 
 checkSession();
 
