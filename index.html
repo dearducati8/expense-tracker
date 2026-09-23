@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="th">
 
 <head>
@@ -670,45 +671,45 @@ button{
 
 <body>
 
-
 <!-- =========================================================
      LOGIN
 ========================================================= -->
 
 <div id="loginPage" class="container">
 
-    <div class="login-card">
+```
+<div class="login-card">
 
-        <h1>MoneyMate 💰</h1>
+    <h1>MoneyMate 💰</h1>
 
-        <p>เข้าสู่ระบบเพื่อจัดการรายรับรายจ่าย</p>
+    <p>เข้าสู่ระบบเพื่อจัดการรายรับรายจ่าย</p>
 
-        <label>อีเมล</label>
+    <label>อีเมล</label>
 
-        <input
-            id="email"
-            type="email"
-            placeholder="your@email.com">
+    <input
+        id="email"
+        type="email"
+        placeholder="your@email.com">
 
-        <label>รหัสผ่าน</label>
+    <label>รหัสผ่าน</label>
 
-        <input
-            id="password"
-            type="password"
-            placeholder="••••••••">
+    <input
+        id="password"
+        type="password"
+        placeholder="••••••••">
 
-        <button
-            class="primary"
-            onclick="login()">
-            เข้าสู่ระบบ
-        </button>
+    <button
+        class="primary"
+        onclick="login()">
+        เข้าสู่ระบบ
+    </button>
 
-        <div id="loginError" class="error"></div>
-
-    </div>
+    <div id="loginError" class="error"></div>
 
 </div>
+```
 
+</div>
 
 <!-- =========================================================
      APP
@@ -716,817 +717,791 @@ button{
 
 <div id="app" class="container hidden">
 
-    <div class="header">
+```
+<div class="header">
 
-        <div class="logo">
-            Money<span>Mate</span>
+    <div class="logo">
+        Money<span>Mate</span>
+    </div>
+
+    <button
+        class="logout"
+        onclick="logout()">
+        ออกจากระบบ
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<section id="homePage" class="page active">
+
+    <div class="month-card">
+
+        <div class="month-navigation">
+
+            <button
+                class="month-button"
+                onclick="changeMonth(-1)">
+                ‹
+            </button>
+
+            <div class="month-center">
+
+                <div
+                    id="monthLabel"
+                    class="month-label">
+                    -
+                </div>
+
+                <div class="month-sub">
+                    สรุปรายรับรายจ่ายประจำเดือน
+                </div>
+
+            </div>
+
+            <button
+                class="month-button"
+                onclick="changeMonth(1)">
+                ›
+            </button>
+
         </div>
-
-        <button
-            class="logout"
-            onclick="logout()">
-            ออกจากระบบ
-        </button>
 
     </div>
 
 
-    <!-- =====================================================
-         HOME
-    ===================================================== -->
+    <div class="balance-card">
 
-    <section id="homePage" class="page active">
+        <div class="balance-title">
+            ยอดคงเหลือ
+        </div>
 
-        <div class="month-card">
+        <div
+            class="balance"
+            id="balance">
+            ฿0.00
+        </div>
 
-            <div class="month-navigation">
+        <div
+            class="carry"
+            id="carry">
+            ยอดยกมา ฿0.00
+        </div>
 
-                <button
-                    class="month-button"
-                    onclick="changeMonth(-1)">
-                    ‹
-                </button>
+        <div class="summary">
 
-                <div class="month-center">
+            <div class="summary-box">
 
-                    <div
-                        id="monthLabel"
-                        class="month-label">
-                        -
-                    </div>
+                <small>รายรับเดือนนี้</small>
 
-                    <div class="month-sub">
-                        สรุปรายรับรายจ่ายประจำเดือน
-                    </div>
+                <strong id="income">
+                    ฿0.00
+                </strong>
 
-                </div>
+            </div>
 
-                <button
-                    class="month-button"
-                    onclick="changeMonth(1)">
-                    ›
-                </button>
+            <div class="summary-box">
+
+                <small>รายจ่ายเดือนนี้</small>
+
+                <strong id="expense">
+                    ฿0.00
+                </strong>
 
             </div>
 
         </div>
 
+    </div>
 
-        <div class="balance-card">
 
-            <div class="balance-title">
-                ยอดคงเหลือ
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <div>💰</div>
+
+            <div class="stat-title">
+                รายการรับ
             </div>
 
             <div
-                class="balance"
-                id="balance">
+                class="stat-number"
+                id="incomeCount">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div>💸</div>
+
+            <div class="stat-title">
+                รายการจ่าย
+            </div>
+
+            <div
+                class="stat-number"
+                id="expenseCount">
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-title">
+
+        <h2>รายการเดือนนี้</h2>
+
+        <span id="listTitle">
+            -
+        </span>
+
+    </div>
+
+
+    <div id="list" class="list"></div>
+
+</section>
+
+
+<!-- =====================================================
+     SALARY
+===================================================== -->
+
+<section id="salaryPage" class="page">
+
+    <div class="month-card">
+
+        <div class="month-navigation">
+
+            <button
+                class="month-button"
+                onclick="changeSalaryMonth(-1)">
+                ‹
+            </button>
+
+            <div class="month-center">
+
+                <div
+                    id="salaryMonthLabel"
+                    class="month-label">
+                    -
+                </div>
+
+                <div class="month-sub">
+                    คำนวณเงินเดือนประจำเดือน
+                </div>
+
+            </div>
+
+            <button
+                class="month-button"
+                onclick="changeSalaryMonth(1)">
+                ›
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="salary-net">
+
+        <div class="salary-net-title">
+            เงินเดือนสุทธิ
+        </div>
+
+        <div
+            id="salaryNet"
+            class="salary-net-number">
+            ฿0.00
+        </div>
+
+    </div>
+
+
+    <!-- BASIC INCOME -->
+
+    <div class="salary-form">
+
+        <div class="salary-section">
+
+            <h3>💰 รายรับ</h3>
+
+
+            <label>เงินเดือนพื้นฐาน</label>
+
+            <input
+                id="salaryBase"
+                type="number"
+                inputmode="decimal"
+                placeholder="0"
+                oninput="calculateSalary()">
+
+
+            <label>OT 1.5 เท่า (ชั่วโมง)</label>
+
+            <input
+                id="salaryOT15Hours"
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.5"
+                placeholder="จำนวนชั่วโมง OT 1.5"
+                oninput="calculateSalary()">
+
+            <div class="ot-info">
+
+                สูตร:
+                <strong>
+                    เงินเดือน ÷ 30 ÷ 8 × 1.5 × ชั่วโมง
+                </strong>
+
+                <br>
+
+                ค่า OT 1.5:
+                <strong id="salaryOT15Display">
+                    ฿0.00
+                </strong>
+
+            </div>
+
+
+            <label>OT 3 เท่า (ชั่วโมง)</label>
+
+            <input
+                id="salaryOT3Hours"
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.5"
+                placeholder="จำนวนชั่วโมง OT 3"
+                oninput="calculateSalary()">
+
+            <div class="ot-info">
+
+                สูตร:
+                <strong>
+                    เงินเดือน ÷ 30 ÷ 8 × 3 × ชั่วโมง
+                </strong>
+
+                <br>
+
+                ค่า OT 3:
+                <strong id="salaryOT3Display">
+                    ฿0.00
+                </strong>
+
+            </div>
+
+
+            <label>เบี้ยขยัน</label>
+
+            <input
+                id="salaryAttendance"
+                type="number"
+                inputmode="decimal"
+                placeholder="0"
+                oninput="calculateSalary()">
+
+
+            <label>ค่าเดินทาง</label>
+
+            <input
+                id="salaryTravel"
+                type="number"
+                inputmode="decimal"
+                placeholder="0"
+                oninput="calculateSalary()">
+
+
+            <label>โบนัส</label>
+
+            <input
+                id="salaryBonus"
+                type="number"
+                inputmode="decimal"
+                placeholder="0"
+                oninput="calculateSalary()">
+
+
+            <label>รายได้อื่น ๆ</label>
+
+            <input
+                id="salaryOtherIncome"
+                type="number"
+                inputmode="decimal"
+                placeholder="0"
+                oninput="calculateSalary()">
+
+        </div>
+
+    </div>
+
+
+    <!-- CUSTOM INCOME -->
+
+    <div class="card salary-section">
+
+        <div
+            class="section-title"
+            style="margin-top:0">
+
+            <h2>➕ รายรับเพิ่มเติม</h2>
+
+        </div>
+
+        <div id="customIncomeInputs"></div>
+
+    </div>
+
+
+    <!-- INCOME SUMMARY -->
+
+    <div class="card salary-section">
+
+        <h3>📥 สรุปรายรับ</h3>
+
+
+        <div class="salary-row">
+
+            <span>เงินเดือนพื้นฐาน</span>
+
+            <strong
+                id="showBase"
+                class="salary-income">
                 ฿0.00
-            </div>
-
-            <div
-                class="carry"
-                id="carry">
-                ยอดยกมา ฿0.00
-            </div>
-
-            <div class="summary">
-
-                <div class="summary-box">
-
-                    <small>รายรับเดือนนี้</small>
-
-                    <strong id="income">
-                        ฿0.00
-                    </strong>
-
-                </div>
-
-                <div class="summary-box">
-
-                    <small>รายจ่ายเดือนนี้</small>
-
-                    <strong id="expense">
-                        ฿0.00
-                    </strong>
-
-                </div>
-
-            </div>
+            </strong>
 
         </div>
 
 
-        <div class="stats">
+        <div class="salary-row">
 
-            <div class="stat-card">
+            <span>OT 1.5 เท่า</span>
 
-                <div>💰</div>
-
-                <div class="stat-title">
-                    รายการรับ
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="incomeCount">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div>💸</div>
-
-                <div class="stat-title">
-                    รายการจ่าย
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="expenseCount">
-                    0
-                </div>
-
-            </div>
+            <strong
+                id="showOT15"
+                class="salary-income">
+                ฿0.00
+            </strong>
 
         </div>
 
 
-        <div class="section-title">
+        <div class="salary-row">
 
-            <h2>รายการเดือนนี้</h2>
+            <span>OT 3 เท่า</span>
 
-            <span id="listTitle">
+            <strong
+                id="showOT3"
+                class="salary-income">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="salary-row">
+
+            <span>OT รวม</span>
+
+            <strong
+                id="showTotalOT"
+                class="salary-income">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="salary-row">
+
+            <span>เบี้ยขยัน</span>
+
+            <strong
+                id="showAttendance"
+                class="salary-income">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="salary-row">
+
+            <span>ค่าเดินทาง</span>
+
+            <strong
+                id="showTravel"
+                class="salary-income">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="salary-row">
+
+            <span>โบนัส</span>
+
+            <strong
+                id="showBonus"
+                class="salary-income">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="salary-row">
+
+            <span>รายได้อื่น ๆ</span>
+
+            <strong
+                id="showOtherIncome"
+                class="salary-income">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div id="customIncomeSummary"></div>
+
+
+        <div class="salary-row salary-total">
+
+            <span>รายรับรวม</span>
+
+            <strong
+                id="showTotalIncome"
+                class="salary-income">
+                ฿0.00
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- DEDUCTION -->
+
+    <div class="salary-form">
+
+        <div class="salary-section">
+
+            <h3>📤 รายการหัก</h3>
+
+
+            <label>ประกันสังคม</label>
+
+            <input
+                id="salarySocial"
+                type="number"
+                inputmode="decimal"
+                placeholder="0"
+                oninput="calculateSalary()">
+
+
+            <label>ภาษี</label>
+
+            <input
+                id="salaryTax"
+                type="number"
+                inputmode="decimal"
+                placeholder="0"
+                oninput="calculateSalary()">
+
+
+            <label>หักอื่น ๆ</label>
+
+            <input
+                id="salaryOtherDeduction"
+                type="number"
+                inputmode="decimal"
+                placeholder="0"
+                oninput="calculateSalary()">
+
+        </div>
+
+    </div>
+
+
+    <!-- CUSTOM DEDUCTION -->
+
+    <div class="card salary-section">
+
+        <div
+            class="section-title"
+            style="margin-top:0">
+
+            <h2>➖ รายการหักเพิ่มเติม</h2>
+
+        </div>
+
+        <div id="customDeductionInputs"></div>
+
+    </div>
+
+
+    <!-- DEDUCTION SUMMARY -->
+
+    <div class="card salary-section">
+
+        <h3>📤 สรุปรายการหัก</h3>
+
+
+        <div class="salary-row">
+
+            <span>ประกันสังคม</span>
+
+            <strong
+                id="showSocial"
+                class="salary-deduction">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="salary-row">
+
+            <span>ภาษี</span>
+
+            <strong
+                id="showTax"
+                class="salary-deduction">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="salary-row">
+
+            <span>หักอื่น ๆ</span>
+
+            <strong
+                id="showOtherDeduction"
+                class="salary-deduction">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div id="customDeductionSummary"></div>
+
+
+        <div class="salary-row salary-total">
+
+            <span>หักรวม</span>
+
+            <strong
+                id="showTotalDeduction"
+                class="salary-deduction">
+                ฿0.00
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="primary"
+        onclick="saveSalary()">
+        💾 บันทึกเงินเดือนเดือนนี้
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     SUMMARY
+===================================================== -->
+
+<section id="summaryPage" class="page">
+
+    <div class="month-card">
+
+        <div class="month-center">
+
+            <div class="month-label">
+                📊 สรุปเงินเดือน
+            </div>
+
+            <div class="month-sub">
+                ข้อมูลรายได้ของปีนี้
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="year-grid">
+
+        <div class="year-card">
+
+            <small>รายรับรวมทั้งปี</small>
+
+            <strong id="yearTotalIncome">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="year-card">
+
+            <small>เงินเดือนเฉลี่ย</small>
+
+            <strong id="yearAverage">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="year-card">
+
+            <small>OT รวม</small>
+
+            <strong id="yearOT">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="year-card">
+
+            <small>โบนัสรวม</small>
+
+            <strong id="yearBonus">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="year-card">
+
+            <small>ประกันสังคมรวม</small>
+
+            <strong id="yearSocial">
+                ฿0.00
+            </strong>
+
+        </div>
+
+
+        <div class="year-card">
+
+            <small>ภาษีรวม</small>
+
+            <strong id="yearTax">
+                ฿0.00
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-title">
+
+        <h2>เงินเดือนแต่ละเดือน</h2>
+
+    </div>
+
+
+    <div
+        id="yearSalaryList"
+        class="list">
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SETTINGS
+===================================================== -->
+
+<section id="settingsPage" class="page">
+
+    <div class="card">
+
+        <h2>⚙️ ตั้งค่า</h2>
+
+
+        <div class="setting-row">
+
+            <span>👤 บัญชีผู้ใช้</span>
+
+            <span id="userEmail">
                 -
             </span>
 
         </div>
 
 
-        <div id="list" class="list"></div>
+        <div class="setting-row">
 
-    </section>
+            <span>🔐 Supabase</span>
 
-
-    <!-- =====================================================
-         SALARY
-    ===================================================== -->
-
-    <section id="salaryPage" class="page">
-
-        <div class="month-card">
-
-            <div class="month-navigation">
-
-                <button
-                    class="month-button"
-                    onclick="changeSalaryMonth(-1)">
-                    ‹
-                </button>
-
-                <div class="month-center">
-
-                    <div
-                        id="salaryMonthLabel"
-                        class="month-label">
-                        -
-                    </div>
-
-                    <div class="month-sub">
-                        คำนวณเงินเดือนประจำเดือน
-                    </div>
-
-                </div>
-
-                <button
-                    class="month-button"
-                    onclick="changeSalaryMonth(1)">
-                    ›
-                </button>
-
-            </div>
+            <span>
+                เชื่อมต่อแล้ว
+            </span>
 
         </div>
 
 
-        <div class="salary-net">
+        <h3 style="margin-top:25px">
+            💰 รายการเงินเดือนที่สร้างเอง
+        </h3>
 
-            <div class="salary-net-title">
-                เงินเดือนสุทธิ
-            </div>
 
-            <div
-                id="salaryNet"
-                class="salary-net-number">
-                ฿0.00
-            </div>
+        <p style="font-size:12px;color:#888">
 
-        </div>
+            รายการเหล่านี้จะนำไปใช้ในหน้าเงินเดือนได้ทุกเดือน
 
-
-        <!-- BASIC INCOME -->
-
-        <div class="salary-form">
-
-            <div class="salary-section">
-
-                <h3>💰 รายรับ</h3>
-
-
-                <label>เงินเดือนพื้นฐาน</label>
-
-                <input
-                    id="salaryBase"
-                    type="number"
-                    inputmode="decimal"
-                    placeholder="0"
-                    oninput="calculateSalary()">
-
-
-                <label>OT 1.5 เท่า (ชั่วโมง)</label>
-
-                <input
-                    id="salaryOT15Hours"
-                    type="number"
-                    inputmode="decimal"
-                    min="0"
-                    step="0.5"
-                    placeholder="จำนวนชั่วโมง OT 1.5"
-                    oninput="calculateSalary()">
-
-                <div class="ot-info">
-
-                    สูตร:
-                    <strong>
-                        เงินเดือน ÷ 30 ÷ 8 × 1.5 × ชั่วโมง
-                    </strong>
-
-                    <br>
-
-                    ค่า OT 1.5:
-                    <strong id="salaryOT15Display">
-                        ฿0.00
-                    </strong>
-
-                </div>
-
-
-                <label>OT 3 เท่า (ชั่วโมง)</label>
-
-                <input
-                    id="salaryOT3Hours"
-                    type="number"
-                    inputmode="decimal"
-                    min="0"
-                    step="0.5"
-                    placeholder="จำนวนชั่วโมง OT 3"
-                    oninput="calculateSalary()">
-
-                <div class="ot-info">
-
-                    สูตร:
-                    <strong>
-                        เงินเดือน ÷ 30 ÷ 8 × 3 × ชั่วโมง
-                    </strong>
-
-                    <br>
-
-                    ค่า OT 3:
-                    <strong id="salaryOT3Display">
-                        ฿0.00
-                    </strong>
-
-                </div>
-
-
-                <label>เบี้ยขยัน</label>
-
-                <input
-                    id="salaryAttendance"
-                    type="number"
-                    inputmode="decimal"
-                    placeholder="0"
-                    oninput="calculateSalary()">
-
-
-                <label>ค่าเดินทาง</label>
-
-                <input
-                    id="salaryTravel"
-                    type="number"
-                    inputmode="decimal"
-                    placeholder="0"
-                    oninput="calculateSalary()">
-
-
-                <label>โบนัส</label>
-
-                <input
-                    id="salaryBonus"
-                    type="number"
-                    inputmode="decimal"
-                    placeholder="0"
-                    oninput="calculateSalary()">
-
-
-                <label>รายได้อื่น ๆ</label>
-
-                <input
-                    id="salaryOtherIncome"
-                    type="number"
-                    inputmode="decimal"
-                    placeholder="0"
-                    oninput="calculateSalary()">
-
-            </div>
-
-        </div>
-
-
-        <!-- CUSTOM INCOME -->
-
-        <div class="card salary-section">
-
-            <div
-                class="section-title"
-                style="margin-top:0">
-
-                <h2>➕ รายรับเพิ่มเติม</h2>
-
-                <button
-                    class="small-btn"
-                    onclick="openSalaryItemModal('income')">
-                    ＋ เพิ่ม
-                </button>
-
-            </div>
-
-            <div id="customIncomeInputs"></div>
-
-        </div>
-
-
-        <!-- INCOME SUMMARY -->
-
-        <div class="card salary-section">
-
-            <h3>📥 สรุปรายรับ</h3>
-
-
-            <div class="salary-row">
-
-                <span>เงินเดือนพื้นฐาน</span>
-
-                <strong
-                    id="showBase"
-                    class="salary-income">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="salary-row">
-
-                <span>OT 1.5 เท่า</span>
-
-                <strong
-                    id="showOT15"
-                    class="salary-income">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="salary-row">
-
-                <span>OT 3 เท่า</span>
-
-                <strong
-                    id="showOT3"
-                    class="salary-income">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="salary-row">
-
-                <span>OT รวม</span>
-
-                <strong
-                    id="showTotalOT"
-                    class="salary-income">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="salary-row">
-
-                <span>เบี้ยขยัน</span>
-
-                <strong
-                    id="showAttendance"
-                    class="salary-income">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="salary-row">
-
-                <span>ค่าเดินทาง</span>
-
-                <strong
-                    id="showTravel"
-                    class="salary-income">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="salary-row">
-
-                <span>โบนัส</span>
-
-                <strong
-                    id="showBonus"
-                    class="salary-income">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="salary-row">
-
-                <span>รายได้อื่น ๆ</span>
-
-                <strong
-                    id="showOtherIncome"
-                    class="salary-income">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div id="customIncomeSummary"></div>
-
-
-            <div class="salary-row salary-total">
-
-                <span>รายรับรวม</span>
-
-                <strong
-                    id="showTotalIncome"
-                    class="salary-income">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <!-- DEDUCTION -->
-
-        <div class="salary-form">
-
-            <div class="salary-section">
-
-                <h3>📤 รายการหัก</h3>
-
-
-                <label>ประกันสังคม</label>
-
-                <input
-                    id="salarySocial"
-                    type="number"
-                    inputmode="decimal"
-                    placeholder="0"
-                    oninput="calculateSalary()">
-
-
-                <label>ภาษี</label>
-
-                <input
-                    id="salaryTax"
-                    type="number"
-                    inputmode="decimal"
-                    placeholder="0"
-                    oninput="calculateSalary()">
-
-
-                <label>หักอื่น ๆ</label>
-
-                <input
-                    id="salaryOtherDeduction"
-                    type="number"
-                    inputmode="decimal"
-                    placeholder="0"
-                    oninput="calculateSalary()">
-
-            </div>
-
-        </div>
-
-
-        <!-- CUSTOM DEDUCTION -->
-
-        <div class="card salary-section">
-
-            <div
-                class="section-title"
-                style="margin-top:0">
-
-                <h2>➖ รายการหักเพิ่มเติม</h2>
-
-                <button
-                    class="small-btn"
-                    onclick="openSalaryItemModal('deduction')">
-                    ＋ เพิ่ม
-                </button>
-
-            </div>
-
-            <div id="customDeductionInputs"></div>
-
-        </div>
-
-
-        <!-- DEDUCTION SUMMARY -->
-
-        <div class="card salary-section">
-
-            <h3>📤 สรุปรายการหัก</h3>
-
-
-            <div class="salary-row">
-
-                <span>ประกันสังคม</span>
-
-                <strong
-                    id="showSocial"
-                    class="salary-deduction">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="salary-row">
-
-                <span>ภาษี</span>
-
-                <strong
-                    id="showTax"
-                    class="salary-deduction">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="salary-row">
-
-                <span>หักอื่น ๆ</span>
-
-                <strong
-                    id="showOtherDeduction"
-                    class="salary-deduction">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div id="customDeductionSummary"></div>
-
-
-            <div class="salary-row salary-total">
-
-                <span>หักรวม</span>
-
-                <strong
-                    id="showTotalDeduction"
-                    class="salary-deduction">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <button
-            class="primary"
-            onclick="saveSalary()">
-            💾 บันทึกเงินเดือนเดือนนี้
-        </button>
-
-    </section>
-
-
-    <!-- =====================================================
-         SUMMARY
-    ===================================================== -->
-
-    <section id="summaryPage" class="page">
-
-        <div class="month-card">
-
-            <div class="month-center">
-
-                <div class="month-label">
-                    📊 สรุปเงินเดือน
-                </div>
-
-                <div class="month-sub">
-                    ข้อมูลรายได้ของปีนี้
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="year-grid">
-
-            <div class="year-card">
-
-                <small>รายรับรวมทั้งปี</small>
-
-                <strong id="yearTotalIncome">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="year-card">
-
-                <small>เงินเดือนเฉลี่ย</small>
-
-                <strong id="yearAverage">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="year-card">
-
-                <small>OT รวม</small>
-
-                <strong id="yearOT">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="year-card">
-
-                <small>โบนัสรวม</small>
-
-                <strong id="yearBonus">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="year-card">
-
-                <small>ประกันสังคมรวม</small>
-
-                <strong id="yearSocial">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-
-            <div class="year-card">
-
-                <small>ภาษีรวม</small>
-
-                <strong id="yearTax">
-                    ฿0.00
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <div class="section-title">
-
-            <h2>เงินเดือนแต่ละเดือน</h2>
-
-        </div>
+        </p>
 
 
         <div
-            id="yearSalaryList"
-            class="list">
+            id="settingsSalaryItems"
+            style="margin-top:15px">
         </div>
 
-    </section>
+    </div>
 
-
-    <!-- =====================================================
-         SETTINGS
-    ===================================================== -->
-
-    <section id="settingsPage" class="page">
-
-        <div class="card">
-
-            <h2>⚙️ ตั้งค่า</h2>
-
-
-            <div class="setting-row">
-
-                <span>👤 บัญชีผู้ใช้</span>
-
-                <span id="userEmail">
-                    -
-                </span>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>🔐 Supabase</span>
-
-                <span>
-                    เชื่อมต่อแล้ว
-                </span>
-
-            </div>
-
-
-            <h3 style="margin-top:25px">
-                💰 รายการเงินเดือนที่สร้างเอง
-            </h3>
-
-
-            <p style="font-size:12px;color:#888">
-
-                รายการเหล่านี้จะนำไปใช้ในหน้าเงินเดือนได้ทุกเดือน
-
-            </p>
-
-
-            <button
-                class="setting-button"
-                onclick="openSalaryItemModal('income')">
-                ＋ เพิ่มรายการรับ
-            </button>
-
-
-            <button
-                class="setting-button"
-                onclick="openSalaryItemModal('deduction')">
-                ＋ เพิ่มรายการหัก
-            </button>
-
-
-            <div
-                id="settingsSalaryItems"
-                style="margin-top:15px">
-            </div>
-
-        </div>
-
-    </section>
+</section>
+```
 
 </div>
 
-
 <!-- =========================================================
      ADD TRANSACTION BUTTON
+     แสดงเฉพาะหน้าหลัก
 ========================================================= -->
 
 <button
-    id="addButton"
-    class="add hidden"
-    onclick="openModal()">
-    ＋ เพิ่มรายการ
-</button>
-
+ id="addButton"
+ class="add hidden"
+ onclick="openModal()">
+＋ เพิ่มรายการ </button>
 
 <!-- =========================================================
      NAV
@@ -1536,51 +1511,52 @@ button{
     id="bottomNav"
     class="bottom-nav hidden">
 
-    <div
-        class="nav-item active"
-        onclick="showPage('home',this)">
+```
+<div
+    class="nav-item active"
+    onclick="showPage('home',this)">
 
-        <span class="nav-icon">🏠</span>
+    <span class="nav-icon">🏠</span>
 
-        หน้าหลัก
+    หน้าหลัก
 
-    </div>
-
-
-    <div
-        class="nav-item"
-        onclick="showPage('salary',this)">
-
-        <span class="nav-icon">💰</span>
-
-        เงินเดือน
-
-    </div>
+</div>
 
 
-    <div
-        class="nav-item"
-        onclick="showPage('summary',this)">
+<div
+    class="nav-item"
+    onclick="showPage('salary',this)">
 
-        <span class="nav-icon">📊</span>
+    <span class="nav-icon">💰</span>
 
-        สรุป
+    เงินเดือน
 
-    </div>
+</div>
 
 
-    <div
-        class="nav-item"
-        onclick="showPage('settings',this)">
+<div
+    class="nav-item"
+    onclick="showPage('summary',this)">
 
-        <span class="nav-icon">⚙️</span>
+    <span class="nav-icon">📊</span>
 
-        ตั้งค่า
+    สรุป
 
-    </div>
+</div>
+
+
+<div
+    class="nav-item"
+    onclick="showPage('settings',this)">
+
+    <span class="nav-icon">⚙️</span>
+
+    ตั้งค่า
+
+</div>
+```
 
 </nav>
-
 
 <!-- =========================================================
      TRANSACTION MODAL
@@ -1590,109 +1566,110 @@ button{
     id="modal"
     class="modal">
 
-    <div class="modal-box">
+```
+<div class="modal-box">
 
-        <h2 id="modalTitle">
-            เพิ่มรายการ
-        </h2>
-
-
-        <div class="type-buttons">
-
-            <button
-                id="incomeBtn"
-                class="type-btn active-income"
-                onclick="setType('income')">
-                ＋ รายรับ
-            </button>
+    <h2 id="modalTitle">
+        เพิ่มรายการ
+    </h2>
 
 
-            <button
-                id="expenseBtn"
-                class="type-btn"
-                onclick="setType('expense')">
-                − รายจ่าย
-            </button>
-
-        </div>
-
-
-        <label>จำนวนเงิน</label>
-
-        <input
-            id="amount"
-            type="number"
-            inputmode="decimal"
-            placeholder="0.00">
-
-
-        <label>หมวดหมู่</label>
-
-        <select id="category">
-
-            <option value="เงินเดือน">
-                💰 เงินเดือน
-            </option>
-
-            <option value="อาหาร">
-                🍜 อาหาร
-            </option>
-
-            <option value="เดินทาง">
-                🚗 เดินทาง
-            </option>
-
-            <option value="ช้อปปิ้ง">
-                🛍️ ช้อปปิ้ง
-            </option>
-
-            <option value="บิล">
-                🧾 บิล / ค่าใช้จ่าย
-            </option>
-
-            <option value="สุขภาพ">
-                ❤️ สุขภาพ
-            </option>
-
-            <option value="อื่นๆ">
-                📦 อื่นๆ
-            </option>
-
-        </select>
-
-
-        <label>รายละเอียด</label>
-
-        <input
-            id="note"
-            type="text"
-            placeholder="เช่น ค่าอาหารกลางวัน">
-
-
-        <label>วันที่</label>
-
-        <input
-            id="itemDate"
-            type="date">
-
+    <div class="type-buttons">
 
         <button
-            class="primary"
-            onclick="saveItem()">
-            บันทึก
+            id="incomeBtn"
+            class="type-btn active-income"
+            onclick="setType('income')">
+            ＋ รายรับ
         </button>
 
 
         <button
-            class="secondary"
-            onclick="closeModal()">
-            ยกเลิก
+            id="expenseBtn"
+            class="type-btn"
+            onclick="setType('expense')">
+            − รายจ่าย
         </button>
 
     </div>
 
-</div>
 
+    <label>จำนวนเงิน</label>
+
+    <input
+        id="amount"
+        type="number"
+        inputmode="decimal"
+        placeholder="0.00">
+
+
+    <label>หมวดหมู่</label>
+
+    <select id="category">
+
+        <option value="เงินเดือน">
+            💰 เงินเดือน
+        </option>
+
+        <option value="อาหาร">
+            🍜 อาหาร
+        </option>
+
+        <option value="เดินทาง">
+            🚗 เดินทาง
+        </option>
+
+        <option value="ช้อปปิ้ง">
+            🛍️ ช้อปปิ้ง
+        </option>
+
+        <option value="บิล">
+            🧾 บิล / ค่าใช้จ่าย
+        </option>
+
+        <option value="สุขภาพ">
+            ❤️ สุขภาพ
+        </option>
+
+        <option value="อื่นๆ">
+            📦 อื่นๆ
+        </option>
+
+    </select>
+
+
+    <label>รายละเอียด</label>
+
+    <input
+        id="note"
+        type="text"
+        placeholder="เช่น ค่าอาหารกลางวัน">
+
+
+    <label>วันที่</label>
+
+    <input
+        id="itemDate"
+        type="date">
+
+
+    <button
+        class="primary"
+        onclick="saveItem()">
+        บันทึก
+    </button>
+
+
+    <button
+        class="secondary"
+        onclick="closeModal()">
+        ยกเลิก
+    </button>
+
+</div>
+```
+
+</div>
 
 <!-- =========================================================
      SALARY ITEM MODAL
@@ -1702,40 +1679,41 @@ button{
     id="salaryItemModal"
     class="modal">
 
-    <div class="modal-box">
+```
+<div class="modal-box">
 
-        <h2 id="salaryItemModalTitle">
-            เพิ่มรายการเงินเดือน
-        </h2>
-
-
-        <label>
-            ชื่อรายการ
-        </label>
-
-        <input
-            id="salaryItemName"
-            type="text"
-            placeholder="เช่น ค่าตำแหน่ง">
+    <h2 id="salaryItemModalTitle">
+        เพิ่มรายการเงินเดือน
+    </h2>
 
 
-        <button
-            class="primary"
-            onclick="saveSalaryItem()">
-            บันทึกรายการ
-        </button>
+    <label>
+        ชื่อรายการ
+    </label>
+
+    <input
+        id="salaryItemName"
+        type="text"
+        placeholder="เช่น ค่าตำแหน่ง">
 
 
-        <button
-            class="secondary"
-            onclick="closeSalaryItemModal()">
-            ยกเลิก
-        </button>
+    <button
+        class="primary"
+        onclick="saveSalaryItem()">
+        บันทึกรายการ
+    </button>
 
-    </div>
+
+    <button
+        class="secondary"
+        onclick="closeSalaryItemModal()">
+        ยกเลิก
+    </button>
 
 </div>
+```
 
+</div>
 
 <!-- TOAST -->
 
@@ -1744,7 +1722,6 @@ button{
     class="toast">
     บันทึกเรียบร้อย
 </div>
-
 
 <!-- =========================================================
      JAVASCRIPT
@@ -3932,10 +3909,15 @@ function renderTransactions(){
     });
 
 
-    setMoney(
-        "carry",
-        "ยอดยกมา " + money(carry)
-    );
+    const carryElement =
+        document.getElementById("carry");
+
+    if(carryElement){
+
+        carryElement.innerText =
+            "ยอดยกมา " + money(carry);
+
+    }
 
 
     if(!monthTransactions.length){
@@ -4375,10 +4357,13 @@ async function saveItem(){
     }
 
 
+    const wasEditing =
+        Boolean(editingTransactionId);
+
     closeModal();
 
     showToast(
-        editingTransactionId
+        wasEditing
             ? "แก้ไขรายการเรียบร้อย"
             : "เพิ่มรายการเรียบร้อย"
     );
@@ -4488,6 +4473,7 @@ function showToast(message){
 
 /* =========================================================
    PAGE NAVIGATION
+   ปุ่มเพิ่มรายการแสดงเฉพาะ HOME
 ========================================================= */
 
 function showPage(
@@ -4548,6 +4534,36 @@ function showPage(
         clickedNav.classList.add(
             "active"
         );
+
+    }
+
+
+    /* =====================================================
+       ปุ่ม ＋ เพิ่มรายการ
+       แสดงเฉพาะหน้าหลัก
+    ===================================================== */
+
+    const addButton =
+        document.getElementById(
+            "addButton"
+        );
+
+
+    if(addButton){
+
+        if(page === "home"){
+
+            addButton.classList.remove(
+                "hidden"
+            );
+
+        }else{
+
+            addButton.classList.add(
+                "hidden"
+            );
+
+        }
 
     }
 
@@ -4791,6 +4807,7 @@ async function showApp(){
 
     if(addButton){
 
+        /* เริ่มต้นอยู่หน้าหลัก */
         addButton.classList.remove(
             "hidden"
         );
@@ -4831,6 +4848,15 @@ async function showApp(){
     await loadData();
 
     await loadSalaries();
+
+
+    /* ยืนยันว่าเปิดหน้า HOME และแสดงปุ่มเพิ่มรายการ */
+    showPage(
+        "home",
+        document.querySelector(
+            ".nav-item"
+        )
+    );
 
 }
 
